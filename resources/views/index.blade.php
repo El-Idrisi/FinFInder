@@ -94,19 +94,12 @@
         </nav>
     </header>
 
-    <section id="hero" class="-z-[999] relative">
-        <div class="h-screen bg-right bg-cover bg-gradient-to-r from-sky-500 from-40% to-sky-300 -z-20 relative px">
-            <div class="hidden lg:block">
-                <img src="{{ asset('img/hero/bg-1.svg') }}" alt="bg-1" class="absolute top-0 bottom-0 right-0 h-full ">
-                <img src="{{ asset('img/hero/bg-2.svg') }}" alt="bg-1" class="absolute bottom-0 w-[10%]">
-                <img src="{{ asset('img/hero/bg-3.svg') }}" alt="bg-1" class="absolute left-0 top-20">
-            </div>
-        </div>
+    <section id="hero" class="-z-[999] relative h-screen bg-[url(/public/img/bg.svg)] bg-cover bg-left-bottom">
         <div
             class="absolute z-30 flex flex-col-reverse items-center justify-center px-8 -translate-y-1/2 top-1/2 text-slate-100 lg:flex-nowrap lg:flex-row lg:px-32 md:px-16">
             <div class="w-full mx-4 mt-8 lg:w-1/2">
-                <h3 class="my-2 text-xl font-bold md:text-3xl">FinFinder</h3>
-                <h1 class="my-2 text-3xl font-bold md:text-6xl">Temukan Titik Potensial Penangkapan Ikan</h1>
+                <h3 class="my-2 text-xl font-bold lg:text-3xl md:text-2xl">FinFinder</h3>
+                <h1 class="my-2 text-3xl font-bold lg:text-6xl md:text-4xl">Temukan Titik Potensial Penangkapan Ikan</h1>
                 <p class="my-4">FinFinder adalah platform inovatif yang dirancang khusus untuk komunitas
                     nelayan.
                 </p>
@@ -115,7 +108,7 @@
                     Sekarang</a>
             </div>
             <div class="w-full mx-4 lg:w-1/2">
-                <img src="{{ asset('img/hero/img.svg') }}" alt="img-hero" class="w-screen">
+                <img src="{{ asset('img/hero/img.svg') }}" alt="img-hero" class="w-screen md:px-20 lg:px-0">
             </div>
         </div>
     </section>
