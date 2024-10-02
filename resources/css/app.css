@@ -1,3 +1,53 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.font-inter {
+    font-family: "Inter", sans-serif;
+}
+
+.hamburger-active>span:nth-child(1) {
+    @apply origin-top-left rotate-45;
+}
+
+.hamburger-active>span:nth-child(2) {
+    @apply scale-0;
+}
+
+.hamburger-active>span:nth-child(3) {
+    @apply origin-bottom-left -rotate-45;
+}
+
+.navbar-fixed {
+    @apply fixed z-[9999] bg-white bg-opacity-70 backdrop-blur-sm text-slate-900;
+    box-shadow: inset 0 -1px 0 0 rgba(0, 0, 0, 0.2);
+}
+
+/* Styles for non-scrolled state */
+header:not(.navbar-fixed) a.group:hover {
+    @apply text-slate-900;
+}
+
+header:not(.navbar-fixed) .group:hover hr {
+    @apply border-slate-900;
+}
+
+.animate-up-and-down {
+    animation: up-and-down 2s infinite ;
+}
+
+@keyframes up-and-down {
+    0%, 100% {
+        transform: translateY(10px);
+        animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+    }
+    25%, 75% {
+        transform: translateY(0);
+        animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+    }
+
+    50% {
+        transform: translateY(-10px);
+        animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+    }
+}
