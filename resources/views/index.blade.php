@@ -13,93 +13,16 @@
     <title>FinFinder | Home</title>
 </head>
 
-<body class="relative font-inter -z-[9999]">
-    <header class="absolute top-0 flex items-center justify-around w-full h-20 transition-all duration-300 bg-transparent text-slate-100">
-        <div class="navbar-brand">
-            <a href="#">
-                <img src="{{ asset('img/finfinder.png') }}" alt="FinFinder Logo"
-                    class="w-[130px] grayscale transition-all duration-300 hover:grayscale-0">
-            </a>
-        </div>
-        <nav id="navbar-list" class="hidden lg:block">
-            <ul class="flex items-center justify-center gap-12">
-                <li>
-                    <a href="/"
-                        class="flex flex-col items-center justify-center transition-all duration-300 hover:text-sky-500 group">
-                        Beranda
-                        <hr class="w-0 transition-all duration-500 group-hover:border-sky-500 group-hover:w-full">
-                    </a>
-                </li>
-                <li>
-                    <a href="#"
-                        class="flex flex-col items-center justify-center transition-all duration-300 hover:text-sky-500 group">
-                        Profil
-                        <hr class="w-0 transition-all duration-500 group-hover:border-sky-500 group-hover:w-full">
-                    </a>
-                </li>
-                <li>
-                    <a href="#"
-                        class="flex flex-col items-center justify-center transition-all duration-300 hover:text-sky-500 group">
-                        Peta Interaktif
-                        <hr class="w-0 transition-all duration-500 group-hover:border-sky-500 group-hover:w-full">
-                    </a>
-                </li>
-                <li>
-                    <a href="#"
-                        class="flex flex-col items-center justify-center transition-all duration-300 hover:text-sky-500 group">
-                        Kontak Kami
-                        <hr class="w-0 transition-all duration-500 group-hover:border-sky-500 group-hover:w-full">
-                    </a>
-                </li>
-            </ul>
-        </nav>
-        <div class="items-center justify-center hidden gap-4 lg:flex">
-            <a href="#"
-                class="flex flex-col items-center justify-center transition-all duration-300 hover:text-sky-500 group">
-                Login
-                <hr class="w-0 transition-all duration-500 group-hover:border-sky-500 group-hover:w-full">
-            </a>
-            <a href="#"
-                class="px-4 py-2 transition-all duration-300 rounded-lg bg-sky-500 text-slate-100 hover:bg-sky-600">Sign
-                Up</a>
-        </div>
-        <button class="block hamburger-icon lg:hidden">
-            <span class="w-[30px] h-[2px] my-2 block bg-slate-900 transition-all duration-300"></span>
-            <span class="w-[30px] h-[2px] my-2 block bg-slate-900 transition-all duration-300"></span>
-            <span class="w-[30px] h-[2px] my-2 block bg-slate-900 transition-all duration-300"></span>
-        </button>
-
-        <nav id="nav-menu"
-            class="absolute top-0 right-0 w-full transition-all duration-300 -translate-y-full bg-slate-100 h-[20.5rem] text-slate-900 -z-10 lg:hidden">
-            <div class="absolute w-full px-4 -z-10 top-20">
-                <div class="flex flex-col px-4 py-2 border-2 border-slate-900">
-                    <a href="/" class="my-2 duration-300 ransition-all hover:text-sky-500">Beranda</a>
-                    <a href="#" class="my-2 duration-300 ransition-all hover:text-sky-500">Profil</a>
-                    <a href="#" class="my-2 duration-300 ransition-all hover:text-sky-500">Peta Interaktif</a>
-                    <a href="#" class="my-2 duration-300 ransition-all hover:text-sky-500">Kontak Kami</a>
-                </div>
-                <div class="px-2 mt-6">
-                    <a href="#" class="mx-2 duration-300 ransition-all hover:text-sky-500">
-                        Login
-                    </a>
-                    <a href="#"
-                        class="px-4 py-2 mx-2 transition-all duration-300 rounded-lg bg-sky-500 text-slate-100 hover:bg-sky-600">Sign
-                        Up
-                    </a>
-                </div>
-            </div>
-
-
-
-        </nav>
-    </header>
+<body class="relative font-inter -z-[9999]  overflow-x-hidden">
+    <x-navbar></x-navbar>
 
     <section id="hero" class="-z-[999] relative h-screen bg-[url(/public/img/bg.svg)] bg-cover bg-left-bottom">
         <div
-            class="absolute z-30 flex flex-col-reverse items-center justify-center px-8 -translate-y-1/2 top-1/2 text-slate-100 lg:flex-nowrap lg:flex-row lg:px-32 md:px-16">
-            <div class="w-full mx-4 mt-8 lg:w-1/2">
+            class="absolute z-30 flex flex-col-reverse items-center justify-center px-8 -translate-y-1/2 top-1/2 text-slate-100 lg:flex-nowrap lg:flex-row lg:px-32 md:px-16 ">
+            <div class="w-full mx-4 mt-8 lg:w-1/2 animate-slide-right">
                 <h3 class="my-2 text-xl font-bold lg:text-3xl md:text-2xl">FinFinder</h3>
-                <h1 class="my-2 text-3xl font-bold lg:text-6xl md:text-4xl">Temukan Titik Potensial Penangkapan Ikan</h1>
+                <h1 class="my-2 text-3xl font-bold lg:text-6xl md:text-4xl">Temukan Titik Potensial Penangkapan Ikan
+                </h1>
                 <p class="my-4">FinFinder adalah platform inovatif yang dirancang khusus untuk komunitas
                     nelayan.
                 </p>
@@ -108,23 +31,41 @@
                     Sekarang</a>
             </div>
             <div class="w-full mx-4 lg:w-1/2">
-                <img src="{{ asset('img/hero/img.svg') }}" alt="img-hero" class="w-screen md:px-20 lg:px-0">
+                <img src="{{ asset('img/hero/img.svg') }}" alt="img-hero" class="w-screen md:px-20 lg:px-0 animate-slide-left">
             </div>
         </div>
     </section>
 
-    <section id="tentang-kami" class="py-32 lg:px-12">
-        <div class="flex flex-wrap items-center justify-center gap-6 px-6 lg:flex-nowrap">
-            <div class="w-full lg:w-1/2 lg:mr-14">
-                <div class="w-full h-[680px] bg-slate-300"></div>
+    {{-- About Us --}}
+    <section id="tentang-kami" class="pt-32 pb-16 bg-sky-50 lg:px-12">
+        <div class="flex flex-wrap items-center justify-center gap-6 px-28 lg:flex-nowrap">
+            <div class="w-full lg:w-1/2 lg:mr-14" id="img-tentang-kami">
+                <img src="{{ asset('img/about/img.jpg') }}" alt="raja-ampat" class="rounded-xl h-[600px] shadow-xl" loading="lazy">
             </div>
             <div class="w-full lg:w-1/2 lg:ml-14">
-                <h2 class="mb-12 text-3xl font-bold tracking-widest">Tentang Kami</h2>
-                <p class="mt-6 mb-12 text-xl">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. </p>
-
-                <p class="mt-6 text-xl">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque auctor mollis sem, ultrices condimentum turpis semper et. Morbi convallis, erat a cursus imperdiet, eros dolor sollicitudin odio, nec egestas turpis elit ac libero. Duis erat nibh, lacinia eu laoreet quis, sagittis sed metus. Fusce a sapien nec arcu posuere accumsan.</p>
+                <h2 class="mb-12 text-3xl font-bold">Tentang Kami</h2>
+                <p class="mt-6 mb-12 text-xl text-justify">
+                    FinFinder adalah aplikasi inovatif yang kami kembangkan untuk membantu nelayan.
+                    Dengan menggunakan teknologi pemetaan digital terkini, kami menyediakan informasi
+                    tentang lokasi potensial penangkapan ikan. Tujuan kami adalah meningkatkan efisiensi
+                    operasi nelayan untuk menemukan titik potensial ikan.
+                </p>
+                <p class="mt-6 text-xl text-justify">
+                    Diluncurkan pada tahun 2024, FinFinder diciptakan untuk mempermudah nelayan dengan
+                    teknologi pemetaan interaktif yang mudah digunakan. Aplikasi ini menyajikan informasi
+                    tentang titik potensial ikan yang telah diinput oleh nelayan. Kami yakin dengan
+                    menyediakan peta interaktif dan sistem verifikasi data, kita dapat membantu
+                    nelayan menemukan titik potensial penangkapan ikan secara efisien.
+                </p>
             </div>
         </div>
+
+    </section>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#f0f9ff" fill-opacity="1" d="M0,0L24,16C48,32,96,64,144,80C192,96,240,96,288,80C336,64,384,32,432,64C480,96,528,192,576,234.7C624,277,672,267,720,224C768,181,816,107,864,80C912,53,960,75,1008,112C1056,149,1104,203,1152,202.7C1200,203,1248,149,1296,154.7C1344,160,1392,224,1416,256L1440,288L1440,0L1416,0C1392,0,1344,0,1296,0C1248,0,1200,0,1152,0C1104,0,1056,0,1008,0C960,0,912,0,864,0C816,0,768,0,720,0C672,0,624,0,576,0C528,0,480,0,432,0C384,0,336,0,288,0C240,0,192,0,144,0C96,0,48,0,24,0L0,0Z"></path></svg>
+
+
+    <section id="fitur" class="py-32 lg:px-12">
+
     </section>
 
     <script>

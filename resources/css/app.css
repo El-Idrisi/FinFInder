@@ -32,22 +32,47 @@ header:not(.navbar-fixed) .group:hover hr {
     @apply border-slate-900;
 }
 
-.animate-up-and-down {
-    animation: up-and-down 2s infinite ;
+.shadow-full-blue {
+    box-shadow: -12px 12px 0 #0284c7;
 }
 
-@keyframes up-and-down {
-    0%, 100% {
-        transform: translateY(10px);
-        animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
-    }
-    25%, 75% {
-        transform: translateY(0);
-        animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+.finfinder {
+    font-size: min(30px, 7vw);
+}
+
+.desk {
+    font-size: min(60px, 8vw);
+}
+
+/* .slide-left {
+    animation-name: slide-left;
+    animation-duration: 1s;
+    animation-timing-function: cubic-bezier(0.36, 0, 0.23, 1);
+    animation-fill-mode: forwards;
+}
+
+.slide-right {
+    animation-name: slide-right;
+    animation-duration: 1s;
+    animation-timing-function: cubic-bezier(1, 0.06, 0, 0.92);
+    animation-fill-mode: forwards;
+}
+
+@keyframes slide-left {
+    0% {
+        transform: translateX(140%);
     }
 
-    50% {
-        transform: translateY(-10px);
-        animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+    100% {
+        transform: translateX(0);
     }
 }
+@keyframes slide-right {
+    0% {
+        transform: translateX(-100%);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+} */
