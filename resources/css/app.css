@@ -44,35 +44,30 @@ header:not(.navbar-fixed) .group:hover hr {
     font-size: min(60px, 8vw);
 }
 
-/* .slide-left {
-    animation-name: slide-left;
-    animation-duration: 1s;
-    animation-timing-function: cubic-bezier(0.36, 0, 0.23, 1);
-    animation-fill-mode: forwards;
+.active {
+    @apply bg-slate-300;
 }
 
-.slide-right {
-    animation-name: slide-right;
-    animation-duration: 1s;
-    animation-timing-function: cubic-bezier(1, 0.06, 0, 0.92);
-    animation-fill-mode: forwards;
+.timeline {
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+    margin-top: 32px;
 }
 
-@keyframes slide-left {
-    0% {
-        transform: translateX(140%);
-    }
+.timeline::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 5px;
+    background-color: #000;
+    transform: translateX(-50%);
+}
 
-    100% {
-        transform: translateX(0);
+@media screen and (max-width: 768px) {
+    .img-bullet {
+        left: 10px
     }
 }
-@keyframes slide-right {
-    0% {
-        transform: translateX(-100%);
-    }
-
-    100% {
-        transform: translateX(0);
-    }
-} */
