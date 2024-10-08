@@ -78,6 +78,10 @@ header:not(.navbar-fixed) .group:hover hr {
 .desk {
     font-size: min(60px, 8vw);
 }
+
+.shadow-manual{
+    box-shadow: -2px 0px 16px 4px rgba(0, 0, 0, 0.1), 8px 0px 16px 4px rgba(0, 0, 0, 0.1);
+}
 /*
 .active {
     @apply bg-slate-300;
