@@ -1,5 +1,5 @@
 <header
-        class="absolute top-0 flex items-center justify-around w-full h-20 transition-all duration-300 bg-transparent text-slate-100">
+        class="absolute top-0 z-50 flex items-center justify-around w-full h-20 transition-all duration-300 bg-transparent text-slate-100">
         <div class="navbar-brand">
             <a href="#">
                 <img src="{{ asset('img/finfinder.png') }}" alt="FinFinder Logo"
@@ -58,13 +58,13 @@
             class="absolute top-0 right-0 w-full transition-all duration-300 -translate-y-full bg-slate-100 h-[20.5rem] text-slate-900 -z-10 lg:hidden">
             <div class="absolute w-full px-4 -z-10 top-20">
                 <div class="flex flex-col px-4 py-2 border-2 border-slate-900">
-                    <a href="/" class="my-2 duration-300 ransition-all hover:text-sky-500">Beranda</a>
-                    <a href="/profil" class="my-2 duration-300 ransition-all hover:text-sky-500">Profil</a>
-                    <a href="#" class="my-2 duration-300 ransition-all hover:text-sky-500">Peta Interaktif</a>
-                    <a href="#" class="my-2 duration-300 ransition-all hover:text-sky-500">Kontak Kami</a>
+                    <a href="/" class="my-2 transition-all duration-300 hover:text-sky-500">Beranda</a>
+                    <a href="/profil" class="my-2 transition-all duration-300 hover:text-sky-500">Profil</a>
+                    <a href="#" class="my-2 transition-all duration-300 hover:text-sky-500">Peta Interaktif</a>
+                    <a href="#" class="my-2 transition-all duration-300 hover:text-sky-500">Kontak Kami</a>
                 </div>
                 <div class="px-2 mt-6">
-                    <a href="#" class="mx-2 duration-300 ransition-all hover:text-sky-500">
+                    <a href="#" class="mx-2 transition-all duration-300 hover:text-sky-500">
                         Login
                     </a>
                     <a href="#"
