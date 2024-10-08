@@ -10,14 +10,14 @@
             <ul class="flex items-center justify-center gap-12">
                 <li>
                     <a href="/"
-                        class="flex flex-col items-center justify-center transition-all duration-300 hover:text-sky-500 group">
+                        class="flex flex-col items-center justify-center transition-all duration-300 hover:text-sky-500 group {{ request()->routeIs('beranda') ? 'active' : '' }}">
                         Beranda
                         <hr class="w-0 transition-all duration-500 group-hover:border-sky-500 group-hover:w-full">
                     </a>
                 </li>
                 <li>
-                    <a href="#"
-                        class="flex flex-col items-center justify-center transition-all duration-300 hover:text-sky-500 group">
+                    <a href="/profil"
+                        class="flex flex-col items-center justify-center transition-all duration-300 hover:text-sky-500 group {{ request()->routeIs('profil') ? 'active' : '' }}">
                         Profil
                         <hr class="w-0 transition-all duration-500 group-hover:border-sky-500 group-hover:w-full">
                     </a>
@@ -59,7 +59,7 @@
             <div class="absolute w-full px-4 -z-10 top-20">
                 <div class="flex flex-col px-4 py-2 border-2 border-slate-900">
                     <a href="/" class="my-2 duration-300 ransition-all hover:text-sky-500">Beranda</a>
-                    <a href="#" class="my-2 duration-300 ransition-all hover:text-sky-500">Profil</a>
+                    <a href="/profil" class="my-2 duration-300 ransition-all hover:text-sky-500">Profil</a>
                     <a href="#" class="my-2 duration-300 ransition-all hover:text-sky-500">Peta Interaktif</a>
                     <a href="#" class="my-2 duration-300 ransition-all hover:text-sky-500">Kontak Kami</a>
                 </div>

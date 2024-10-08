@@ -23,7 +23,42 @@
     box-shadow: inset 0 -1px 0 0 rgba(0, 0, 0, 0.2);
 }
 
+
+
 /* Styles for non-scrolled state */
+header a.group.active {
+    @apply font-bold text-sky-500;
+}
+
+header a.group.active hr  {
+    @apply border-sky-500;
+}
+
+header a.group.active:hover {
+    @apply text-slate-900;
+}
+
+header a.group.active:hover hr {
+    @apply border-slate-900;
+}
+
+
+header:not(.navbar-fixed) a.group.active {
+    @apply font-bold text-slate-900;
+}
+
+header:not(.navbar-fixed) a.group.active hr {
+    @apply border-slate-900;
+}
+
+header:not(.navbar-fixed) a.group.active:hover {
+    @apply text-slate-100;
+}
+
+header:not(.navbar-fixed) a.group.active:hover hr {
+    @apply border-slate-100;
+}
+
 header:not(.navbar-fixed) a.group:hover {
     @apply text-slate-900;
 }
@@ -43,10 +78,10 @@ header:not(.navbar-fixed) .group:hover hr {
 .desk {
     font-size: min(60px, 8vw);
 }
-
+/*
 .active {
     @apply bg-slate-300;
-}
+} */
 
 .timeline {
     position: relative;

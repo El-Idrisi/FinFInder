@@ -11,7 +11,7 @@
             <h3 class="mb-4 text-2xl font-bold">Tautan Cepat</h3>
             <ul class="flex flex-col gap-2">
                 <li><a href="/" class="transition-all duration-300 hover:text-sky-500">Beranda</a></li>
-                <li><a href="#" class="transition-all duration-300 hover:text-sky-500">Profil</a></li>
+                <li><a href="/profil" class="transition-all duration-300 hover:text-sky-500">Profil</a></li>
                 <li><a href="#" class="transition-all duration-300 hover:text-sky-500">Peta Interaktif</a></li>
                 <li><a href="#" class="transition-all duration-300 hover:text-sky-500">Kontak Kami</a></li>
             </ul>
