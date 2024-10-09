@@ -21,18 +21,19 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $credentials = $request->validate([
-            'email' => ['required', 'email'],
+            'username' => ['required'],
             'password' => ['required'],
         ]);
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->intended(route('Home'));
+            return redirect()->intended(route('dashboard'));
         }
 
         return back()->withErrors([
             'email' => 'The provided credentials do not match our records.',
         ]);
+        // dd($request->all());
     }
 
     // Menampilkan halaman register

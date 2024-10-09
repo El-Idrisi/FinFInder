@@ -17,7 +17,7 @@
             <div class="w-full px-6 py-12 pb-24 lg:px-16 lg:w-1/2 bg-slate-100">
                 <div class="flex flex-col justify-center h-full form-container ">
                     <h2 class="text-4xl text-center lg:text-start">SIGN IN</h2>
-                    <form action="" method="POST" class="mt-4 ">
+                    <form action="{{ route('login.submit') }}" method="POST" class="mt-4 ">
                         @csrf
 
                         <div class="flex flex-col my-8">
