@@ -28,6 +28,15 @@
             })
         @endif
 
+        @if (Session::has('status'))
+            Swal.fire({
+                title: 'Success!',
+                text: '{{ session('status') }}',
+                icon: 'success',
+                confirmButtonText: 'Nice'
+            })
+        @endif
+
         function showPassword(inputId) {
             var input = document.getElementById(inputId);
             const eyeIcon = document.getElementById(`eye-icon-${inputId}`)

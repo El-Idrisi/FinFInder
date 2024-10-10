@@ -39,7 +39,7 @@
                             <input type="checkbox" id="remember" name="remember" class="w-4 h-4">
                             <label for="remember" class="ml-2 text-lg text-slate-900">Remember Me</label>
                         </div>
-                        <a href="#"
+                        <a href="/forgot-password"
                             class="flex flex-col items-center justify-center text-slate-500 hover:text-slate-700 group">
                             Forget Password
                             <hr
