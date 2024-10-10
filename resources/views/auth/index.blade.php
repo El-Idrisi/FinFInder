@@ -48,14 +48,14 @@
                     </div>
                 </form>
             </div>
-            <p class="absolute left-0 w-full text-center bottom-10 lg:hidden">Need an Account <a href="#"
+            <p class="absolute left-0 w-full text-center bottom-10 lg:hidden">Need an Account <a href="/register"
                     class="text-sky-500">Register Here</a></p>
         </div>
         <div class="lg:w-1/2 w-0 hidden lg:block bg-gradient-to-r from-sky-300 via-sky-500 via-55% to-blue-500">
             <div class="flex flex-col items-center justify-center h-full gap-8 text-slate-100">
-                <h3 class="text-5xl font-bold">Welcome To Login</h3>
+                <h3 class="text-5xl font-bold text-center">Welcome To Login</h3>
                 <p class="text-xl">Need an Account</p>
-                <a href="#"
+                <a href="/register"
                     class="px-4 py-2 transition-all duration-500 border-2 rounded-full border-slate-100 bg-size-200 bg-gradient-to-r from-sky-600 via-sky-500 to-sky-300 bg-pos-100 hover:bg-pos-0">Register
                     Here</a>
             </div>

@@ -87,6 +87,10 @@ header:not(.navbar-fixed) .group:hover hr {
     @apply outline outline-sky-500 ;
 }
 
+.pass-confirm:has(#password_confirmation:focus) {
+    @apply outline outline-sky-500 ;
+}
+
 .timeline {
     position: relative;
     max-width: 1200px;

@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://kit.fontawesome.com/bd2b93a447.js" crossorigin="anonymous"></script>
     @vite('resources/css/app.css')
-    <title>FinFinder | Login Page</title>
+    <title>{{ $title }}</title>
 </head>
 
 <body class="bg-sky-50 font-inter">
@@ -16,7 +16,18 @@
         @yield('content')
 
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
+        @if (Session::has('success'))
+            Swal.fire({
+                title: 'Success!',
+                text: '{{ session('success') }}',
+                icon: 'success',
+                confirmButtonText: 'Nice'
+            })
+        @endif
+
         function showPassword(inputId) {
             var input = document.getElementById(inputId);
             const eyeIcon = document.getElementById(`eye-icon-${inputId}`)

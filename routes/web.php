@@ -13,7 +13,9 @@ Route::get('/profil', function () {
 
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('login/submit', [AuthController::class, 'login'])->name('login.submit');
+Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
+Route::post('/register/submit', [AuthController::class, 'register'])->name('register.submit');
 
 Route::get('/dashboard', function () {
-    return view('dashboard.index');
+    return view('dashboard.index', array('title' => 'Dashboard | Home'));
 })->name('dashboard')->middleware('auth');

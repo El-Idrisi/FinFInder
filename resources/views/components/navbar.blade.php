@@ -44,7 +44,7 @@
                 Login
                 <hr class="w-0 transition-all duration-500 group-hover:border-sky-500 group-hover:w-full">
             </a>
-            <a href="#"
+            <a href="/register"
                 class="px-4 py-2 transition-all duration-300 rounded-lg bg-sky-500 text-slate-100 hover:bg-sky-600">Sign
                 Up</a>
         </div>
@@ -67,7 +67,7 @@
                     <a href="/login" class="mx-2 transition-all duration-300 hover:text-sky-500">
                         Login
                     </a>
-                    <a href="#"
+                    <a href="/register"
                         class="px-4 py-2 mx-2 transition-all duration-300 rounded-lg bg-sky-500 text-slate-100 hover:bg-sky-600">Sign
                         Up
                     </a>

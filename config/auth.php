@@ -112,4 +112,8 @@ return [
 
     'password_timeout' => env('AUTH_PASSWORD_TIMEOUT', 10800),
 
+    'remember' => [
+        'expire' => 43200, // 30 hari dalam menit
+    ],
+
 ];
