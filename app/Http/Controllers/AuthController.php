@@ -23,10 +23,17 @@ class AuthController extends Controller
     // Proses login
     public function login(Request $request)
     {
-        $credentials = $request->validate([
-            'username' => ['required'],
-            'password' => ['required'],
+        $request->validate([
+            'login' => 'required|string',
+            'password' => 'required|string',
         ]);
+
+        $loginType = filter_var($request->input('login'), FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+
+        $credentials = [
+            $loginType => $request->input('login'),
+            'password' => $request->input('password'),
+        ];
 
         $remember = $request->has('remember');
 
@@ -36,9 +43,8 @@ class AuthController extends Controller
         }
 
         return back()->withErrors([
-            'username' => 'Username atau password yang diberikan tidak sesuai.',
-        ]);
-        // dd($request->all());
+            'login' => 'Username/email atau password yang diberikan tidak sesuai.',
+        ])->withInput($request->only('login'));
     }
 
     // Menampilkan halaman register
@@ -79,7 +85,8 @@ class AuthController extends Controller
         return redirect()->route('login')->with('success', 'Anda Log Out dari akun Anda.');
     }
 
-    public function showForgotPassword() {
+    public function showForgotPassword()
+    {
         return view('auth.forgot', array('title' => 'FinFinder | Forgot Password'));
     }
 
@@ -92,11 +99,12 @@ class AuthController extends Controller
         );
 
         return $status === Password::RESET_LINK_SENT
-                    ? back()->with(['status' => __($status)])
-                    : back()->withErrors(['email' => __($status)]);
+            ? back()->with(['status' => __($status)])
+            : back()->withErrors(['email' => __($status)]);
     }
 
-    public function showchangePassword(Request $request, $token = null) {
+    public function showchangePassword(Request $request, $token = null)
+    {
         return view('auth.change', array('title' => 'FinFinder | Change Password'))->with(
             ['token' => $token, 'email' => $request->email]
         );
@@ -124,7 +132,7 @@ class AuthController extends Controller
         );
 
         return $status === Password::PASSWORD_RESET
-                    ? redirect()->route('login')->with('status', __($status))
-                    : back()->withErrors(['email' => [__($status)]]);
+            ? redirect()->route('login')->with('status', __($status))
+            : back()->withErrors(['email' => [__($status)]]);
     }
 }

@@ -42,6 +42,13 @@ class User extends Authenticatable
      *
      * @return array<string, string>
      */
+
+    // Di dalam model User
+    public function findForPassport($username)
+    {
+        return $this->where('email', $username)->orWhere('username', $username)->first();
+    }
+    
     protected function casts(): array
     {
         return [
