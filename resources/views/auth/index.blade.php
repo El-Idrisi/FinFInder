@@ -36,7 +36,7 @@
 
                     <div class="flex flex-col justify-center gap-4 my-4 md:justify-between md:flex-row">
                         <div class="flex items-center justify-center">
-                            <input type="checkbox" id="remember" name="remember" class="w-4 h-4">
+                            <input type="checkbox" id="remember" name="remember" class="w-4 h-4 checked:accent-sky-500">
                             <label for="remember" class="ml-2 text-lg text-slate-900">Remember Me</label>
                         </div>
                         <a href="/forgot-password"
