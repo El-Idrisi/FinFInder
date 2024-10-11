@@ -1,8 +1,6 @@
 <p align="center"><img src="/public/img/finfinder.png" width="400" alt="Logo FinFinder"></p>
 
 <p align="center">
-
-
 <a href="https://github.com/El-Idrisi/FinFInder/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-MIT-green" alt="License"></a>
 </p>
 
