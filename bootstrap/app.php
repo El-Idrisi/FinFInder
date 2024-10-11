@@ -12,6 +12,10 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         //
+        $middleware->web(append: [
+            // Middleware lain yang sudah ada
+            \App\Http\Middleware\CheckRememberToken::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

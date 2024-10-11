@@ -27,7 +27,7 @@
                         </div>
                     </div>
 
-                    @error('username')
+                    @error('login')
                         <p class="text-center text-red-500">{{ $message }}</p>
                     @enderror
 
