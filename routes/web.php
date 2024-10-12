@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\RegisterController;
 
 Route::get('/', function () {
     return view('index', array('title' => 'FinFinder | Home'));
@@ -15,8 +16,8 @@ Route::controller(AuthController::class)->group(function() {
     Route::get('/login', 'showLoginForm')->name('login');
     Route::post('login/submit', 'login')->name('login.submit');
 
-    Route::get('/register', 'showRegisterForm')->name('register');
-    Route::post('/register/submit', 'register')->name('register.submit');
+    // Route::get('/register', 'showRegisterForm')->name('register');
+    // Route::post('/register/submit', 'register')->name('register.submit');
 
     Route::get('/forgot-password', 'showForgotPassword')->name('forgotPassword');
     Route::post('/forgot-password', 'sendResetLinkEmail')->name('forgoPassword.send');
@@ -26,12 +27,18 @@ Route::controller(AuthController::class)->group(function() {
     Route::post('/logout', 'logout')->name('logout');
 });
 
-// Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
-// Route::post('login/submit', [AuthController::class, 'login'])->name('login.submit');
-// Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
-// Route::post('/register/submit', [AuthController::class, 'register'])->name('register.submit');
-// Route::get('/forgot-password', [AuthController::class, 'showForgotPassword'])->name('forgotPassword');
-// Route::get('/change-password', [AuthController::class, 'showChangePassword'])->name('changePassword');
+Route::controller(RegisterController::class)->group(function() {
+    Route::get('/register', 'showStep1')->name('register');
+    Route::post('/register/step1', 'processStep1')->name('register.step1');
+    Route::get('/register/step2/{email}', 'showStep2')->name('register.step2');
+    Route::post('/register/step2', 'processStep2')->name('register.step2.process');
+    Route::get('/register/step3/{email}', 'showStep3')->name('register.step3');
+    Route::post('/register/step3', 'processStep3')->name('register.step3.process');
+});
+
+// Route::get('/email', function() {
+//     return view('emails.verification-code');
+// });
 
 Route::get('/dashboard', function () {
     return view('dashboard.index', array('title' => 'Dashboard | Home'));
