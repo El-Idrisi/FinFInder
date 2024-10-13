@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\RegisterController;
 
 Route::get('/', function () {
@@ -12,9 +13,8 @@ Route::get('/profil', function () {
     return view('profil', array('title' => 'FinFinder | Profil'));
 })->name('profil');
 
-Route::get('/contact-us', function () {
-    return view('contact', array('title' => 'FinFinder | Hubungi Kami'));
-})->name('contact');
+Route::get('/contact-us', [ContactController::class, 'index'])->name('contact');
+Route::post('/contact-us', [ContactController::class, 'send'])->name('contact.send');
 
 Route::controller(AuthController::class)->group(function() {
     Route::get('/login', 'showLoginForm')->name('login');
@@ -39,9 +39,9 @@ Route::controller(RegisterController::class)->group(function() {
     Route::post('/register/step3', 'processStep3')->name('register.step3.process');
 });
 
-// Route::get('/email', function() {
-//     return view('emails.verification-code');
-// });
+Route::get('/email', function() {
+    return view('emails.contact-message');
+});
 
 Route::get('/dashboard', function () {
     return view('dashboard.index', array('title' => 'Dashboard | Home'));
