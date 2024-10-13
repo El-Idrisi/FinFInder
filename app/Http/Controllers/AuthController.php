@@ -55,34 +55,6 @@ class AuthController extends Controller
         ])->withInput($request->only('login'));
     }
 
-    // Menampilkan halaman register
-    public function showRegisterForm()
-    {
-        return view('auth.register', array('title' => 'FinFinder | Register'));
-    }
-
-    // Proses registrasi
-    public function register(Request $request)
-    {
-        // dd($request->all());
-
-        $request->validate([
-            'username' => 'required|string|max:255|alpha_dash',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
-        ]);
-
-        $user = User::create([
-            'username' => $request->username,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
-
-        // event(new Registered($user));
-
-        // Redirect ke halaman login atau dashboard setelah registrasi berhasil
-        return redirect()->route('login')->with('success', 'Registrasi berhasil! Silakan login.');
-    }
     // Logout
     public function logout(Request $request)
     {
