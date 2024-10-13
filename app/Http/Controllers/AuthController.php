@@ -41,9 +41,9 @@ class AuthController extends Controller
             $request->session()->regenerate();
 
             // Jika remember me dicentang, set cookie
-            if ($remember) {
-                cookie()->queue(cookie()->forever(Auth::getRecallerName(), Auth::user()->getRememberToken()));
-            }
+            // if ($remember) {
+            //     cookie()->queue(cookie()->forever(Auth::getRecallerName(), Auth::user()->getRememberToken()));
+            // }
 
             return redirect()->intended(route('dashboard'));
         }
