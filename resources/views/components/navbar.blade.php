@@ -58,10 +58,10 @@
             class="absolute top-0 right-0 w-full transition-all duration-300 -translate-y-full bg-slate-100 h-[20.5rem] text-slate-900 -z-10 lg:hidden">
             <div class="absolute w-full px-4 -z-10 top-20">
                 <div class="flex flex-col px-4 py-2 border-2 border-slate-900">
-                    <a href="/" class="my-2 transition-all duration-300 hover:text-sky-500">Beranda</a>
-                    <a href="/profil" class="my-2 transition-all duration-300 hover:text-sky-500">Profil</a>
+                    <a href="/" class="my-2 transition-all duration-300 hover:text-sky-500 {{ request()->routeIs('beranda') ? 'text-sky-500 font-bold' : ''}}">Beranda</a>
+                    <a href="/profil" class="my-2 transition-all duration-300 hover:text-sky-500 {{ request()->routeIs('profil') ? 'text-sky-500 font-bold' : ''}}">Profil</a>
                     <a href="#" class="my-2 transition-all duration-300 hover:text-sky-500">Peta Interaktif</a>
-                    <a href="/contact-us" class="my-2 transition-all duration-300 hover:text-sky-500">Kontak Kami</a>
+                    <a href="/contact-us" class="my-2 transition-all duration-300 hover:text-sky-500 {{ request()->routeIs('contact') ? 'text-sky-500 font-bold' : ''}}">Kontak Kami</a>
                 </div>
                 <div class="px-2 mt-6">
                     <a href="/login" class="mx-2 transition-all duration-300 hover:text-sky-500">
