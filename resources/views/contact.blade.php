@@ -8,7 +8,9 @@
 
     <section id="content" class="py-32">
         <div class="w-full px-8 mx-auto lg:w-1/2">
-            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Velit odit corrupti quasi porro. Inventore harum excepturi, facere ipsum ab saepe praesentium natus doloribus. Dolore sunt at tempore, a ratione deserunt!</p>
+            <h1 class="mb-4 text-3xl font-bold text-center">Kirim Pendapat Anda.</h1>
+            <p>Kami menghargai masukan Anda. Silakan berbagi pendapat, saran, atau pertanyaan melalui formulir di bawah ini. Kami akan senang mendengar dari Anda dan akan merespons secepatnya. Masukan Anda sangat berarti bagi kami untuk terus meningkatkan layanan kami.
+            </p>
         </div>
         <div class="w-full px-8 mx-auto mt-12 lg:w-1/2">
             <form action="" class="flex flex-col gap-6">
