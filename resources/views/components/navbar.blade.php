@@ -30,8 +30,8 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#"
-                        class="flex flex-col items-center justify-center transition-all duration-300 hover:text-sky-500 group">
+                    <a href="/contact-us"
+                        class="flex flex-col items-center justify-center transition-all duration-300 hover:text-sky-500 group {{ request()->routeIs('contact') ? 'active' : '' }}">
                         Kontak Kami
                         <hr class="w-0 transition-all duration-500 group-hover:border-sky-500 group-hover:w-full">
                     </a>
@@ -61,7 +61,7 @@
                     <a href="/" class="my-2 transition-all duration-300 hover:text-sky-500">Beranda</a>
                     <a href="/profil" class="my-2 transition-all duration-300 hover:text-sky-500">Profil</a>
                     <a href="#" class="my-2 transition-all duration-300 hover:text-sky-500">Peta Interaktif</a>
-                    <a href="#" class="my-2 transition-all duration-300 hover:text-sky-500">Kontak Kami</a>
+                    <a href="/contact-us" class="my-2 transition-all duration-300 hover:text-sky-500">Kontak Kami</a>
                 </div>
                 <div class="px-2 mt-6">
                     <a href="/login" class="mx-2 transition-all duration-300 hover:text-sky-500">

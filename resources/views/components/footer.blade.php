@@ -13,7 +13,7 @@
                 <li><a href="/" class="transition-all duration-300 hover:text-sky-500">Beranda</a></li>
                 <li><a href="/profil" class="transition-all duration-300 hover:text-sky-500">Profil</a></li>
                 <li><a href="#" class="transition-all duration-300 hover:text-sky-500">Peta Interaktif</a></li>
-                <li><a href="#" class="transition-all duration-300 hover:text-sky-500">Kontak Kami</a></li>
+                <li><a href="/contact-us" class="transition-all duration-300 hover:text-sky-500">Kontak Kami</a></li>
             </ul>
         </div>
         <div class="w-full lg:w-1/3">
