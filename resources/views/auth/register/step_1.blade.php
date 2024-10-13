@@ -7,7 +7,7 @@
                 <h2 class="text-4xl text-center lg:text-start">STEP-1 | SIGN UP</h2>
                 <form action="{{ route('register.step1') }}" method="POST" class="mt-4 ">
                     @csrf
-                    <p class="my-4">Masukan email Anda yang aktif dan akan dikirimkan kode verifikasi ke email Anda input.</p>
+                    <p class="my-4">Masukan email (<i class="underline">@gmail.com</i>) Anda yang aktif dan akan dikirimkan kode verifikasi ke email Anda input.</p>
 
                     <div class="flex flex-col my-2">
                         <label for="email" class="mb-1 text-lg font-bold ">Email</label>
