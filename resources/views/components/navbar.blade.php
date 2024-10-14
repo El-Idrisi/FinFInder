@@ -1,5 +1,5 @@
 <header
-        class="absolute top-0 z-50 flex items-center justify-around w-full h-20 transition-all duration-300 bg-transparent text-slate-100">
+        class="absolute top-0 z-50 flex items-center justify-around w-full h-20 transition-all duration-300 bg-transparent text-slate-100 navbar-home">
         <div class="navbar-brand">
             <a href="/">
                 <img src="{{ asset('img/finfinder.png') }}" alt="FinFinder Logo"
