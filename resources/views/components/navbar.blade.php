@@ -39,7 +39,7 @@
             </ul>
         </nav>
         <div class="items-center justify-center hidden gap-4 lg:flex">
-            <a href="/login"
+            <a href="/dashboard"
                 class="flex flex-col items-center justify-center transition-all duration-300 hover:text-sky-500 group">
                 Login
                 <hr class="w-0 transition-all duration-500 group-hover:border-sky-500 group-hover:w-full">
@@ -64,7 +64,7 @@
                     <a href="/contact-us" class="my-2 transition-all duration-300 hover:text-sky-500 {{ request()->routeIs('contact') ? 'text-sky-500 font-bold' : ''}}">Kontak Kami</a>
                 </div>
                 <div class="px-2 mt-6">
-                    <a href="/login" class="mx-2 transition-all duration-300 hover:text-sky-500">
+                    <a href="/dashboard" class="mx-2 transition-all duration-300 hover:text-sky-500">
                         Login
                     </a>
                     <a href="/register"

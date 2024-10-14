@@ -30,7 +30,7 @@ header a.group.active {
     @apply font-bold text-sky-500;
 }
 
-header a.group.active hr  {
+header a.group.active hr {
     @apply border-sky-500;
 }
 
@@ -79,16 +79,16 @@ header:not(.navbar-fixed) .group:hover hr {
     font-size: min(60px, 8vw);
 }
 
-.shadow-manual{
+.shadow-manual {
     box-shadow: -2px 0px 16px 4px rgba(0, 0, 0, 0.1), 8px 0px 16px 4px rgba(0, 0, 0, 0.1);
 }
 
 .pass:has(#password:focus) {
-    @apply outline outline-sky-500 ;
+    @apply outline outline-sky-500;
 }
 
 .pass-confirm:has(#password_confirmation:focus) {
-    @apply outline outline-sky-500 ;
+    @apply outline outline-sky-500;
 }
 
 .timeline {
@@ -107,6 +107,19 @@ header:not(.navbar-fixed) .group:hover hr {
     width: 5px;
     background-color: #000;
     transform: translateX(-50%);
+}
+
+.accordion-content {
+    transition: max-height 0.3s ease-out;
+    max-height: 0;
+}
+
+.accordion .fa-chevron-down {
+    transition: transform 0.3s ease;
+}
+
+.accordion.active .fa-chevron-down {
+    transform: rotate(180deg);
 }
 
 @media screen and (max-width: 768px) {

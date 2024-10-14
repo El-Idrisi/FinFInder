@@ -46,3 +46,6 @@ Route::get('/email', function() {
 Route::get('/dashboard', function () {
     return view('dashboard.index', array('title' => 'Dashboard | Home'));
 })->name('dashboard')->middleware('auth');
+Route::get('/dashboard/create', function () {
+    return view('dashboard.index', array('title' => 'Dashboard | Home'));
+})->name('dashboard.create')->middleware('auth');
