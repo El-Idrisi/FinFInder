@@ -133,7 +133,7 @@
 
         <div class="flex flex-wrap justify-center gap-8 lg:flex-nowrap lg:justify-normal">
 
-            <div class="flex flex-col items-center justify-center w-full p-8 rounded-lg md:w-1/3 bg-sky-50 ">
+            <div class="flex flex-col items-center justify-center w-full p-8 transition-all duration-300 rounded-lg shadow-md md:w-1/3 bg-sky-50 hover:shadow-xl hover:-translate-y-4">
                 <div class="w-24 h-24 rounded-full p-[18px] bg-sky-200">
                     <svg width="381" height="380" viewBox="0 0 381 380" fill="none"
                         xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
@@ -149,7 +149,7 @@
                 </div>
             </div>
 
-            <div class="flex flex-col items-center justify-center w-full p-8 rounded-lg md:w-1/3 bg-sky-50 ">
+            <div class="flex flex-col items-center justify-center w-full p-8 duration-300 rounded-lg shadow-md md:w-1/3 bg-sky-50 transitio-all hover:-translate-y-4 hover:shadow-xl">
                 <div class="w-24 h-24 bg-indigo-200 rounded-full p-[18px]">
                     <svg width="343" height="358" viewBox="0 0 343 358" fill="none"
                         xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
@@ -169,7 +169,7 @@
                 </div>
             </div>
 
-            <div class="flex flex-col items-center justify-center w-full p-8 rounded-lg md:w-1/3 bg-sky-50 ">
+            <div class="flex flex-col items-center justify-center w-full p-8 transition-all duration-300 rounded-lg shadow-md md:w-1/3 bg-sky-50 hover:-translate-y-4 hover:shadow-xl">
                 <div class="w-24 h-24 rounded-full p-[18px] bg-fuchsia-200">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-full h-full bi bi-lightbulb" viewBox="0 0 16 16">
                         <path

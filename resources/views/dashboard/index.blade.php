@@ -24,16 +24,46 @@
 
         <div class="px-4 font-bold text-gray-400">
             <h4 class="text-sm">Menu</h4>
-            <div class="flex flex-col gap-4 mt-4 ml-4">
+            <div class="flex flex-col gap-6 mt-4 ml-4">
                 <a href="/dashboard" class="flex items-center gap-4 transition-all duration-300 hover:text-sky-500">
-                    <span class="p-2 rounded-full bg-gradient-to-tr from-blue-400 to-indigo-300 group-hover:text-sky-500"><img src="{{ asset('img/icon/chart.svg') }}" alt="" class="scale-110 shad"></span>
+                    <img src="{{ asset('img/sidebar/Group 133.svg') }}" alt="dashboard-icon" class="scale-125">
                     Dashboards
                 </a>
                 <a href="/" class="flex items-center gap-4 transition-all duration-300 hover:text-sky-500" >
-                    <span class="p-2 rounded-full bg-gradient-to-tr from-fuchsia-300 to-sky-300 group-hover:text-sky-500"><img src="{{ asset('img/icon/home-solid.svg') }}" alt="" class="scale-110 shad"></span>
+                    <img src="{{ asset('img/sidebar/Group 134.svg') }}" alt="dashboard-icon" class="scale-125">
                     Home
                 </a>
             </div>
+        </div>
+
+        <div class="px-4 mt-8 font-bold text-gray-400">
+            <h4 class="text-sm">Tables</h4>
+            <div class="flex flex-col gap-6 mt-4 ml-4">
+                <a href="#" class="flex items-center gap-4 transition-all duration-300 hover:text-sky-500">
+                    <img src="{{ asset('img/sidebar/Group 136.svg') }}" alt="dashboard-icon" class="scale-125">
+                    Data Ikan
+                </a>
+                <a href="#" class="flex items-center gap-4 transition-all duration-300 hover:text-sky-500" >
+                    <img src="{{ asset('img/sidebar/Group 137.svg') }}" alt="dashboard-icon" class="scale-125">
+                    Your Data
+                </a>
+            </div>
+        </div>
+
+        <div class="px-4 mt-8 font-bold text-gray-400">
+            <h4 class="text-sm">Notifications</h4>
+            <div class="flex flex-col gap-6 mt-4 ml-4">
+                <a href="#" class="flex items-center gap-4 transition-all duration-300 hover:text-sky-500">
+                    <img src="{{ asset('img/sidebar/Group 138.svg') }}" alt="dashboard-icon" class="scale-125">
+                    Notifications
+                </a>
+            </div>
+        </div>
+
+        <div class="px-4 mt-8 font-bold">
+            <a href="#" class="px-[3.5rem] py-2 text-white bg-gradient-to-r from-violet-400    via-sky-500 to-fuchsia-400 rounded-md bg-size-200 bg-pos-0 transition-all duration-300 hover:bg-pos-100">
+                <span class="shad"><i class="fa-solid fa-plus"></i> Add Data</span>
+            </a>
         </div>
 
     </aside>
@@ -47,7 +77,7 @@
             <div class="py-6">
                 <a href="#" id="hambuger"><i class="fa-solid fa-bars"></i></a>
             </div>
-            <div class="relative flex ">
+            <div class="relative flex">
                 <button
                     class="flex items-center justify-between w-full gap-[0.8rem] px-8 transition-all duration-300 accordion hover:bg-sky-200 bg-slate-100">
                     <span class="text-lg"><i class="mr-1 text-lg fa-solid fa-user"></i>

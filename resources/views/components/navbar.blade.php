@@ -45,6 +45,15 @@
                 Dashboard
                 <hr class="w-0 transition-all duration-500 group-hover:border-sky-500 group-hover:w-full">
             </a>
+            <a href=""
+                class="px-4 py-2 transition-all duration-300 rounded-lg bg-sky-500 text-slate-100 hover:bg-sky-600">
+                <form action="{{ route('logout') }}" method="POST">
+                    @csrf
+                    <button type="submit">
+                        Log Out
+                    </button>
+                </form>
+            </a>
         @else
             <a href="/dashboard"
                 class="flex flex-col items-center justify-center transition-all duration-300 hover:text-sky-500 group">
