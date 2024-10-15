@@ -15,26 +15,52 @@
     <title>{{ $title }}</title>
 </head>
 
-<body class="relative font-inter -z-[9999] overflow-x-hidden">
+<body class="relative font-inter -z-[9999] overflow-x-hidden bg-sky-50">
 
-    <div class="flex">
-        <aside id="sidebar" class="h-screen w-[300px] bg-sky-900 text-slate-100 relative transition-all duration-300">
-            <div class="px-12 py-4 border-b border-sky-700">
-                <img src="{{ asset('img/finfinder.png') }}" alt="logo finfinder">
+    <aside id="sidebar" class="h-full w-[240px] bg-white transition-all duration-300 fixed top-0 bottom-0 shadow-lg">
+        <div class="px-12 py-4">
+            <img src="{{ asset('img/finfinder.png') }}" alt="logo finfinder">
+        </div>
+
+        <div class="px-4 font-bold text-gray-400">
+            <h4 class="text-sm">Menu</h4>
+            <div class="flex flex-col gap-4 mt-4 ml-4">
+                <a href="/dashboard" class="flex items-center gap-4 transition-all duration-300 hover:text-sky-500">
+                    <span class="p-2 rounded-full bg-gradient-to-tr from-blue-400 to-indigo-300 group-hover:text-sky-500"><img src="{{ asset('img/icon/chart.svg') }}" alt="" class="scale-110 shad"></span>
+                    Dashboards
+                </a>
+                <a href="/" class="flex items-center gap-4 transition-all duration-300 hover:text-sky-500" >
+                    <span class="p-2 rounded-full bg-gradient-to-tr from-fuchsia-300 to-sky-300 group-hover:text-sky-500"><img src="{{ asset('img/icon/home-solid.svg') }}" alt="" class="scale-110 shad"></span>
+                    Home
+                </a>
             </div>
+        </div>
 
-            <div class="flex flex-col justify-center w-full border-b border-sky-700">
+    </aside>
+    {{-- <div class="flex w-full h-full">
 
+
+    </div> --}}
+
+    <div class="content-shifted ml-[240px]" id="content">
+        <header class="flex justify-between w-full gap-12 px-8 text-lg bg-white shadow-lg h-fit">
+            <div class="py-6">
+                <a href="#" id="hambuger"><i class="fa-solid fa-bars"></i></a>
+            </div>
+            <div class="relative flex ">
                 <button
-                    class="flex items-center justify-between w-full px-8 py-4 transition-all duration-300 accordion hover:bg-sky-800">
-                    <span class="text-lg"><i class="mr-1 text-lg fa-solid fa-user"></i> {{ Auth::user()->username }}</span>
+                    class="flex items-center justify-between w-full gap-[0.8rem] px-8 transition-all duration-300 accordion hover:bg-sky-200 bg-slate-100">
+                    <span class="text-lg"><i class="mr-1 text-lg fa-solid fa-user"></i>
+                        {{ Auth::user()->username }}</span>
                     <i class="text-lg transition-transform duration-300 fa-solid fa-chevron-down"></i>
                 </button>
 
-                <div class="overflow-hidden text-lg transition-all duration-300 accordion-content">
-                    <a href="" class="block w-full px-8 py-2 transition-all duration-300 hover:bg-sky-800"><i class="fa-solid fa-gear"></i>
+                <div class="absolute flex flex-col overflow-hidden text-lg transition-all duration-300 bg-white top-[4.7rem] accordion-content shadow-lg rounded-b-lg">
+                    <a href="" class="block w-full px-8 py-2 transition-all duration-300 hover:bg-sky-300"><i
+                            class="fa-solid fa-gear"></i>
                         Settings</a>
-                    <a class="block w-full px-8 py-2 transition-all duration-300 list-group-item logout hover:bg-sky-800">
+                    <a
+                        class="block w-full px-8 py-2 transition-all duration-300 list-group-item logout hover:bg-sky-300">
                         <form action="{{ route('logout') }}" method="POST">
                             @csrf
                             <button type="submit" class="text-red-500">
@@ -44,82 +70,12 @@
                         </form>
                     </a>
                 </div>
-
             </div>
+        </header>
 
-            <div class="px-8 py-4 text-lg hover:bg-sky-800 transition-all duration-300 {{ request()->routeIs('dashboard') ? 'bg-sky-700': '' }}">
-                <a href="">
-                    <i class="fa-solid fa-gauge-high"></i> Dashboard
-                </a>
-            </div>
 
-            <div class="flex flex-col justify-center w-full">
-
-                <button
-                    class="flex items-center justify-between w-full px-8 py-4 transition-all duration-300 accordion hover:bg-sky-800">
-                    <span class="text-lg"><i class="fa-solid fa-table"></i> Tables</span>
-                    <i class="text-lg transition-transform duration-300 fa-solid fa-chevron-down"></i>
-                </button>
-
-                <div class="overflow-hidden text-lg transition-all duration-300 accordion-content">
-
-                    <a href="" class="block w-full px-8 py-2 transition-all duration-300 hover:bg-sky-800">
-                        <i class="fa-regular fa-circle"></i> Data Ikan
-                    </a>
-                    <a href="" class="block w-full px-8 py-2 transition-all duration-300 hover:bg-sky-800">
-                        <i class="fa-regular fa-circle"></i> Data Anda
-                    </a>
-
-                </div>
-
-            </div>
-
-        </aside>
-
-        <div class="ml-0 grow" id="content">
-
-            <header class="flex w-full gap-12 py-6 text-lg h-fit bg-slate-100">
-                <div class="px-8">
-                    <a href="#" id="hambuger"><i class="fa-solid fa-bars"></i></a>
-                </div>
-                <nav class="flex gap-8">
-                    <ul class="flex items-center justify-center gap-12">
-                        <li>
-                            <a href="/"
-                                class="flex flex-col items-center justify-center transition-all duration-300 hover:text-sky-500 group {{ request()->routeIs('beranda') ? 'active' : '' }}">
-                                Beranda
-                                <hr class="w-0 transition-all duration-500 group-hover:border-sky-500 group-hover:w-full">
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/profil"
-                                class="flex flex-col items-center justify-center transition-all duration-300 hover:text-sky-500 group {{ request()->routeIs('profil') ? 'active' : '' }}">
-                                Profil
-                                <hr class="w-0 transition-all duration-500 group-hover:border-sky-500 group-hover:w-full">
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#"
-                                class="flex flex-col items-center justify-center transition-all duration-300 hover:text-sky-500 group">
-                                Peta Interaktif
-                                <hr class="w-0 transition-all duration-500 group-hover:border-sky-500 group-hover:w-full">
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/contact-us"
-                                class="flex flex-col items-center justify-center transition-all duration-300 hover:text-sky-500 group {{ request()->routeIs('contact') ? 'active' : '' }}">
-                                Kontak Kami
-                                <hr class="w-0 transition-all duration-500 group-hover:border-sky-500 group-hover:w-full">
-                            </a>
-                        </li>
-                    </ul>
-            </header>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus facere unde, deleniti, atque suscipit reprehenderit similique commodi magni id autem velit quis adipisci explicabo rerum, laborum perferendis voluptas aperiam quae.</p>
-            @yield('content')
-        </div>
-
+        @yield('content')
     </div>
-
 
 
 
@@ -128,10 +84,10 @@
         const accordions = document.querySelectorAll('.accordion');
 
         accordions.forEach(acc => {
-            acc.addEventListener('click', function () {
+            acc.addEventListener('click', function() {
                 var panel = this.nextElementSibling;
                 console.log(panel)
-                if(panel.style.maxHeight) {
+                if (panel.style.maxHeight) {
                     panel.style.maxHeight = null;
                     this.classList.toggle('active')
                 } else {
@@ -148,11 +104,9 @@
 
         hambuger.addEventListener('click', () => {
             sidebar.classList.toggle("-translate-x-full")
-            sidebar.classList.toggle("content-shifted")
+            content.classList.toggle("ml-[240px]")
             hambuger.classList.toggle("hamburger-active")
         });
-
-
     </script>
     @stack('script')
 </body>
