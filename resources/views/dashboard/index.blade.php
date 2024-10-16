@@ -26,7 +26,7 @@
         <div class="px-4 font-bold text-gray-400">
             <h4 class="text-sm">Menu</h4>
             <div class="flex flex-col gap-6 mt-4 ml-4">
-                <a href="/dashboard" class="flex items-center gap-4 transition-all duration-300 hover:text-sky-500">
+                <a href="/dashboard" class="flex items-center gap-4 transition-all duration-300 hover:text-sky-500 {{ request()->routeIs('dashboard') ? 'text-sky-300' : ''}}">
                     <img src="{{ asset('img/sidebar/Group 133.svg') }}" alt="dashboard-icon" class="scale-125">
                     Dashboards
                 </a>

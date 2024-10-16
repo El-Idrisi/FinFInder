@@ -32,7 +32,8 @@
                     @enderror
 
                     <button type="submit"
-                        class="w-full py-2 my-4 text-lg font-bold transition-all duration-500 rounded-full bg-gradient-to-r from-sky-600 via-sky-400 to-sky-600 bg-pos-100 bg-size-200 text-slate-100 hover:bg-pos-0">Login</button>
+                        class="w-full py-2 my-4 text-lg font-bold transition-all duration-500 rounded-full bg-gradient-to-r from-sky-600 via-sky-400 to-sky-600 bg-pos-100 bg-size-200 text-slate-100 hover:bg-pos-0">Login
+                    </button>
 
                     <div class="flex flex-col justify-center gap-4 my-4 md:justify-between md:flex-row">
                         <div class="flex items-center justify-center">
@@ -45,7 +46,7 @@
                             <hr
                                 class="hidden w-0 transition-all duration-300 opacity-0 lg:block group-hover:w-full group-hover:opacity-100 group-hover:border-slate-700">
                         </a>
-                    </div>
+                    </div>_
                 </form>
             </div>
             <p class="absolute left-0 w-full text-center bottom-10 lg:hidden">Need an Account <a href="/register"
@@ -62,3 +63,7 @@
         </div>
     </div>
 @endsection
+
+
+
+
