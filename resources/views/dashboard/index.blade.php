@@ -145,8 +145,7 @@
 
         } else {
             hambuger.addEventListener('click', () => {
-                sidebar.classList.toggle("lg:-translate-x-full")
-                sidebar.classList.toggle("-translate-x-full")
+                sidebar.classList.toggle("lg:translate-x-0")
                 content.classList.toggle("lg:ml-[240px]")
             });
         }
