@@ -2,8 +2,9 @@
 
 @section('content')
 
-    <div class="flex flex-col">
-        <h3 class="mb-8 font-bold">Welcome to Dashboard, {{ Auth::user()->username }}</h3>
+    <div class="flex flex-col mb-8">
+        <h3 class="font-bold ">Welcome to Dashboard, {{ Auth::user()->username }}</h3>
+        <p class="text-slate-400">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas eius, possimus dignissimos reprehenderit quod laborum?</p>
     </div>
     <div class="statistik">
         <h3 class="mb-4 font-bold">Statistik</h3>

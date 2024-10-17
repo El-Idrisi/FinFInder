@@ -17,37 +17,36 @@ Route::get('/profil', function () {
 Route::get('/contact-us', [ContactController::class, 'index'])->name('contact');
 Route::post('/contact-us', [ContactController::class, 'send'])->name('contact.send');
 
-Route::controller(AuthController::class)->group(function() {
-    Route::get('/login', 'showLoginForm')->name('login');
-    Route::post('login/submit', 'login')->name('login.submit');
+Route::middleware('guest')->group(function() {
+    Route::controller(AuthController::class)->group(function() {
+        Route::get('/login', 'showLoginForm')->name('login');
+        Route::post('login/submit', 'login')->name('login.submit');
 
-    Route::get('/forgot-password', 'showForgotPassword')->name('forgotPassword');
-    Route::post('/forgot-password', 'sendResetLinkEmail')->name('forgoPassword.send');
-    Route::get('/change-password/{token}', 'showChangePassword')->name('password.reset');
-    Route::post('/change-password', 'resetPassword')->name('password.update');
+        Route::get('/forgot-password', 'showForgotPassword')->name('forgotPassword');
+        Route::post('/forgot-password', 'sendResetLinkEmail')->name('forgoPassword.send');
+        Route::get('/change-password/{token}', 'showChangePassword')->name('password.reset');
+        Route::post('/change-password', 'resetPassword')->name('password.update');
 
-    Route::post('/logout', 'logout')->name('logout');
+    });
+
+    Route::controller(RegisterController::class)->group(function() {
+        Route::get('/register', 'showStep1')->name('register');
+        Route::post('/register/step1', 'processStep1')->name('register.step1');
+
+        Route::get('/register/step2/{email}', 'showStep2')->name('register.step2');
+        Route::post('/register/step2', 'processStep2')->name('register.step2.process');
+
+        Route::get('/register/step3/{email}', 'showStep3')->name('register.step3');
+        Route::post('/register/step3', 'processStep3')->name('register.step3.process');
+    });
 });
 
-Route::controller(RegisterController::class)->group(function() {
-    Route::get('/register', 'showStep1')->name('register');
-    Route::post('/register/step1', 'processStep1')->name('register.step1');
+Route::middleware('auth')->group(function() {
+    Route::post('/logout', [AuthController::class,'logout'])->name('logout');
 
-    Route::get('/register/step2/{email}', 'showStep2')->name('register.step2');
-    Route::post('/register/step2', 'processStep2')->name('register.step2.process');
-
-    Route::get('/register/step3/{email}', 'showStep3')->name('register.step3');
-    Route::post('/register/step3', 'processStep3')->name('register.step3.process');
 });
-
-Route::get('/email', function() {
-    return view('emails.contact-message');
-});
-
 Route::get('/dashboard', function () {
-    $users = User::latest()->count();
+    $users = User::first()->count();
     return view('dashboard.index', array('title' => 'Dashboard | Home'), compact('users'));
-})->name('dashboard')->middleware('auth');
-Route::get('/dashboard/create', function () {
-    return view('dashboard.index', array('title' => 'Dashboard | Home'));
-})->name('dashboard.create')->middleware('auth');
+})->name('dashboard');
+
