@@ -109,6 +109,11 @@ header.navbar-home:not(.navbar-fixed) .group:hover hr {
     transform: translateX(-50%);
 }
 
+.accor {
+    transition: max-height 0.3s ease-out;
+    /* max-height: 100%; */
+}
+
 .accordion-content {
     transition: max-height 0.3s ease-out;
     max-height: 0;
@@ -134,4 +139,8 @@ header.navbar-home:not(.navbar-fixed) .group:hover hr {
     .img-bullet {
         left: 10px
     }
+}
+
+.bg-green-500 {
+    background: #22c55e;
 }

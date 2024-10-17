@@ -44,9 +44,18 @@ Route::middleware('guest')->group(function() {
 Route::middleware('auth')->group(function() {
     Route::post('/logout', [AuthController::class,'logout'])->name('logout');
 
+    Route::get('/dashboard', function () {
+        $users = User::first()->count();
+        return view('dashboard.index', array('title' => 'FinFinder | Dashboard'), compact('users'));
+    })->name('dashboard');
+
+    Route::get('/dashboard/profile', function () {
+        return view('dashboard.profile.index', array('title' => 'FinFinder | Profile'));
+    })->name('dashboard.profile');
+    
+    Route::get('/dashboard/profile/settings', function () {
+        return view('dashboard.profile.settings', array('title' => 'FinFinder | Settings'));
+    })->name('profile.settings');
+
 });
-Route::get('/dashboard', function () {
-    $users = User::first()->count();
-    return view('dashboard.index', array('title' => 'Dashboard | Home'), compact('users'));
-})->name('dashboard');
 
