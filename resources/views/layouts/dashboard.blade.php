@@ -37,13 +37,25 @@
 
         accordions.forEach(acc => {
             acc.addEventListener('click', function() {
+                console.log(panel);
                 var panel = this.nextElementSibling;
-                if (panel.style.maxHeight) {
-                    panel.style.maxHeight = null;
-                    this.classList.toggle('active')
+                // console.log(panel.classList.contains('accor'));
+                if (!panel.classList.contains('accor')) {
+                    if (panel.style.maxHeight) {
+                        panel.style.maxHeight = null;
+                        this.classList.toggle('active')
+                    } else {
+                        panel.style.maxHeight = panel.scrollHeight + 'px';
+                        this.classList.toggle('active')
+                    }
                 } else {
-                    panel.style.maxHeight = panel.scrollHeight + 'px';
-                    this.classList.toggle('active')
+                    panel.classList.toggle('active')
+                    if (panel.classList.contains("active")) {
+                        panel.style.maxHeight = panel.scrollHeight + "px";
+                    } else {
+                        panel.style.maxHeight = "0px";
+                    }
+                    console.log('hello');
                 }
             });
         });

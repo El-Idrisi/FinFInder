@@ -110,8 +110,15 @@ header.navbar-home:not(.navbar-fixed) .group:hover hr {
 }
 
 .accor {
-    transition: max-height 0.3s ease-out;
-    /* max-height: 100%; */
+    max-height: 1000px;
+    /* Nilai awal yang cukup besar */
+    overflow: hidden;
+    transition: max-height .5s ease-out;
+}
+
+
+.accor:not(.active) {
+    max-height: 0;
 }
 
 .accordion-content {
@@ -139,8 +146,4 @@ header.navbar-home:not(.navbar-fixed) .group:hover hr {
     .img-bullet {
         left: 10px
     }
-}
-
-.bg-green-500 {
-    background: #22c55e;
 }

@@ -6,7 +6,7 @@
             <div class="text-white transition-all duration-300 rounded-t-lg cursor-pointer bg-sky-800 accordion hover:bg-sky-700">
                 <h4 class="px-4 py-2 font-bold">Profile</h4>
             </div>
-            <div class="overflow-hidden accor">
+            <div class="overflow-hidden accor active">
                 <form action="" class="px-8 py-6">
 
                     <div class="flex gap-12">
@@ -41,7 +41,7 @@
 
                     <div class="flex flex-col mt-8">
                         <label for="alamat" class="mb-2 font-bold">Alamat</label>
-                        <textarea name="alamat" id="alamat" placeholder="alamat" rows="3" class="p-2 border-2 rounded-md resize-none outline-2 border-slate-400 focus:outline-sky-500"></textarea>
+                        <textarea name="alamat" id="alamat" placeholder="Alamat" rows="3" class="p-2 border-2 rounded-md resize-none outline-2 border-slate-400 focus:outline-sky-500"></textarea>
                     </div>
 
                     <button type="submit" class="px-4 py-2 mt-8 font-bold text-white transition-all duration-300 rounded-lg bg-sky-500 hover:bg-sky-600">Update Profile</button>
