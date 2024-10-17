@@ -77,7 +77,7 @@
                     Forum interaktif bagi para nelayan pengguna FinFinder, Pengguna bisa membagi titik potensial
                     penangkapan ikan.
                 </x-fitur_card>
-                <x-fitur_card img="add.svg  " judul="Menambah Data">
+                <x-fitur_card img="add.svg " judul="Menambah Data">
                     Fitur yang memungkinkan pengguna untuk berkontribusi dengan menambahkan data baru tentang titik
                     potensial penangkapan ikan.
                 </x-fitur_card>
