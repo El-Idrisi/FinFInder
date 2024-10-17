@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\RegisterController;
+use App\Models\User;
 
 Route::get('/', function () {
     return view('index', array('title' => 'FinFinder | Home'));
@@ -44,7 +45,8 @@ Route::get('/email', function() {
 });
 
 Route::get('/dashboard', function () {
-    return view('dashboard.index', array('title' => 'Dashboard | Home'));
+    $users = User::latest()->count();
+    return view('dashboard.index', array('title' => 'Dashboard | Home'), compact('users'));
 })->name('dashboard')->middleware('auth');
 Route::get('/dashboard/create', function () {
     return view('dashboard.index', array('title' => 'Dashboard | Home'));

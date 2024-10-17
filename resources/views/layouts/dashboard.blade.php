@@ -18,6 +18,7 @@
 <body class="relative font-inter -z-[9999] overflow-x-hidden bg-sky-50">
 
     <x-sidebar-dashboard></x-sidebar-dashboard>
+    <div class="fixed top-0 bottom-0 w-full bg-black z-[999]  scale-0 transition-all duration-100 bg-opacity-0" id="bg-cover"></div>
 
     <div class="content-shifted lg:ml-[240px]" id="content">
         <x-navbar-dashboard></x-navbar-dashboard>
@@ -49,18 +50,25 @@
         const sidebar = document.querySelector('#sidebar');
         const content = document.querySelector('#content');
         const hambuger = document.querySelector("#hambuger")
+        const bgCover = document.querySelector("#bg-cover")
 
         if (window.innerWidth <= 768) {
             hambuger.addEventListener('click', (event) => {
                 event.stopPropagation();
                 sidebar.classList.remove("-translate-x-full");
                 sidebar.classList.add("translate-x-0");
+                bgCover.classList.remove("scale-0");
+                bgCover.classList.remove("bg-opacity-0");
+                bgCover.classList.add("bg-opacity-30");
             });
 
             document.addEventListener('click', (event) => {
                 if (!sidebar.contains(event.target) && !hambuger.contains(event.target)) {
                     sidebar.classList.remove("translate-x-0");
                     sidebar.classList.add("-translate-x-full");
+                    bgCover.classList.add("scale-0");
+                    bgCover.classList.remove("bg-opacity-30");
+                    bgCover.classList.add("bg-opacity-0");
                 }
             });
 
