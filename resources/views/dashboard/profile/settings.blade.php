@@ -90,7 +90,8 @@
                                 class="flex items-center border-2 rounded-md pass outline-2 border-slate-400 focus:outline-sky-500">
                                 <input type="password" name="password" id="password" placeholder="Password"
                                     class="w-full px-4 py-3 bg-transparent rounded-full focus:outline-none ">
-                                <button type="button" href="#" class="flex items-center" onclick="showPassword('password')">
+                                <button type="button" href="#" class="flex items-center"
+                                    onclick="showPassword('password')">
                                     <i id="eye-icon-password" class="pr-4 fa-solid fa-eye-slash text-sky-900"></i>
                                 </button>
                             </div>
@@ -135,6 +136,10 @@
                         class="px-4 py-2 mt-4 border-2 rounded-md border-sky-500 bg-sky-200">
                     </div>
 
+                    <div id="loadingIndicator" style="display: none;">
+                        <span class="spinner animate-spin"></span> Mengirim kode verifikasi...
+                    </div>
+
                 </form>
             </div>
             <div class="py-4 border-t rounded-b-lg border-slate-300"></div>
@@ -145,41 +150,66 @@
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
         <script>
-            document.getElementById('sendVerificationCode').addEventListener('click', function() {
-                const password = document.getElementById('password').value;
-                const newEmail = document.getElementById('new_email').value;
+            document.addEventListener('DOMContentLoaded', function() {
+                const sendVerificationCodeBtn = document.getElementById('sendVerificationCode');
+                const verifyCodeBtn = document.getElementById('verifyCode');
+                const messageDiv = document.getElementById('message');
+                const verificationSection = document.getElementById('verificationSection');
 
-                console.log(password, newEmail);
-                axios.post('/send-verification-code', {
-                        password: password,
-                        new_email: newEmail
-                    })
-                    .then(function(response) {
-                        document.getElementById('verificationSection').style.display = 'block';
-                        document.getElementById('message').style.display = 'block';
-                        document.getElementById('message').innerHTML =
-                            'Kode verifikasi telah dikirim ke email baru Anda.';
-                    })
-                    .catch(function(error) {
-                        document.getElementById('message').style.display = 'block';
-                        document.getElementById('message').innerHTML = error.response.data.message;
-                    });
-            });
+                // Tambahkan elemen loading
+                const loadingIndicator = document.createElement('div');
+                loadingIndicator.id = 'loadingIndicator';
+                loadingIndicator.innerHTML = '<span class="spinner"></span> Mengirim...';
+                loadingIndicator.style.display = 'none';
+                document.body.appendChild(loadingIndicator);
 
-            document.getElementById('verifyCode').addEventListener('click', function() {
-                const code = document.getElementById('verification_code').value;
-                const newEmail = document.getElementById('new_email').value;
+                function showLoading(show) {
+                    loadingIndicator.style.display = show ? 'block' : 'none';
+                    sendVerificationCodeBtn.disabled = show;
+                }
 
-                axios.post('/verify-email-change', {
-                        verification_code: code,
-                        new_email: newEmail
-                    })
-                    .then(function(response) {
-                        document.getElementById('message').innerHTML = 'Email berhasil diubah.';
-                    })
-                    .catch(function(error) {
-                        document.getElementById('message').innerHTML = 'Error: ' + error.response.data.message;
-                    });
+                sendVerificationCodeBtn.addEventListener('click', function() {
+                    const password = document.getElementById('password').value;
+                    const newEmail = document.getElementById('new_email').value;
+
+                    showLoading(true);
+
+                    axios.post('/send-verification-code', {
+                            password: password,
+                            new_email: newEmail
+                        })
+                        .then(function(response) {
+                            showLoading(false);
+                            verificationSection.style.display = 'block';
+                            messageDiv.style.display = 'block';
+                            messageDiv.innerHTML = 'Kode verifikasi telah dikirim ke email baru Anda.';
+                        })
+                        .catch(function(error) {
+                            showLoading(false);
+                            messageDiv.style.display = 'block';
+                            messageDiv.innerHTML = error.response.data.message;
+                        });
+                });
+
+                verifyCodeBtn.addEventListener('click', function() {
+                    const code = document.getElementById('verification_code').value;
+                    const newEmail = document.getElementById('new_email').value;
+
+                    showLoading(true);
+
+                    axios.post('/verify-email-change', {
+                            verification_code: code,
+                            new_email: newEmail
+                        })
+                        .then(function(response) {
+                            showLoading(false);
+                            messageDiv.innerHTML = 'Email berhasil diubah.';
+                        })
+                        .catch(function(error) {
+                            showLoading(false);
+                            messageDiv.innerHTML = error.response.data.message;
+                        });
+                });
             });
 
             function showPassword(inputId) {
