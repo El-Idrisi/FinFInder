@@ -77,15 +77,24 @@
             </div>
             <div class="overflow-hidden accor active">
                 <form class="px-8 py-6" id="changeEmailForm">
-                    <p>Untuk mengganti email akun Anda, masukkan password Anda dan email  baru (<i>@gmail.com</i>) yang diinginkan, lalu klik 'Kirim Kode Verifikasi'. Kami akan mengirim kode ke email baru tersebut. Pastikan Anda memiliki akses ke email baru ini untuk menyelesaikan proses perubahan.</p>
+                    <p>Untuk mengganti email akun Anda, masukkan password Anda dan email baru (<i>@gmail.com</i>) yang
+                        diinginkan, lalu klik 'Kirim Kode Verifikasi'. Kami akan mengirim kode ke email baru tersebut.
+                        Pastikan Anda memiliki akses ke email baru ini untuk menyelesaikan proses perubahan.</p>
 
                     @csrf
 
                     <div class="flex flex-col w-full mt-8">
                         <label for="password" class="mb-2 font-bold">Password</label>
-                        <input type="password" name="password" id="password"
-                            class="p-2 border-2 rounded-md outline-2 border-slate-400 focus:outline-sky-500"
-                            placeholder="Password" autocomplete="off">
+                        <div class="">
+                            <div
+                                class="flex items-center border-2 rounded-md pass outline-2 border-slate-400 focus:outline-sky-500">
+                                <input type="password" name="password" id="password" placeholder="Password"
+                                    class="w-full px-4 py-3 bg-transparent rounded-full focus:outline-none ">
+                                <button type="button" href="#" class="flex items-center" onclick="showPassword('password')">
+                                    <i id="eye-icon-password" class="pr-4 fa-solid fa-eye-slash text-sky-900"></i>
+                                </button>
+                            </div>
+                        </div>
                         @error('password')
                             <p class="text-red-500">{{ $message }}</p>
                         @enderror
@@ -94,7 +103,7 @@
                     <div class="flex flex-col w-full mt-8">
                         <label for="new_email" class="mb-2 font-bold">New Email</label>
                         <input type="email" name="new_email" id="new_email"
-                            class="p-2 border-2 rounded-md outline-2 border-slate-400 focus:outline-sky-500"
+                            class="px-4 py-3 border-2 rounded-md outline-2 border-slate-400 focus:outline-sky-500"
                             placeholder="New Email" autocomplete="off">
                         @error('email')
                             <p class="text-red-500">{{ $message }}</p>
@@ -172,6 +181,20 @@
                         document.getElementById('message').innerHTML = 'Error: ' + error.response.data.message;
                     });
             });
+
+            function showPassword(inputId) {
+                var input = document.getElementById(inputId);
+                const eyeIcon = document.getElementById(`eye-icon-${inputId}`)
+                if (input.type === "password") {
+                    input.type = "text";
+                    eyeIcon.classList.remove("fa-eye-slash");
+                    eyeIcon.classList.add("fa-eye");
+                } else {
+                    input.type = "password";
+                    eyeIcon.classList.remove("fa-eye");
+                    eyeIcon.classList.add("fa-eye-slash");
+                }
+            }
         </script>
     @endpush
 @endsection
