@@ -18,8 +18,8 @@ Route::get('/profil', function () {
 Route::get('/contact-us', [ContactController::class, 'index'])->name('contact');
 Route::post('/contact-us', [ContactController::class, 'send'])->name('contact.send');
 
-Route::middleware('guest')->group(function() {
-    Route::controller(AuthController::class)->group(function() {
+Route::middleware('guest')->group(function () {
+    Route::controller(AuthController::class)->group(function () {
         Route::get('/login', 'showLoginForm')->name('login');
         Route::post('login/submit', 'login')->name('login.submit');
 
@@ -27,10 +27,9 @@ Route::middleware('guest')->group(function() {
         Route::post('/forgot-password', 'sendResetLinkEmail')->name('forgoPassword.send');
         Route::get('/change-password/{token}', 'showChangePassword')->name('password.reset');
         Route::post('/change-password', 'resetPassword')->name('password.update');
-
     });
 
-    Route::controller(RegisterController::class)->group(function() {
+    Route::controller(RegisterController::class)->group(function () {
         Route::get('/register', 'showStep1')->name('register');
         Route::post('/register/step1', 'processStep1')->name('register.step1');
 
@@ -42,11 +41,11 @@ Route::middleware('guest')->group(function() {
     });
 });
 
-Route::middleware('auth')->group(function() {
-    Route::post('/logout', [AuthController::class,'logout'])->name('logout');
+Route::middleware('auth')->group(function () {
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
     Route::get('/dashboard', function () {
-        $users = User::first()->count();
+        $users = User::all()->count();
         return view('dashboard.index', array('title' => 'FinFinder | Dashboard'), compact('users'));
     })->name('dashboard');
 
@@ -54,8 +53,10 @@ Route::middleware('auth')->group(function() {
         return view('dashboard.profile.index', array('title' => 'FinFinder | Profile'));
     })->name('dashboard.profile');
 
-    Route::get('profile/settings', [ProfileController::class, 'settings'])->name('profile.settings');
-    Route::put('profile/update', [ProfileController::class, 'updateProfile'])->name('update.profile');
-
+    Route::controller(ProfileController::class)->group(function () {
+        Route::get('profile/settings', 'settings')->name('profile.settings');
+        Route::put('profile/update', 'updateProfile')->name('update.profile');
+        Route::post('/send-verification-code', [ProfileController::class, 'sendVerificationCode']);
+        Route::post('/verify-email-change', [ProfileController::class, 'verifyEmailChange']);
+    });
 });
-

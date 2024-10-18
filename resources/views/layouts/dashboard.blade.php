@@ -39,7 +39,6 @@
             acc.addEventListener('click', function() {
                 console.log(panel);
                 var panel = this.nextElementSibling;
-                // console.log(panel.classList.contains('accor'));
                 if (!panel.classList.contains('accor')) {
                     if (panel.style.maxHeight) {
                         panel.style.maxHeight = null;
