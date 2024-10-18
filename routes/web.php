@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegisterController;
 use App\Models\User;
 
@@ -49,13 +50,12 @@ Route::middleware('auth')->group(function() {
         return view('dashboard.index', array('title' => 'FinFinder | Dashboard'), compact('users'));
     })->name('dashboard');
 
-    Route::get('/dashboard/profile', function () {
+    Route::get('profile', function () {
         return view('dashboard.profile.index', array('title' => 'FinFinder | Profile'));
     })->name('dashboard.profile');
-    
-    Route::get('/dashboard/profile/settings', function () {
-        return view('dashboard.profile.settings', array('title' => 'FinFinder | Settings'));
-    })->name('profile.settings');
+
+    Route::get('profile/settings', [ProfileController::class, 'settings'])->name('profile.settings');
+    Route::put('profile/update', [ProfileController::class, 'updateProfile'])->name('update.profile');
 
 });
 

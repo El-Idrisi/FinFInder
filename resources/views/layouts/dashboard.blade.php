@@ -91,6 +91,15 @@
                 content.classList.toggle("lg:ml-[240px]")
             });
         }
+
+        @if (Session::has('success'))
+            Swal.fire({
+                title: 'Success!',
+                text: '{{ session('success') }}',
+                icon: 'success',
+                confirmButtonText: 'Nice'
+            })
+        @endif
     </script>
     @stack('script')
 </body>
