@@ -18,7 +18,7 @@
 <body class="relative font-inter -z-[9999] overflow-x-hidden bg-sky-50">
 
     <x-sidebar-dashboard></x-sidebar-dashboard>
-    <div class="fixed top-0 bottom-0 w-full bg-black z-[999]  scale-0 transition-all duration-100 bg-opacity-0"
+    <div class="fixed top-0 bottom-0 w-full bg-black z-[9]  scale-0 transition-all duration-100 bg-opacity-0"
         id="bg-cover"></div>
 
     <div class="content-shifted lg:ml-[240px]" id="content">

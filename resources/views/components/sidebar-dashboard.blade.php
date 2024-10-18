@@ -1,5 +1,5 @@
 <aside id="sidebar"
-class="-translate-x-full lg:translate-x-0 h-full w-[240px] bg-white transition-all duration-300 fixed top-0 bottom-0 shadow-lg z-[99]">
+class="-translate-x-full lg:translate-x-0 h-full w-[240px] bg-white transition-all duration-300 fixed top-0 bottom-0 shadow-lg z-[999]">
 <div class="px-12 py-4">
     <img src="{{ asset('img/finfinder.png') }}" alt="logo finfinder">
 </div>

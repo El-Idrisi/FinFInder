@@ -32,7 +32,7 @@
                         </div>
                     </div>
 
-                    <div class="flex flex-wrap gap-12 mt-8 lg:flex-no wrap">
+                    <div class="flex flex-wrap gap-12 mt-8 lg:flex-nowrap">
                         <div class="flex flex-col w-full">
                             <label for="no.telp" class="mb-2 font-bold">Nomor Telephone</label>
                             <input type="tel" name="no.telp" id="no.telp"
