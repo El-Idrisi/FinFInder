@@ -7,11 +7,9 @@
                 @csrf
                 @method('PUT')
                 <div class="flex flex-wrap gap-12 lg:flex-nowrap ">
-                    <x-input-form value="{{ $user->username }}" title="Username" id="username"
-                        tipe="text"></x-input-form>
+                    <x-input-form value="{{ $user->username }}" title="Username" id="username" tipe="text"></x-input-form>
 
-                    <x-input-form value="{{ $user->nama }}" title="Nama" id="nama"
-                        tipe="text"></x-input-form>
+                    <x-input-form value="{{ $user->nama }}" title="Nama" id="nama" tipe="text"></x-input-form>
                 </div>
 
                 <div class="flex flex-wrap gap-12 mt-8 lg:flex-nowrap">
@@ -57,7 +55,8 @@
                 <div id="verificationSection" style="display: none;">
 
                     <div class="flex flex-wrap gap-12 mt-8 lg:flex-nowrap">
-                        <x-input-form id="verification_code" title="Kode Verifikasi" tipe="text" value=""></x-input-form>
+                        <x-input-form id="verification_code" title="Kode Verifikasi" tipe="text"
+                            value=""></x-input-form>
                     </div>
 
                     <x-btn-submit tipe="button" id="verifyCode">Verifikasi Kode</x-btn-submit>
@@ -75,8 +74,13 @@
         </x-form-group>
 
         <x-form-group title="Ganti Password">
-            <form action="{{ route('update.profile') }}" method="POST" class="px-8 py-6">
+            <form class="px-8 py-6">
                 @csrf
+
+                <div id="message-pass" class="px-4 py-2 mb-8 border-2 rounded-md bg-sky-200 border-sky-500"
+                    style="display: none">
+                    Password Berhasil di Ganti
+                </div>
 
                 <div class="flex flex-wrap gap-12 lg:flex-nowrap">
                     <x-input-password-form id="current_password" title="Password Sekarang"></x-input-password-form>
@@ -87,7 +91,8 @@
                 </div>
 
                 <div class="flex flex-wrap gap-12 mt-8 lg:flex-nowrap">
-                    <x-input-password-form id="confirm_password" title="Konfirmasi Password"></x-input-password-form>
+                    <x-input-password-form id="new_password_confirmation"
+                        title="Konfirmasi Password"></x-input-password-form>
                 </div>
 
                 <x-btn-submit tipe="button" id="UpdatePassword">Update Password</x-btn-submit>
@@ -106,6 +111,10 @@
                 const messageDiv = document.getElementById('message');
                 const verificationSection = document.getElementById('verificationSection');
 
+                const password = document.getElementById('password');
+                const code = document.getElementById('verification_code');
+                const newEmail = document.getElementById('new_email');
+
                 // Tambahkan elemen loading
                 const loadingIndicator = document.createElement('div');
                 loadingIndicator.id = 'loadingIndicator';
@@ -118,46 +127,82 @@
                     sendVerificationCodeBtn.disabled = show;
                 }
 
+
+
+                function showMessage(element, message, isSuccess, isPass) {
+                    element.style.display = 'block';
+                    element.textContent = message;
+                    element.className = `px-4 py-2 border-2 rounded-md ${
+                        isSuccess ? 'bg-green-200 border-green-500' : 'bg-red-200 border-red-500'
+                    }`;
+                    element.classList.add(`${
+                        isPass ? 'mb-8' : 'mt-8'
+                    }`)
+                }
+
+                function resetForm(...inputs) {
+                    inputs.forEach(input => input.value = '');
+                }
+
                 sendVerificationCodeBtn.addEventListener('click', function() {
-                    const password = document.getElementById('password').value;
-                    const newEmail = document.getElementById('new_email').value;
 
                     showLoading(true);
 
                     axios.post('/send-verification-code', {
-                            password: password,
-                            new_email: newEmail
+                            password: password.value,
+                            new_email: newEmail.value
                         })
                         .then(function(response) {
                             showLoading(false);
                             verificationSection.style.display = 'block';
-                            messageDiv.style.display = 'block';
-                            messageDiv.innerHTML = 'Kode verifikasi telah dikirim ke email baru Anda.';
+                            showMessage(messageDiv, 'Kode verifikasi telah dikirim ke email baru Anda.',
+                                true, false);
                         })
                         .catch(function(error) {
                             showLoading(false);
-                            messageDiv.style.display = 'block';
-                            messageDiv.innerHTML = error.response.data.message;
+                            showMessage(messageDiv, error.response.data.message, false, false);
                         });
                 });
 
                 verifyCodeBtn.addEventListener('click', function() {
-                    const code = document.getElementById('verification_code').value;
-                    const newEmail = document.getElementById('new_email').value;
 
                     showLoading(true);
 
                     axios.post('/verify-email-change', {
-                            verification_code: code,
-                            new_email: newEmail
+                            verification_code: code.value,
+                            new_email: newEmail.value
                         })
                         .then(function(response) {
                             showLoading(false);
-                            messageDiv.innerHTML = 'Email berhasil diubah.';
+                            resetForm(code, newEmail, password);
+                            verificationSection.style.display = 'none';
+                            showMessage(messageDiv, 'Email berhasil diubah.', true, false);
                         })
                         .catch(function(error) {
                             showLoading(false);
-                            messageDiv.innerHTML = error.response.data.message;
+                            showMessage(messageDiv, error.response.data.message, false, false);
+                        });
+                });
+
+                const updatePasswordBtn = document.getElementById('UpdatePassword');
+                const messagePass = document.getElementById('message-pass');
+                const currentPassword = document.getElementById('current_password');
+                const newPassword = document.getElementById('new_password');
+                const newPasswordConfirmation = document.getElementById('new_password_confirmation');
+
+                updatePasswordBtn.addEventListener('click', function() {
+                    axios.post('/change-password', {
+                            current_password: currentPassword.value,
+                            new_password: newPassword.value,
+                            new_password_confirmation: newPasswordConfirmation.value
+                        })
+                        .then(function(response) {
+                            showMessage(messagePass, response.data.message, true, true);
+                            resetForm(currentPassword, newPassword, newPasswordConfirmation);
+                        })
+                        .catch(function(error) {
+                            showMessage(messagePass, error.response.data.message || 'Terjadi kesalahan',
+                                false, true);
                         });
                 });
             });

@@ -58,5 +58,6 @@ Route::middleware('auth')->group(function () {
         Route::put('profile/update', 'updateProfile')->name('update.profile');
         Route::post('/send-verification-code', [ProfileController::class, 'sendVerificationCode']);
         Route::post('/verify-email-change', [ProfileController::class, 'verifyEmailChange']);
+        Route::post('/change-password', [ProfileController::class, 'changePassword'])->name('changePassword');
     });
 });

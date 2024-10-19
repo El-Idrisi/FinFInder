@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rules\Password;
 
 class ProfileController extends Controller
 {
@@ -72,8 +73,10 @@ class ProfileController extends Controller
 
         // dd(session('email_change_code'));
 
-        if ($request->verification_code !== session('email_change_code') ||
-            $request->new_email !== session('new_email')) {
+        if (
+            $request->verification_code !== session('email_change_code') ||
+            $request->new_email !== session('new_email')
+        ) {
             return response()->json(['message' => 'Kode verifikasi salah atau email tidak cocok'], 422);
         }
 
@@ -84,5 +87,23 @@ class ProfileController extends Controller
         session()->forget(['email_change_code', 'new_email']);
 
         return response()->json(['message' => 'Email berhasil diubah']);
+    }
+
+    public function changePassword(Request $request)
+    {
+        $request->validate([
+            'current_password' => ['required', function ($attribute, $value, $fail) {
+                if (!Hash::check($value, Auth::user()->password)) {
+                    $fail('Password saat ini tidak benar.');
+                }
+            }],
+            'new_password' => ['required', 'confirmed', Password::defaults()],
+        ]);
+
+        $user = Auth::user();
+        $user->password = Hash::make($request->new_password);
+        $user->save();
+
+        return response()->json(['message' => 'Password berhasil diubah'], 200);
     }
 }
