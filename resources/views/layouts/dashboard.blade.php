@@ -37,7 +37,6 @@
 
         accordions.forEach(acc => {
             acc.addEventListener('click', function() {
-                console.log(panel);
                 var panel = this.nextElementSibling;
                 if (!panel.classList.contains('accor')) {
                     if (panel.style.maxHeight) {
@@ -54,7 +53,6 @@
                     } else {
                         panel.style.maxHeight = "0px";
                     }
-                    console.log('hello');
                 }
             });
         });

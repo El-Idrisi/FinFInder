@@ -41,7 +41,7 @@
                 </div>
 
                 <button type="submit"
-                    class="py-2 transition-all duration-300 rounded-full text-slate-100 bg-sky-500 hover:bg-sky-600">Kirim
+                    class="py-2 font-bold transition-all duration-300 rounded-full text-slate-100 bg-sky-500 hover:bg-sky-600">Kirim
                     Pesan</button>
             </form>
         </div>
