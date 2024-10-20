@@ -56,8 +56,9 @@ Route::middleware('auth')->group(function () {
     Route::controller(ProfileController::class)->group(function () {
         Route::get('profile/settings', 'settings')->name('profile.settings');
         Route::put('profile/update', 'updateProfile')->name('update.profile');
-        Route::post('/send-verification-code', [ProfileController::class, 'sendVerificationCode']);
-        Route::post('/verify-email-change', [ProfileController::class, 'verifyEmailChange']);
-        Route::post('/change-password', [ProfileController::class, 'changePassword'])->name('changePassword');
+        Route::post('/send-verification-code', 'sendVerificationCode');
+        Route::post('/verify-email-change', 'verifyEmailChange');
+        Route::post('/change-password', 'changePassword')->name('changePassword');
+        Route::post('/delete-account', 'deleteAccount');
     });
 });

@@ -100,10 +100,13 @@
         </x-form-group>
 
         <x-form-group title="Hapus Akun" :isDelete="true">
-            <h5 class="p-4 font-bold text-center">Setelah Anda menghapus akun Anda, tidak ada jalan untuk kembali. Harap pastikan kembali keputusan Anda.</h5>
+            <h5 class="p-4 font-bold text-center">Setelah Anda menghapus akun Anda, tidak ada jalan untuk kembali. Harap
+                pastikan kembali keputusan Anda.</h5>
 
             <div class="px-12 pb-8">
-                <button type="button" class="w-full py-2 font-bold text-white transition-all duration-300 bg-red-600 rounded-md hover:bg-red-500">Hapus Akun</button>
+                <button type="button"
+                    class="w-full py-2 font-bold text-white transition-all duration-300 bg-red-600 rounded-md hover:bg-red-500"
+                    id="delete_account">Hapus Akun</button>
             </div>
         </x-form-group>
 
@@ -212,6 +215,53 @@
                             showMessage(messagePass, error.response.data.message || 'Terjadi kesalahan',
                                 false, true);
                         });
+                });
+
+                const deleteAccount = document.getElementById('delete_account');
+
+                deleteAccount.addEventListener('click', function() {
+                    Swal.fire({
+                        title: 'Hapus Akun',
+                        input: 'password',
+                        inputAttributes: {
+                            autocapitalize: 'off',
+                            autocorrect: 'off'
+                        },
+                        inputPlaceholder: 'Masukkan password Anda',
+                        showCancelButton: true,
+                        confirmButtonText: 'Hapus Akun',
+                        cancelButtonText: 'Batal',
+                        showLoaderOnConfirm: true,
+                        preConfirm: (password) => {
+                            return axios.post('/delete-account', {
+                                    password: password
+                                })
+                                .then(response => {
+                                    if (response.data.success) {
+                                        return response.data.message;
+                                    }
+                                    throw new Error(response.data.message ||
+                                        'Terjadi kesalahan');
+                                })
+                                .catch(error => {
+                                    Swal.showValidationMessage(
+                                        `${error.response.data.message || error.message}`
+                                    );
+                                });
+                        },
+                        allowOutsideClick: () => !Swal.isLoading()
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            Swal.fire({
+                                title: 'Berhasil!',
+                                text: result.value,
+                                icon: 'success'
+                            }).then(() => {
+                                // Redirect ke halaman login atau home setelah akun dihapus
+                                window.location.href = '/login';
+                            });
+                        }
+                    });
                 });
             });
 

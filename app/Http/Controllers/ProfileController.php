@@ -106,4 +106,29 @@ class ProfileController extends Controller
 
         return response()->json(['message' => 'Password berhasil diubah'], 200);
     }
+
+    public function deleteAccount(Request $request)
+    {
+        $request->validate([
+            'password' => 'required',
+        ]);
+
+        $user = Auth::user();
+
+        if (Hash::check($request->password, $user->password)) {
+            // Password benar, hapus akun
+            $user->delete();
+            Auth::logout();
+            return response()->json([
+                'success' => true,
+                'message' => 'Akun Anda telah berhasil dihapus.'
+            ]);
+        } else {
+            // Password salah
+            return response()->json([
+                'success' => false,
+                'message' => 'Password yang Anda masukkan salah.'
+            ], 422);
+        }
+    }
 }
