@@ -25,7 +25,7 @@
                         <label for="password" class="mb-2 text-lg font-bold">Password</label>
                         <div class="bg-[#e9e9e9] rounded-full flex items-center pass">
                             <input type="password" name="password" id="password" placeholder="password"
-                            class="w-full px-4 py-3 bg-transparent rounded-full focus:outline-none ">
+                            class="w-full px-4 py-3 bg-transparent rounded-full focus:outline-none " data-pass="password">
                             <a href="#" class="flex items-center" onclick="showPassword('password')">
                                 <i id="eye-icon-password" class="pr-4 fa-solid fa-eye-slash text-sky-900"></i>
                             </a>
@@ -39,7 +39,7 @@
                         <label for="password_confirmation" class="mb-2 text-lg font-bold">Confirm Password</label>
                         <div class="bg-[#e9e9e9] rounded-full flex items-center pass">
                             <input type="password" name="password_confirmation" id="password_confirmation" placeholder="confirm password"
-                                class="w-full px-4 py-3 bg-transparent rounded-full focus:outline-none ">
+                                class="w-full px-4 py-3 bg-transparent rounded-full focus:outline-none " data-pass="password">
                             <a href="#" class="flex items-center" onclick="showPassword('password_confirmation')">
                                 <i id="eye-icon-password" class="pr-4 fa-solid fa-eye-slash text-sky-900"></i>
                             </a>

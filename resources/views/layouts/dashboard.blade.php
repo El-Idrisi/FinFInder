@@ -22,10 +22,10 @@
     <div class="fixed top-0 bottom-0 w-full bg-black z-[9]  scale-0 transition-all duration-100 bg-opacity-0"
         id="bg-cover"></div>
 
-    <div class="content-shifted lg:ml-[240px]" id="content">
+    <div class="lg:ml-[240px]" id="content">
         <x-navbar-dashboard></x-navbar-dashboard>
 
-        <div class="p-12">
+        <div class="p-12 pt-28">
             @yield('content')
         </div>
     </div>
@@ -62,6 +62,7 @@
         const content = document.querySelector('#content');
         const hambuger = document.querySelector("#hambuger")
         const bgCover = document.querySelector("#bg-cover")
+        const navbar = document.querySelector("#navbar");
 
         if (window.innerWidth <= 768) {
             hambuger.addEventListener('click', (event) => {
@@ -87,6 +88,7 @@
             hambuger.addEventListener('click', () => {
                 sidebar.classList.toggle("lg:translate-x-0")
                 content.classList.toggle("lg:ml-[240px]")
+                navbar.classList.toggle("lg:w-[calc(100vw-240px)]")
             });
         }
 

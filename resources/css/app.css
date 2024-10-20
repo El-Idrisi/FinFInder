@@ -83,12 +83,17 @@ header.navbar-home:not(.navbar-fixed) .group:hover hr {
     box-shadow: -2px 0px 16px 4px rgba(0, 0, 0, 0.1), 8px 0px 16px 4px rgba(0, 0, 0, 0.1);
 }
 
-.pass:has(#password:focus) {
+/* .pass:has(#password:focus) {
     @apply outline outline-sky-500;
-}
+    } */
 
-.pass-confirm:has(#password_confirmation:focus) {
+/* .pass-confirm:has(#password_confirmation:focus) {
     @apply outline outline-sky-500;
+} */
+
+.pass:has([data-pass]:focus) {
+    @apply outline outline-sky-500;
+    /* @apply bg-red-500 */
 }
 
 .timeline {

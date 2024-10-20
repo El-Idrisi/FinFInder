@@ -1,8 +1,8 @@
-<header class="flex justify-between w-full gap-12 px-8 text-lg bg-white shadow-lg h-fit">
+<header id="navbar" class="flex fixed justify-between w-full lg:w-[calc(100vw-240px)] gap-12 px-8 text-lg bg-white shadow-lg h-fit transition-all duratio-300">
     <div class="py-6">
         <a href="#" id="hambuger" class=""><i class="fa-solid fa-bars"></i></a>
     </div>
-    <div class="relative flex ">
+    <div class="relative flex">
         <button
             class="flex items-center justify-between w-full gap-[0.8rem] px-8 transition-all duration-300 accordion hover:bg-sky-200 bg-slate-100">
             <span class="text-lg"><i class="mr-1 text-lg fa-solid fa-user"></i>

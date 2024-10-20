@@ -20,58 +20,56 @@
                         tipe='date'></x-input-form>
                 </div>
 
-                <div class="flex flex-col mt-8">
-                    <label for="alamat" class="mb-2 font-bold">Alamat</label>
-                    <textarea name="alamat" id="alamat" placeholder="Alamat" rows="3"
-                        class="p-2 border-2 rounded-md resize-none outline-2 border-slate-400 focus:outline-sky-500">{{ $user->alamat }}</textarea>
-                    @error('alamat')
-                        <p class="text-red-500">{{ $message }}</p>
-                    @enderror
+                <div class="flex flex-wrap gap-12 mt-8 lg:flex-nowrap">
+                    <x-textarea-input>{{ $user->alamat }}</x-textarea-input>
                 </div>
+
 
                 <x-btn-submit tipe="submit" id="updateProfile">Update Profile</x-btn-submit>
             </form>
         </x-form-group>
 
-        <x-form-group title="Ganti Email" :isDelete="false">
-            <form class="px-8 py-6" id="changeEmailForm">
-                <p>Untuk mengganti email akun Anda, masukkan password Anda dan email baru (<i>@gmail.com</i>) yang
-                    diinginkan, lalu klik 'Kirim Kode Verifikasi'. Kami akan mengirim kode ke email baru tersebut.
-                    Pastikan Anda memiliki akses ke email baru ini untuk menyelesaikan proses perubahan.</p>
+        @if (Auth::user()->role != 'admin')
+            <x-form-group title="Ganti Email" :isDelete="false">
+                <form class="px-8 py-6" id="changeEmailForm">
+                    <p>Untuk mengganti email akun Anda, masukkan password Anda dan email baru (<i>@gmail.com</i>) yang
+                        diinginkan, lalu klik 'Kirim Kode Verifikasi'. Kami akan mengirim kode ke email baru tersebut.
+                        Pastikan Anda memiliki akses ke email baru ini untuk menyelesaikan proses perubahan.</p>
 
-                @csrf
-
-                <div class="flex flex-wrap gap-12 mt-8 lg:flex-nowrap">
-                    <x-input-password-form id="password" title="Password"></x-input-password-form>
-                </div>
-
-                <div class="flex flex-wrap gap-12 mt-8 lg:flex-nowrap">
-                    <x-input-form id="new_email" title="New Email" tipe="email" value=""></x-input-form>
-                </div>
-
-                <x-btn-submit tipe="button" id="sendVerificationCode">Kirim Kode Verifikasi</x-btn-submit>
-
-
-                <div id="verificationSection" style="display: none;">
+                    @csrf
 
                     <div class="flex flex-wrap gap-12 mt-8 lg:flex-nowrap">
-                        <x-input-form id="verification_code" title="Kode Verifikasi" tipe="text"
-                            value=""></x-input-form>
+                        <x-input-password-form id="password" title="Password"></x-input-password-form>
                     </div>
 
-                    <x-btn-submit tipe="button" id="verifyCode">Verifikasi Kode</x-btn-submit>
-                </div>
+                    <div class="flex flex-wrap gap-12 mt-8 lg:flex-nowrap">
+                        <x-input-form id="new_email" title="New Email" tipe="email" value=""></x-input-form>
+                    </div>
 
-                <div id="message" style="display: none"
-                    class="px-4 py-2 mt-4 border-2 rounded-md border-sky-500 bg-sky-200">
-                </div>
+                    <x-btn-submit tipe="button" id="sendVerificationCode">Kirim Kode Verifikasi</x-btn-submit>
 
-                <div id="loadingIndicator" style="display: none;">
-                    <span class="spinner animate-spin"></span> Mengirim kode verifikasi...
-                </div>
 
-            </form>
-        </x-form-group>
+                    <div id="verificationSection" style="display: none;">
+
+                        <div class="flex flex-wrap gap-12 mt-8 lg:flex-nowrap">
+                            <x-input-form id="verification_code" title="Kode Verifikasi" tipe="text"
+                                value=""></x-input-form>
+                        </div>
+
+                        <x-btn-submit tipe="button" id="verifyCode">Verifikasi Kode</x-btn-submit>
+                    </div>
+
+                    <div id="message" style="display: none"
+                        class="px-4 py-2 mt-4 border-2 rounded-md border-sky-500 bg-sky-200">
+                    </div>
+
+                    <div id="loadingIndicator" style="display: none;">
+                        <span class="spinner animate-spin"></span> Mengirim kode verifikasi...
+                    </div>
+
+                </form>
+            </x-form-group>
+        @endif
 
         <x-form-group title="Ganti Password" :isDelete="false">
             <form class="px-8 py-6">

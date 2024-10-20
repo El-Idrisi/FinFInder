@@ -6,7 +6,7 @@
     <div style="padding: 2rem 4rem; width:50%; margin: auto; color: white !important;">
         <p style="color: white">Anda telah memasukkan email Anda di FinFinder untuk mendaftarkan akun baru. Agar kami
             dapat membantu Anda,
-            silakan masukkan kode di bawah ini pada halaman pendaftaran:</p>
+            silakan masukkan kode di bawah ini pada halaman tersebut:</p>
         <h2 style="color: #0ea5e9; text-align:center;">{{ $code }}</h2>
         <p style="color: white">Kode ini akan kedaluwarsa dalam 15 menit.</p>
     </div>
