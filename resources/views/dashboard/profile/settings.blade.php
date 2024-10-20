@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="flex flex-col gap-12">
-        <x-form-group title="Update Profile">
+        <x-form-group title="Update Profile" :isDelete="false">
             <form action="{{ route('update.profile') }}" method="POST" class="px-8 py-6">
                 @csrf
                 @method('PUT')
@@ -33,7 +33,7 @@
             </form>
         </x-form-group>
 
-        <x-form-group title="Ganti Email">
+        <x-form-group title="Ganti Email" :isDelete="false">
             <form class="px-8 py-6" id="changeEmailForm">
                 <p>Untuk mengganti email akun Anda, masukkan password Anda dan email baru (<i>@gmail.com</i>) yang
                     diinginkan, lalu klik 'Kirim Kode Verifikasi'. Kami akan mengirim kode ke email baru tersebut.
@@ -73,7 +73,7 @@
             </form>
         </x-form-group>
 
-        <x-form-group title="Ganti Password">
+        <x-form-group title="Ganti Password" :isDelete="false">
             <form class="px-8 py-6">
                 @csrf
 
@@ -97,6 +97,14 @@
 
                 <x-btn-submit tipe="button" id="UpdatePassword">Update Password</x-btn-submit>
             </form>
+        </x-form-group>
+
+        <x-form-group title="Hapus Akun" :isDelete="true">
+            <h5 class="p-4 font-bold text-center">Setelah Anda menghapus akun Anda, tidak ada jalan untuk kembali. Harap pastikan kembali keputusan Anda.</h5>
+
+            <div class="px-12 pb-8">
+                <button type="button" class="w-full py-2 font-bold text-white transition-all duration-300 bg-red-600 rounded-md hover:bg-red-500">Hapus Akun</button>
+            </div>
         </x-form-group>
 
     </div>

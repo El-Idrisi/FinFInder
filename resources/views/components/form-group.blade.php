@@ -1,6 +1,6 @@
 <div class="w-full bg-white rounded-lg shadow">
     <div
-        class="text-white transition-all duration-300 rounded-t-lg cursor-pointer bg-sky-800 accordion hover:bg-sky-700">
+        class="text-white transition-all duration-300 rounded-t-lg cursor-pointer accordion {{ $isDelete ? 'bg-red-600 hover:bg-red-500' : 'bg-sky-800 hover:bg-sky-700' }}">
         <h4 class="px-4 py-2 font-bold">{{ $title }}</h4>
     </div>
     <div class="overflow-hidden accor active">
