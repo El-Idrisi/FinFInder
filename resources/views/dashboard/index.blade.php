@@ -23,7 +23,7 @@
             </x-card-info>
 
             <x-card-info judul="Total Pengguna" warna="red" :isCheck="false" icon="user">
-                {{ $users }} Pengguna
+                <span id="counter"></span> Pengguna
             </x-card-info>
 
 
@@ -31,3 +31,18 @@
         </div>
     </div>
 @endsection
+
+@push('script')
+    <script>
+        let upto = 0;
+        let counts = setInterval(updated, 100);
+
+        function updated() {
+            let count = document.getElementById("counter");
+            count.innerHTML = ++upto;
+            if (upto === {{ $users }}) {
+                clearInterval(counts);
+            }
+        }
+    </script>
+@endpush
