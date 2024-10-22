@@ -18,8 +18,9 @@
                     <h4 class="font-bold">Koordinat </h4>
                     <div class="flex my-2 border-b-2 border-slate-400">
                         <a href="#"
-                            class="px-4 py-2 transition-all duration-300 hover:text-sky-500 tabs-active tabs">Map</a>
-                        <a href="#" class="px-4 py-2 transition-all duraition-300 hover:text-sky-500 tabs">Input</a>
+                            class="px-4 py-2 transition-all duration-300 hover:text-sky-500 tabs-active tabs map">Map</a>
+                        <a href="#"
+                            class="px-4 py-2 transition-all duraition-300 hover:text-sky-500 tabs input">Input</a>
                     </div>
                     <div id="panel">
                         <div class="w-full mt-2 border-2 rounded-md h-80 border-slate-400" id="map"></div>
@@ -52,63 +53,96 @@
 
 @push('script')
     <script>
-        var map = L.map('map', {
-            fullscreenControl: true,
-            gestureHandling: true,
+        document.addEventListener('DOMContentLoaded', function() {
+            let map = null;
+            let currentMarker = null;
 
-        }).setView([1.3848069459548475, 102.18214794585786], 10);
+            // Inisialisasi map
+            function initializeMap() {
+                if (map) {
+                    map.remove();
+                }
 
-        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 19,
-            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-        }).addTo(map);
+                map = L.map('map', {
+                    fullscreenControl: true,
+                    gestureHandling: true,
+                }).setView([1.3848069459548475, 102.18214794585786], 10);
 
-        var currentMarker = null;
+                L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    maxZoom: 19,
+                    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                }).addTo(map);
 
-        var lat, lng;
-        map.on('click', function(e) {
-            var lat = e.latlng.lat;
-            var lng = e.latlng.lng;
+                map.on('click', function(e) {
+                    const lat = e.latlng.lat;
+                    const lng = e.latlng.lng;
 
-            console.log("Latitude:", lat, "Longitude:", lng);
+                    console.log("Latitude:", lat, "Longitude:", lng);
 
-            // Hapus marker sebelumnya jika ada
-            if (currentMarker) {
-                map.removeLayer(currentMarker);
+                    if (currentMarker) {
+                        map.removeLayer(currentMarker);
+                    }
+
+                    currentMarker = L.marker([lat, lng]).addTo(map);
+                    currentMarker.bindPopup("Latitude: " + lat + "<br>Longitude: " + lng).openPopup();
+
+                    document.getElementById('latitude').value = lat;
+                    document.getElementById('longtitude').value = lng;
+                });
+
+                setTimeout(() => {
+                    map.invalidateSize();
+                }, 100);
             }
 
-            // Buat marker baru
-            currentMarker = L.marker([lat, lng]).addTo(map);
+            const tabs = document.querySelectorAll('.tabs');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function(e) {
+                    e.preventDefault();
 
-            // Anda bisa menambahkan popup jika ingin menampilkan koordinat pada marker
-            currentMarker.bindPopup("Latitude: " + lat + "<br>Longtitude: " + lng).openPopup();
-            // Menampilkan input koordinat
-            document.getElementById('latitude').value = lat;
-            document.getElementById('longtitude').value = lng;
+                    // Simpan nilai koordinat sebelum mengubah panel
+                    const savedLat = document.getElementById('latitude')?.value || '';
+                    const savedLng = document.getElementById('longtitude')?.value || '';
 
-        });
-    </script>
+                    tabs.forEach(t => t.classList.remove('tabs-active'));
+                    e.target.classList.add('tabs-active');
 
-    <script>
-        const tabs = document.querySelectorAll('.tabs');
-        tabs.forEach(tab => {
-            tab.addEventListener('click', function(e) {
-                e.preventDefault();
-                const target = e.target.getAttribute('href');
-                tabs.forEach(tab => {
-                    tab.classList.remove('tabs-active');
+                    const panel = document.querySelector('#panel');
+
+                    if (e.target.classList.contains('map')) {
+                        panel.innerHTML = `
+                    <div class="w-full mt-2 border-2 rounded-md h-80 border-slate-400" id="map"></div>
+                    <input type="hidden" id="latitude" name="latitude" value="${savedLat}">
+                    <input type="hidden" id="longtitude" name="longitude" value="${savedLng}">
+                `;
+
+                        setTimeout(() => {
+                            initializeMap();
+
+                            // Jika ada koordinat yang tersimpan, tambahkan marker
+                            if (savedLat && savedLng) {
+                                currentMarker = L.marker([savedLat, savedLng]).addTo(map);
+                                currentMarker.bindPopup("Latitude: " + savedLat +
+                                    "<br>Longitude: " + savedLng).openPopup();
+                            }
+                        }, 100);
+
+                    } else if (e.target.classList.contains('input')) {
+                        panel.innerHTML = `
+                    <div class="mt-4">
+                        <x-input-form id="latitude" title="Latitude" tipe="text" value="${savedLat}">
+                        </x-input-form>
+                    </div>
+                    <div class="mt-4">
+                        <x-input-form id="longtitude" title="Longitude" tipe="text" value="${savedLng}">
+                        </x-input-form>
+                    </div>
+                `;
+                    }
                 });
-                e.target.classList.add('tabs-active');
+            });
 
-                // const panels = document.querySelectorAll('.tab-panel');
-                // panels.forEach(panel => {
-                //     if (panel.getAttribute('id') === target.substring(1)) {
-                //         panel.classList.remove('hidden');
-                //     } else {
-                //         panel.classList.add('hidden');
-                //     }
-                // });
-            })
+            initializeMap();
         });
     </script>
 @endpush
