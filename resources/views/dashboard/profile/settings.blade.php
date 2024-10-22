@@ -6,13 +6,13 @@
             <form action="{{ route('update.profile') }}" method="POST" class="px-8 py-6">
                 @csrf
                 @method('PUT')
-                <div class="flex flex-wrap gap-12 lg:flex-nowrap ">
+                <div class="flex flex-wrap lg:gap-12 lg:flex-nowrap ">
                     <x-input-form value="{{ $user->username }}" title="Username" id="username" tipe="text"></x-input-form>
 
-                    <x-input-form value="{{ $user->nama }}" title="Nama" id="nama" tipe="text"></x-input-form>
+                    <x-input-form value="{{ $user->nama }}" title="Nama" id="nama" tipe="text"></x-input-form >
                 </div>
 
-                <div class="flex flex-wrap gap-12 mt-8 lg:flex-nowrap">
+                <div class="flex flex-wrap mt-8 lg:gap-12 lg:flex-nowrap">
                     <x-input-form value="{{ $user->no_telp }}" title="Nomor Telephone" id="no_telp"
                         tipe='tel'></x-input-form>
 

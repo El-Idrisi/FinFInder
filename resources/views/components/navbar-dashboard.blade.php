@@ -12,11 +12,11 @@
 
         <div
             class="absolute flex flex-col overflow-hidden text-lg transition-all duration-300 bg-white top-[4.7rem] accordion-content shadow-lg rounded-b-lg w-full">
-            <a href="{{ route('dashboard.profile') }}" class="block w-full px-8 py-2 transition-all duration-300 border-b hover:bg-sky-300 border-slate-300"><i
-                    class="fa-solid fa-user"></i>
+            <a href="{{ route('dashboard.profile') }}" class="block w-full px-8 py-2 transition-all duration-300 border-b hover:bg-sky-300 border-slate-300 {{ request()->routeIs('dashboard.profile') ? 'text-sky-700' : ''}}">
+                <i class="fa-solid fa-user"></i>
                 Profile</a>
             <a
-            <a href="{{ route('profile.settings') }}" class="block w-full px-8 py-2 transition-all duration-300 hover:bg-sky-300"><i
+            <a href="{{ route('profile.settings') }}" class="block w-full px-8 py-2 transition-all duration-300 hover:bg-sky-300 {{ request()->routeIs('profile.settings') ? 'text-sky-700' : ''}}"><i
                     class="fa-solid fa-gear"></i>
                 Settings</a>
             <a

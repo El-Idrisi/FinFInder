@@ -84,14 +84,26 @@
                     class="my-2 transition-all duration-300 hover:text-sky-500 {{ request()->routeIs('contact') ? 'text-sky-500 font-bold' : '' }}">Kontak
                     Kami</a>
             </div>
-            <div class="px-2 mt-6">
-                <a href="/dashboard" class="mx-2 transition-all duration-300 hover:text-sky-500">
-                    Login
-                </a>
-                <a href="/register"
-                    class="px-4 py-2 mx-2 transition-all duration-300 rounded-lg bg-sky-500 text-slate-100 hover:bg-sky-600">Sign
-                    Up
-                </a>
+            <div class="px-2 pb-4 mt-6 mb-4">
+                @if (Auth::check())
+                    <a href="/dashboard" class="mx-2 transition-all duration-300 hover:text-sky-500">
+                        Dashboard
+                    </a>
+                    <form action="{{ route('logout') }}" method="POST" class="inline">
+                        @csrf
+                        <button type="submit" class="px-4 py-2 mx-3 transition-all duration-300 rounded-lg bg-sky-500 text-slate-100 hover:bg-sky-600">
+                            Log Out
+                        </button>
+                    </form>
+                @else
+                    <a href="/dashboard" class="mx-2 transition-all duration-300 hover:text-sky-500">
+                        Login
+                    </a>
+                    <a href="/register"
+                        class="px-4 py-2 mx-2 transition-all duration-300 rounded-lg bg-sky-500 text-slate-100 hover:bg-sky-600">Sign
+                        Up
+                    </a>
+                @endif
             </div>
         </div>
 

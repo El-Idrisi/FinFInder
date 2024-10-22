@@ -46,7 +46,7 @@
                             <hr
                                 class="hidden w-0 transition-all duration-300 opacity-0 lg:block group-hover:w-full group-hover:opacity-100 group-hover:border-slate-700">
                         </a>
-                    </div>_
+                    </div>
                 </form>
             </div>
             <p class="absolute left-0 w-full text-center bottom-10 lg:hidden">Need an Account <a href="/register"
