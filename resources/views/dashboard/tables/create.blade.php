@@ -6,7 +6,8 @@
         <a href="/dashboard"
             class="after:content-['>'] transition-all duration-300 after:text-black after:px-2 hover:text-slate-500">Dashboard</a>
         <a href="/data-ikan"
-            class="after:content-['>'] transition-all duration-300 after:text-black after:px-2 hover:text-slate-500">Data Ikan</a>
+            class="after:content-['>'] transition-all duration-300 after:text-black after:px-2 hover:text-slate-500">Data
+            Ikan</a>
         <p class="inline text-slate-500">Tambah</p>
     </div>
 
@@ -15,7 +16,7 @@
             <h4 class="font-bold text-white">Tambah Data</h4>
         </div>
         <div class="px-8 py-4">
-            <form action="">
+            <form action="{{ route('fish.create') }}" method="POST">
                 @csrf
 
                 <x-input-form id="tipeIkan" title="Tipe Ikan" tipe="text" value="">
@@ -35,7 +36,7 @@
                         <div class="w-full mt-2 border-2 rounded-md h-80 border-slate-400" id="map"></div>
 
                         <input type="hidden" id="latitude" name="latitude">
-                        <input type="hidden" id="longtitude" name="latitude">
+                        <input type="hidden" id="longitude" name="longitude">
                     </div>
                 </div>
 
@@ -93,10 +94,10 @@
                     }
 
                     currentMarker = L.marker([lat, lng]).addTo(map);
-                    currentMarker.bindPopup("Latitude: " + lat + "<br>Longitude: " + lng).openPopup\();
+                    currentMarker.bindPopup("Latitude: " + lat + "<br>Longitude: " + lng).openPopup();
 
                     document.getElementById('latitude').value = lat;
-                    document.getElementById('longtitude').value = lng;
+                    document.getElementById('longitude').value = lng;
                 });
 
                 setTimeout(() => {
@@ -111,7 +112,7 @@
 
                     // Simpan nilai koordinat sebelum mengubah panel
                     const savedLat = document.getElementById('latitude')?.value || '';
-                    const savedLng = document.getElementById('longtitude')?.value || '';
+                    const savedLng = document.getElementById('longitude')?.value || '';
 
                     tabs.forEach(t => t.classList.remove('tabs-active'));
                     e.target.classList.add('tabs-active');
@@ -122,7 +123,7 @@
                         panel.innerHTML = `
                     <div class="w-full mt-2 border-2 rounded-md h-80 border-slate-400" id="map"></div>
                     <input type="hidden" id="latitude" name="latitude" value="${savedLat}">
-                    <input type="hidden" id="longtitude" name="longitude" value="${savedLng}">
+                    <input type="hidden" id="longitude" name="longitude" value="${savedLng}">
                 `;
 
                         setTimeout(() => {
@@ -143,7 +144,7 @@
                         </x-input-form>
                     </div>
                     <div class="mt-4">
-                        <x-input-form id="longtitude" title="Longitude" tipe="text" value="${savedLng}">
+                        <x-input-form id="longitude" title="Longitude" tipe="text" value="${savedLng}">
                         </x-input-form>
                     </div>
                 `;

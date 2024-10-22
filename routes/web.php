@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\FishSpotController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegisterController;
 use App\Models\User;
@@ -69,4 +70,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/data-ikan/create', function () {
         return view('dashboard.tables.create', array('title' => 'FinFinder | Create Data'));
     });
+
+    Route::controller(FishSpotController::class)->group(function () {
+        Route::post('/data-ikan/submit', 'create')->name('fish.create');
+    });
+
 });
