@@ -162,6 +162,10 @@ header.navbar-home:not(.navbar-fixed) .group:hover hr {
     @apply animate-spin;
 }
 
+.tabs-active {
+    @apply text-sky-600 after:border-b-2 relative after:border-sky-600 after:content-[''] after:w-full after:absolute after:-bottom-[0.1rem] after:left-0
+}
+
 @media screen and (max-width: 768px) {
     .img-bullet {
         left: 10px

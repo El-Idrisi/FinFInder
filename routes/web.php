@@ -61,4 +61,12 @@ Route::middleware('auth')->group(function () {
         Route::post('/change-password', 'changePassword')->name('changePassword');
         Route::post('/delete-account', 'deleteAccount');
     });
+
+    Route::get('/dashboard/data-ikan', function () {
+        return view('dashboard.tables.data-ikan', array('title' => 'FinFinder | Data Ikan'));
+    });
+
+    Route::get('/data-ikan/create', function () {
+        return view('dashboard.tables.create', array('title' => 'FinFinder | Create Data'));
+    });
 });

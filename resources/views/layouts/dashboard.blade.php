@@ -13,6 +13,7 @@
     <script src="https://kit.fontawesome.com/bd2b93a447.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     @vite('resources/css/app.css')
+    @stack('style')
     <title>{{ $title }}</title>
 </head>
 

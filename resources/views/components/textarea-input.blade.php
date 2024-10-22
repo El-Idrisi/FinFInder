@@ -1,8 +1,8 @@
 <div class="flex flex-col w-full">
-    <label for="alamat" class="mb-2 font-bold">Alamat</label>
-    <textarea name="alamat" id="alamat" placeholder="Alamat" rows="3"
+    <label for="{{ $id }}" class="mb-2 font-bold">{{ $title }}</label>
+    <textarea name="{{ $id }}" id="{{ $id }}" placeholder="{{ $title }}" rows="3"
         class="p-2 border-2 rounded-md resize-none outline-2 border-slate-400 focus:outline-sky-500">{{ $slot }}</textarea>
-    @error('alamat')
+    @error('{{ $id }}')
         <p class="text-red-500">{{ $message }}</p>
     @enderror
 </div>
