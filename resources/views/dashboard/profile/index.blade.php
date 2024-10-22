@@ -1,6 +1,11 @@
 @extends('layouts.dashboard')
 
 @section('content')
+    <div class="mb-8">
+        <h2 class="mb-2 text-3xl font-bold">Profile</h2>
+        <a href="/dashboard" class="after:content-['>'] transition-all duration-300 after:text-black after:px-2 hover:text-slate-500">Dashboard</a><p class="inline text-slate-500">Profile</p>
+    </div>
+
     <div class="relative bg-white rounded-lg shadow-md -z-10">
         <div class="relative px-12 py-20 rounded-t-md bg-gradient-to-r from-cyan-300 via-sky-400 to-blue-500">
             <div

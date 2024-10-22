@@ -1,15 +1,25 @@
 @extends('layouts.dashboard')
 
 @section('content')
+    <div class="mb-8">
+        <h2 class="mb-2 text-3xl font-bold">Setting Profile</h2>
+        <a href="/dashboard"
+            class="after:content-['>'] transition-all duration-300 after:text-black after:px-2 hover:text-slate-500">Dashboard</a>
+        <a href="/profile"
+            class="after:content-['>'] transition-all duration-300 after:text-black after:px-2 hover:text-slate-500">Profile</a>
+        <p class="inline text-slate-500">Setting</p>
+    </div>
+
     <div class="flex flex-col gap-12">
         <x-form-group title="Update Profile" :isDelete="false">
             <form action="{{ route('update.profile') }}" method="POST" class="px-8 py-6">
                 @csrf
                 @method('PUT')
                 <div class="flex flex-wrap lg:gap-12 lg:flex-nowrap ">
-                    <x-input-form value="{{ $user->username }}" title="Username" id="username" tipe="text"></x-input-form>
+                    <x-input-form value="{{ $user->username }}" title="Username" id="username"
+                        tipe="text"></x-input-form>
 
-                    <x-input-form value="{{ $user->nama }}" title="Nama" id="nama" tipe="text"></x-input-form >
+                    <x-input-form value="{{ $user->nama }}" title="Nama" id="nama" tipe="text"></x-input-form>
                 </div>
 
                 <div class="flex flex-wrap mt-8 lg:gap-12 lg:flex-nowrap">
@@ -21,7 +31,7 @@
                 </div>
 
                 <div class="flex flex-wrap gap-12 mt-8 lg:flex-nowrap">
-                    <x-textarea-input>{{ $user->alamat }}</x-textarea-input>
+                    <x-textarea-input id="alamat" title="Alamat">{{ $user->alamat }}</x-textarea-input>
                 </div>
 
 

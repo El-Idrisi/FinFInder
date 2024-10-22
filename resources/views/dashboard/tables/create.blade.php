@@ -1,6 +1,15 @@
 @extends('layouts.dashboard')
 
 @section('content')
+    <div class="mb-8">
+        <h2 class="mb-2 text-3xl font-bold">Tambah Data</h2>
+        <a href="/dashboard"
+            class="after:content-['>'] transition-all duration-300 after:text-black after:px-2 hover:text-slate-500">Dashboard</a>
+        <a href="/data-ikan"
+            class="after:content-['>'] transition-all duration-300 after:text-black after:px-2 hover:text-slate-500">Data Ikan</a>
+        <p class="inline text-slate-500">Tambah</p>
+    </div>
+
     <div class="bg-white rounded-md shadow-md">
         <div class="px-4 py-2 bg-sky-700 rounded-t-md">
             <h4 class="font-bold text-white">Tambah Data</h4>
@@ -84,7 +93,7 @@
                     }
 
                     currentMarker = L.marker([lat, lng]).addTo(map);
-                    currentMarker.bindPopup("Latitude: " + lat + "<br>Longitude: " + lng).openPopup();
+                    currentMarker.bindPopup("Latitude: " + lat + "<br>Longitude: " + lng).openPopup\();
 
                     document.getElementById('latitude').value = lat;
                     document.getElementById('longtitude').value = lng;

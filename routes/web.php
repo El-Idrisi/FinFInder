@@ -62,7 +62,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/delete-account', 'deleteAccount');
     });
 
-    Route::get('/dashboard/data-ikan', function () {
+    Route::get('/data-ikan', function () {
         return view('dashboard.tables.data-ikan', array('title' => 'FinFinder | Data Ikan'));
     });
 
