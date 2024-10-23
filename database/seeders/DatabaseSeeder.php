@@ -29,5 +29,9 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('user123'),
             'role' => 'nelayan',
         ]);
+
+        $this->call([
+            TypefishSeeder::class,
+        ]);
     }
 }
