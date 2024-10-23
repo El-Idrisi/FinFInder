@@ -67,12 +67,10 @@ Route::middleware('auth')->group(function () {
         return view('dashboard.tables.data-ikan', array('title' => 'FinFinder | Data Ikan'));
     });
 
-    Route::get('/data-ikan/create', function () {
-        return view('dashboard.tables.create', array('title' => 'FinFinder | Create Data'));
-    });
-
     Route::controller(FishSpotController::class)->group(function () {
+        Route::get('/data-ikan/create', 'showCreate')->name('fish.showCreate');
         Route::post('/data-ikan/submit', 'create')->name('fish.create');
-    });
 
+        Route::get('/fish-types/search', 'search')->name('fish-types.search');
+    });
 });

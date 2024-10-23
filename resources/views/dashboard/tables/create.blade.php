@@ -19,8 +19,12 @@
             <form action="{{ route('fish.create') }}" method="POST">
                 @csrf
 
-                <x-input-form id="tipeIkan" title="Tipe Ikan" tipe="text" value="">
-                </x-input-form>
+                <label for="fish_type" class="flex flex-col gap-2 mb-4">
+                    <span class="font-bold">Jenis Ikan</span>
+                    <select name="fish_types[]" id="fish_type" class="h-10 border-2 rounded-md border-slate-400 select2-multiple"
+                        multiple="multiple">
+                    </select>
+                </label>
 
                 <x-textarea-input id="deskripsi" title="Deskripsi"></x-textarea-input>
 
@@ -36,7 +40,7 @@
                         <div class="w-full mt-2 border-2 rounded-md h-80 border-slate-400" id="map"></div>
 
                         <input type="hidden" id="latitude" name="latitude">
-                        <input type="hidden" id="longitude" name="longitude">
+                        <input type="hidden" id="longitude" name="long`itude">
                     </div>
                 </div>
 
@@ -55,6 +59,13 @@
         rel='stylesheet' />
     <link rel="stylesheet" href="//unpkg.com/leaflet-gesture-handling/dist/leaflet-gesture-handling.min.css"
         type="text/css">
+
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js'></script>
@@ -153,6 +164,39 @@
             });
 
             initializeMap();
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $('#fish_type').select2({
+                tags: true,
+                tokenSeparators: [','],
+                placeholder: "Pilih atau tambahkan jenis ikan",
+                ajax: {
+                    url: '{{ route('fish-types.search') }}',
+                    dataType: 'json',
+                    delay: 250,
+                    data: function(params) {
+                        return {
+                            q: params.term
+                        };
+                    },
+                    processResults: function(data) {
+                        return {
+                            results: data
+                        };
+                    },
+                    cache: true
+                },
+                createTag: function(params) {
+                    return {
+                        id: 'new:' + params.term,
+                        text: params.term,
+                        newTag: true
+                    }
+                }
+            });
         });
     </script>
 @endpush
