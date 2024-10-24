@@ -220,6 +220,10 @@ tbody tr:last-child td:last-child {
     @apply rounded-br-md
 }
 
+thead tr th, tbody tr td {
+    @apply px-4
+}
+
 @media screen and (max-width: 768px) {
     .img-bullet {
         left: 10px

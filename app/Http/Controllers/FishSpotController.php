@@ -10,15 +10,14 @@ use Illuminate\Support\Facades\Auth;
 class FishSpotController extends Controller
 {
     public function showAll() {
-        $fishdatas = SpotIkan::all();
+        $fishdatas = SpotIkan::where('status', 'disetujui')->get();
 
         return view('dashboard.tables.data-ikan', ['title' => 'FinFinder | All Fish Spots', 'fishdatas' => $fishdatas]);
     }
 
     public function showCreate()
     {
-        $fishtype = FishType::all();
-        return view('dashboard.tables.create', ['title' => 'FinFinder | Create Fish Spot', 'fishtypes' => $fishtype]);
+        return view('dashboard.tables.create', ['title' => 'FinFinder | Create Fish Spot']);
     }
     public function create(Request $request)
     {
@@ -41,12 +40,15 @@ class FishSpotController extends Controller
             }
         }
 
+        $status = 'disetujui';
+
         $spotIkan = SpotIkan::create([
             'tipe_ikan' => json_encode($fishTypeIds),
             'longitude' => $request->longitude,
             'latitude' => $request->latitude,
             'deskripsi' => $request->deskripsi,
             'dibuat_oleh' => Auth::id(),
+            'status' => $status,
         ]);
 
         return redirect()->route('data-ikan')->with('success', 'Berhasil Menambahkan Fish Spot Baru');

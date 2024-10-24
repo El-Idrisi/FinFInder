@@ -25,42 +25,30 @@
                                 <th class="py-3 rounded-tr-md">Aksi</th>
                             </tr>
                         </thead>
+                        @php
+                            $i = 1
+                        @endphp
                         <tbody class="rounded-md">
-
-                            <tr>
-                                <td class="py-3 text-center">1</td>
-                                <td class="flex justify-center gap-2 py-3">
-                                    <span class="px-2 py-1 border-2 rounded-md border-sky-500">Terumbuk</span>
-                                    <span class="px-2 py-1 border-2 rounded-md border-sky-500">Nila</span>
-                                </td>
-                                <td class="py-3 text-center">user</td>
-                                <td class="py-3 text-center">1.8272, 108.876</td>
-                                <td class="py-3 text-center">
-                                    <span class="px-4 py-2 bg-green-500 rounded-md text-slate-100">Diverifikasi</span>
-                                </td>
-                                <td class="py-3 text-center">
-                                    <a
-                                        class="p-2 transition-all duration-300 rounded-md cursor-pointer bg-sky-500 text-slate-100 hover:bg-sky-600"><i
-                                            class=" fa-solid fa-magnifying-glass"></i></a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="py-3 text-center">1</td>
-                                <td class="flex justify-center gap-2 py-3">
-                                    <span class="px-2 py-1 border-2 rounded-md border-sky-500">Terumbuk</span>
-                                    <span class="px-2 py-1 border-2 rounded-md border-sky-500">Nila</span>
-                                </td>
-                                <td class="py-3 text-center">user</td>
-                                <td class="py-3 text-center">1.8272, 108.876</td>
-                                <td class="py-3 text-center">
-                                    <span class="px-4 py-2 bg-green-500 rounded-md text-slate-100">Diverifikasi</span>
-                                </td>
-                                <td class="py-3 text-center">
-                                    <a
-                                        class="p-2 transition-all duration-300 rounded-md cursor-pointer bg-sky-500 text-slate-100 hover:bg-sky-600"><i
-                                            class=" fa-solid fa-magnifying-glass"></i></a>
-                                </td>
-                            </tr>
+                            @foreach ($fishdatas as $fishspot)
+                                <tr>
+                                    <td class="py-3 text-center">{{ $i++ }}</td>
+                                    <td class="flex justify-center gap-2 py-3">
+                                        @foreach ($fishspot->getFishTypes() as $fishtype)
+                                            <span class="px-2 py-1 border-2 rounded-md border-sky-500">{{ $fishtype->nama }}</span>
+                                        @endforeach
+                                    </td>
+                                    <td class="py-3 text-center">{{ $fishspot->creator->username }}</td>
+                                    <td class="py-3 text-center">{{ $fishspot->latitude .' , '. $fishspot->longitude }}</td>
+                                    <td class="py-3 text-center">
+                                        <span class="px-4 py-2 bg-green-500 rounded-md text-slate-100">{{ $fishspot->status }}</span>
+                                    </td>
+                                    <td class="py-3 text-center">
+                                        <a
+                                            class="p-2 transition-all duration-300 rounded-md cursor-pointer bg-sky-500 text-slate-100 hover:bg-sky-600"><i
+                                                class=" fa-solid fa-magnifying-glass"></i></a>
+                                    </td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
