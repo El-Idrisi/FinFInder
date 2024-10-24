@@ -3,10 +3,12 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FishSpotController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegisterController;
 use App\Models\User;
+use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 Route::get('/', function () {
     return view('index', array('title' => 'FinFinder | Home'));
@@ -45,10 +47,7 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-    Route::get('/dashboard', function () {
-        $users = User::all()->count();
-        return view('dashboard.index', array('title' => 'FinFinder | Dashboard'), compact('users'));
-    })->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::get('profile', function () {
         return view('dashboard.profile.index', array('title' => 'FinFinder | Profile'));

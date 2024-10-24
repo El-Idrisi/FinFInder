@@ -107,16 +107,19 @@
             </form>
         </x-form-group>
 
-        <x-form-group title="Hapus Akun" :isDelete="true">
-            <h5 class="p-4 font-bold text-center">Setelah Anda menghapus akun Anda, tidak ada jalan untuk kembali. Harap
-                pastikan kembali keputusan Anda.</h5>
 
-            <div class="px-12 pb-8">
-                <button type="button"
-                    class="w-full py-2 font-bold text-white transition-all duration-300 bg-red-600 rounded-md hover:bg-red-500"
-                    id="delete_account">Hapus Akun</button>
-            </div>
-        </x-form-group>
+        @if (Auth::user()->role == 'nelayan')
+            <x-form-group title="Hapus Akun" :isDelete="true">
+                <h5 class="p-4 font-bold text-center">Setelah Anda menghapus akun Anda, tidak ada jalan untuk kembali. Harap
+                    pastikan kembali keputusan Anda.</h5>
+
+                <div class="px-12 pb-8">
+                    <button type="button"
+                        class="w-full py-2 font-bold text-white transition-all duration-300 bg-red-600 rounded-md hover:bg-red-500"
+                        id="delete_account">Hapus Akun</button>
+                </div>
+            </x-form-group>
+        @endif
 
     </div>
 
