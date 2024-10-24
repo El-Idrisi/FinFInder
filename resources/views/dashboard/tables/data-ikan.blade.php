@@ -8,7 +8,7 @@
         <p class="inline text-slate-500">Data Ikan</p>
 
         <div class="mt-4 bg-white rounded-md shadow-md">
-            <div class="px-4 py-2 border-b-2 border-slate-400">
+            <div class="px-4 py-2 border-b-2 border-slate-200">
                 <h4 class="font-bold">Keseluruhan Data</h4>
             </div>
             <div class="px-4 py-4 ">
@@ -30,7 +30,7 @@
                         @endphp
                         <tbody class="rounded-md">
                             @foreach ($fishdatas as $fishspot)
-                                <tr>
+                                <tr class="transition-all duration-300">
                                     <td class="py-3 text-center">{{ $i++ }}</td>
                                     <td class="flex justify-center gap-2 py-3">
                                         @foreach ($fishspot->getFishTypes() as $fishtype)
@@ -40,7 +40,7 @@
                                     <td class="py-3 text-center">{{ $fishspot->creator->username }}</td>
                                     <td class="py-3 text-center">{{ $fishspot->latitude .' , '. $fishspot->longitude }}</td>
                                     <td class="py-3 text-center">
-                                        <span class="px-4 py-2 bg-green-500 rounded-md text-slate-100">{{ $fishspot->status }}</span>
+                                        <span class="px-4 py-2 bg-green-500 rounded-md text-slate-100">{{ ucwords($fishspot->status) }}</span>
                                     </td>
                                     <td class="py-3 text-center">
                                         <a

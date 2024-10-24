@@ -24,36 +24,45 @@
                     <select name="fish_type[]" id="fish_type" class="h-10 border-2 rounded-md border-slate-400"
                         multiple="multiple">
                     </select>
+                    <p class="text-red-500">
+                        @error('fish_type')
+                            {{ $message }}
+                        @enderror
+                    </p>
                 </div>
 
-                @error('fish_type')
-                    {{ $message }}
-                @enderror
-
                 <x-textarea-input id="deskripsi" title="Deskripsi"></x-textarea-input>
-                @error('deskripsi')
-                    {{ $message }}
-                @enderror
+                <p class="text-red-500">
+                    @error('deskripsi')
+                        {{ $message }}
+                    @enderror
+                </p>
 
                 <div class="mt-4">
                     <h4 class="font-bold">Koordinat </h4>
-                    <div class="flex my-2 border-b-2 border-slate-400">
+                    <div
+                        class="relative flex items-center justify-start w-full text-lg font-bold border-b-2 border-slate-300">
                         <a href="#"
-                        class="px-4 py-2 transition-all duration-300 hover:text-sky-500 tabs-active tabs map">Map</a>
+                            class="p-4 text-lg font-bold border-none cursor-pointer text-slate-500 bg-none tabs tab-active map">Map</a>
                         <a href="#"
-                        class="px-4 py-2 transition-all duraition-300 hover:text-sky-500 tabs input">Input</a>
+                            class="p-4 text-lg font-bold border-none cursor-pointer text-slate-500 bg-none tabs input">Input</a>
+                        <div
+                            class="absolute -bottom-[3px] rounded-md left-0 w-20 h-1 bg-sky-500 transition-all duration-300 line">
+                        </div>
                     </div>
                     <div id="panel">
                         <div class="w-full mt-2 border-2 rounded-md h-80 border-slate-400" id="map"></div>
 
                         <input type="hidden" id="latitude" name="latitude">
                         <input type="hidden" id="longitude" name="longitude">
-                        @error('latitude')
-                            {{ $message }}
-                        @enderror
-                        @error('longitude')
-                            {{ $message }}
-                        @enderror
+                        <p class="text-red-500">
+                            @error('latitude')
+                                {{ $message }}
+                            @enderror
+                            @error('longitude')
+                                {{ $message }}
+                            @enderror
+                        </p>
                     </div>
                 </div>
 
@@ -135,11 +144,19 @@
             }
 
             const tabs = document.querySelectorAll('.tabs');
-            tabs.forEach(tab => {
+            tabs.forEach((tab, index) => {
                 tab.addEventListener('click', function(e) {
                     e.preventDefault();
+                    console.log(tab)
+                    tabs.forEach(tab => {
+                        tab.classList.remove('tab-active')
+                    });
+                    tab.classList.add('tab-active');
 
-                    // Simpan nilai koordinat sebelum mengubah panel
+                    var line = document.querySelector('.line');
+                    line.style.width = e.target.offsetWidth + 'px';
+                    line.style.left = e.target.offsetLeft + 'px';
+
                     const savedLat = document.getElementById('latitude')?.value || '';
                     const savedLng = document.getElementById('longitude')?.value || '';
 
@@ -153,12 +170,20 @@
                     <div class="w-full mt-2 border-2 rounded-md h-80 border-slate-400" id="map"></div>
                     <input type="hidden" id="latitude" name="latitude" value="${savedLat}">
                     <input type="hidden" id="longitude" name="longitude" value="${savedLng}">
+
+                    <p class="text-red-500">
+                        @error('latitude')
+                            {{ $message }}
+                        @enderror
+                        @error('longitude')
+                            {{ $message }}
+                        @enderror
+                    </p>
                 `;
 
                         setTimeout(() => {
                             initializeMap();
 
-                            // Jika ada koordinat yang tersimpan, tambahkan marker
                             if (savedLat && savedLng) {
                                 currentMarker = L.marker([savedLat, savedLng]).addTo(map);
                                 currentMarker.bindPopup("Latitude: " + savedLat +
@@ -178,6 +203,7 @@
                     </div>
                 `;
                     }
+
                 });
             });
 

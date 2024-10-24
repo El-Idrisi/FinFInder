@@ -162,8 +162,8 @@ header.navbar-home:not(.navbar-fixed) .group:hover hr {
     @apply animate-spin;
 }
 
-.tabs-active {
-    @apply text-sky-600 after:border-b-2 relative after:border-sky-600 after:content-[''] after:w-full after:absolute after:-bottom-[0.1rem] after:left-0
+.tab-active {
+    @apply text-sky-500
 }
 
 .select2-container {
@@ -222,6 +222,16 @@ tbody tr:last-child td:last-child {
 
 thead tr th, tbody tr td {
     @apply px-4
+}
+
+
+
+tbody tr:nth-child(odd):hover {
+    @apply bg-slate-100
+}
+
+tbody tr:nth-child(even):hover {
+    @apply bg-sky-200
 }
 
 @media screen and (max-width: 768px) {
