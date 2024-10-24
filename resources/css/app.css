@@ -166,8 +166,12 @@ header.navbar-home:not(.navbar-fixed) .group:hover hr {
     @apply text-sky-600 after:border-b-2 relative after:border-sky-600 after:content-[''] after:w-full after:absolute after:-bottom-[0.1rem] after:left-0
 }
 
+.select2-container {
+    width: 100% !important;
+}
+
 .select2-selection--multiple {
-    border: 2px solid #e2e8f0 !important;
+    border: 2px solid #94a3b8 !important;
     border-radius: 0.375rem !important;
     min-height: 42px !important;
     padding: 2px 8px;

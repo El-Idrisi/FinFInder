@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('spot_ikan', function (Blueprint $table) {
             $table->id();
             $table->string('tipe_ikan');
-            $table->decimal('longitude', 10, 8);
-            $table->decimal('latitude', 10, 8);
+            $table->decimal('longitude', 20, 8);
+            $table->decimal('latitude', 20, 8);
             $table->text('deskripsi');
             $table->enum('status', ['ditunda', 'disetujui', 'ditolak'])->default('ditunda');
             $table->foreignId('dibuat_oleh')->constrained('users')->onDelete('cascade');

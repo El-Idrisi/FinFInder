@@ -63,13 +63,11 @@ Route::middleware('auth')->group(function () {
         Route::post('/delete-account', 'deleteAccount');
     });
 
-    Route::get('/data-ikan', function () {
-        return view('dashboard.tables.data-ikan', array('title' => 'FinFinder | Data Ikan'));
-    });
 
     Route::controller(FishSpotController::class)->group(function () {
         Route::get('/data-ikan/create', 'showCreate')->name('fish.showCreate');
         Route::post('/data-ikan/submit', 'create')->name('fish.create');
+        Route::get('/data-ikan', 'showAll')->name('data-ikan');
 
         Route::get('/fish-types/search', 'search')->name('fish-types.search');
     });

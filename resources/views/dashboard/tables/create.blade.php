@@ -19,28 +19,41 @@
             <form action="{{ route('fish.create') }}" method="POST">
                 @csrf
 
-                <label for="fish_type" class="flex flex-col gap-2 mb-4">
-                    <span class="font-bold">Jenis Ikan</span>
-                    <select name="fish_types[]" id="fish_type" class="h-10 border-2 rounded-md border-slate-400 select2-multiple"
+                <div class="flex flex-col !w-full mb-4">
+                    <label for="fish_type" class="mb-2 font-bold">Jenis Ikan</label>
+                    <select name="fish_type[]" id="fish_type" class="h-10 border-2 rounded-md border-slate-400"
                         multiple="multiple">
                     </select>
-                </label>
+                </div>
+
+                @error('fish_type')
+                    {{ $message }}
+                @enderror
 
                 <x-textarea-input id="deskripsi" title="Deskripsi"></x-textarea-input>
+                @error('deskripsi')
+                    {{ $message }}
+                @enderror
 
                 <div class="mt-4">
                     <h4 class="font-bold">Koordinat </h4>
                     <div class="flex my-2 border-b-2 border-slate-400">
                         <a href="#"
-                            class="px-4 py-2 transition-all duration-300 hover:text-sky-500 tabs-active tabs map">Map</a>
+                        class="px-4 py-2 transition-all duration-300 hover:text-sky-500 tabs-active tabs map">Map</a>
                         <a href="#"
-                            class="px-4 py-2 transition-all duraition-300 hover:text-sky-500 tabs input">Input</a>
+                        class="px-4 py-2 transition-all duraition-300 hover:text-sky-500 tabs input">Input</a>
                     </div>
                     <div id="panel">
                         <div class="w-full mt-2 border-2 rounded-md h-80 border-slate-400" id="map"></div>
 
                         <input type="hidden" id="latitude" name="latitude">
-                        <input type="hidden" id="longitude" name="long`itude">
+                        <input type="hidden" id="longitude" name="longitude">
+                        @error('latitude')
+                            {{ $message }}
+                        @enderror
+                        @error('longitude')
+                            {{ $message }}
+                        @enderror
                     </div>
                 </div>
 
@@ -53,6 +66,7 @@
 @endsection
 
 @push('style')
+    {{-- leaflet css --}}
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
         integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
     <link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css'
@@ -60,12 +74,16 @@
     <link rel="stylesheet" href="//unpkg.com/leaflet-gesture-handling/dist/leaflet-gesture-handling.min.css"
         type="text/css">
 
+    {{-- select2 css --}}
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
+    {{-- jquery --}}
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
+    {{-- select2.js --}}
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
+    {{-- LeafLet.Js --}}
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js'></script>
@@ -170,9 +188,10 @@
     <script>
         $(document).ready(function() {
             $('#fish_type').select2({
-                tags: true,
+                placeholder: "Pilih Jenis Ikan",
                 tokenSeparators: [','],
-                placeholder: "Pilih atau tambahkan jenis ikan",
+                allowClear: true,
+                tags: true,
                 ajax: {
                     url: '{{ route('fish-types.search') }}',
                     dataType: 'json',
@@ -190,12 +209,18 @@
                     cache: true
                 },
                 createTag: function(params) {
-                    return {
-                        id: 'new:' + params.term,
-                        text: params.term,
-                        newTag: true
+                    // Jika tidak ada matches, buat tag baru
+                    const term = $.trim(params.term);
+                    if (term === '') {
+                        return null;
                     }
-                }
+
+                    return {
+                        id: term, // Menandai bahwa ini adalah tag baru
+                        text: term, // Menambahkan indikator bahwa ini tag baru
+                        newTag: true // Flag untuk menandai ini adalah tag baru
+                    };
+                },
             });
         });
     </script>
