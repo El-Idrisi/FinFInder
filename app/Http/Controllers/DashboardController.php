@@ -16,6 +16,7 @@ class DashboardController extends Controller
         $allVerif = SpotIkan::where('status', 'disetujui')
         ->where('dibuat_oleh', Auth::id())
         ->count();
+        
         return view('dashboard.index', ['title' => 'FinFinder | Dashboard',], compact('allUsers', 'allSpots', 'allVerif', 'kontribusi'));
     }
 }

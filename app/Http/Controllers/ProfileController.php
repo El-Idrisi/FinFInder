@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\VerificationCodeMail;
+use App\Models\SpotIkan;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -13,6 +14,18 @@ use Illuminate\Validation\Rules\Password;
 
 class ProfileController extends Controller
 {
+    public function index()
+    {
+        $user = Auth::user();
+
+        $allSpots = SpotIkan::all()->count();
+        $kontribusi = SpotIkan::where('dibuat_oleh', Auth::id())->count();
+        $allVerif = SpotIkan::where('status', 'disetujui')
+        ->where('dibuat_oleh', Auth::id())
+        ->count();
+
+        return view('dashboard.profile.index', ['title' => 'FinFinder | Profile'], compact('user', 'allSpots', 'kontribusi', 'allVerif'));
+    }
     public function settings()
     {
         $user = Auth::user();

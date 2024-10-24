@@ -65,11 +65,11 @@
                 <table class="w-full text-left whitespace-no-wrap border-collapse">
                     <tr class=" border-y border-slate-300">
                         <th class="py-2">Jumlah Data yang Di Input</th>
-                        <td class="py-2">0</td>
+                        <td class="py-2">{{ $kontribusi }}</td>
                     </tr>
                     <tr class=" border-y border-slate-300">
                         <th class="py-2">Data yang Diverifikasi</th>
-                        <td class="py-2">0</td>
+                        <td class="py-2">{{ $allVerif }}</td>
                     </tr>
                     <tr class=" border-y border-slate-300">
                         <th class="py-2">Data yang Ditolak</th>
@@ -77,7 +77,7 @@
                     </tr>
                     <tr class=" border-y border-slate-300">
                         <th class="py-2">Keselurahan Data</th>
-                        <td class="py-2">0</td>
+                        <td class="py-2">{{ $allSpots }}</td>
                     </tr>
                 </table>
             </div>

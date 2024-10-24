@@ -49,11 +49,9 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    Route::get('profile', function () {
-        return view('dashboard.profile.index', array('title' => 'FinFinder | Profile'));
-    })->name('dashboard.profile');
 
     Route::controller(ProfileController::class)->group(function () {
+        Route::get('profile', 'index')->name('dashboard.profile');
         Route::get('profile/settings', 'settings')->name('profile.settings');
         Route::put('profile/update', 'updateProfile')->name('update.profile');
         Route::post('/send-verification-code', 'sendVerificationCode');
