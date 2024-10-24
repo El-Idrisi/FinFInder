@@ -206,6 +206,20 @@ header.navbar-home:not(.navbar-fixed) .group:hover hr {
     transition: all;
 }
 
+tbody tr:nth-child(even) {
+    @apply bg-sky-100
+}
+tbody tr:nth-child(odd) {
+    @apply bg-white
+}
+
+tbody tr:last-child td:first-child {
+    @apply rounded-bl-md
+}
+tbody tr:last-child td:last-child {
+    @apply rounded-br-md
+}
+
 @media screen and (max-width: 768px) {
     .img-bullet {
         left: 10px
