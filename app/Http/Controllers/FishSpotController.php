@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\FishType;
 use App\Models\SpotIkan;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -40,7 +41,8 @@ class FishSpotController extends Controller
             }
         }
 
-        $status = 'disetujui';
+        $status = 'ditunda';
+        if (Auth::user()->role == 'admin')  $status = 'disetujui';
 
         $spotIkan = SpotIkan::create([
             'tipe_ikan' => json_encode($fishTypeIds),

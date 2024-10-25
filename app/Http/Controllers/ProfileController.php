@@ -24,7 +24,11 @@ class ProfileController extends Controller
         ->where('dibuat_oleh', Auth::id())
         ->count();
 
-        return view('dashboard.profile.index', ['title' => 'FinFinder | Profile'], compact('user', 'allSpots', 'kontribusi', 'allVerif'));
+        $allReject = SpotIkan::where('status', 'ditolak')
+        ->where('dibuat_oleh', Auth::id())
+        ->count();
+
+        return view('dashboard.profile.index', ['title' => 'FinFinder | Profile'], compact('user', 'allSpots', 'kontribusi', 'allVerif', 'allReject'));
     }
     public function settings()
     {

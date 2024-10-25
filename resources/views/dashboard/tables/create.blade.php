@@ -11,7 +11,7 @@
         <p class="inline text-slate-500">Tambah</p>
     </div>
 
-    <div class="bg-white rounded-md shadow-md">
+    <div class="bg-white rounded-md shadow-md ">
         <div class="px-4 py-2 bg-sky-700 rounded-t-md">
             <h4 class="font-bold text-white">Tambah Data</h4>
         </div>

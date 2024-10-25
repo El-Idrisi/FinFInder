@@ -168,6 +168,7 @@ header.navbar-home:not(.navbar-fixed) .group:hover hr {
 
 .select2-container {
     width: 100% !important;
+    z-index: 1;
 }
 
 .select2-selection--multiple {

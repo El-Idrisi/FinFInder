@@ -73,7 +73,7 @@
                     </tr>
                     <tr class=" border-y border-slate-300">
                         <th class="py-2">Data yang Ditolak</th>
-                        <td class="py-2">0</td>
+                        <td class="py-2">{{ $allReject }}</td>
                     </tr>
                     <tr class=" border-y border-slate-300">
                         <th class="py-2">Keselurahan Data</th>

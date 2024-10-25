@@ -7,15 +7,15 @@
             class="after:content-['>'] transition-all duration-300 after:text-black after:px-2 hover:text-slate-500">Dashboard</a>
         <p class="inline text-slate-500">Data Ikan</p>
 
-        <div class="mt-4 bg-white rounded-md shadow-md">
+        <div class="relative mt-4 bg-white">
             <div class="px-4 py-2 border-b-2 border-slate-200">
                 <h4 class="font-bold">Keseluruhan Data</h4>
             </div>
-            <div class="px-4 py-4 ">
-                <div class="overflow-x-auto">
+            <div class="relative px-4 py-4">
+                <div class="overflow-x-auto shadow">
 
-                    <table class="w-full shadow-lg tables">
-                        <thead class="rounded-md bg-sky-200">
+                    <table class="w-full tables">
+                        <thead class="rounded-md bg-sky-300">
                             <tr class="">
                                 <th class="py-3 rounded-tl-md">No</th>
                                 <th class="py-3">Jenis Ikan</th>
@@ -30,17 +30,17 @@
                         @endphp
                         <tbody class="rounded-md">
                             @foreach ($fishdatas as $fishspot)
-                                <tr class="transition-all duration-300">
+                                <tr class="w-full transition-all ">
                                     <td class="py-3 text-center">{{ $i++ }}</td>
                                     <td class="flex justify-center gap-2 py-3">
                                         @foreach ($fishspot->getFishTypes() as $fishtype)
-                                            <span class="px-2 py-1 border-2 rounded-md border-sky-500">{{ $fishtype->nama }}</span>
+                                            <span class="px-2 py-1 transition-all duration-300 border-2 rounded-md border-sky-500 hover:bg-sky-100">{{ $fishtype->nama }}</span>
                                         @endforeach
                                     </td>
                                     <td class="py-3 text-center">{{ $fishspot->creator->username }}</td>
                                     <td class="py-3 text-center">{{ $fishspot->latitude .' , '. $fishspot->longitude }}</td>
                                     <td class="py-3 text-center">
-                                        <span class="px-4 py-2 bg-green-500 rounded-md text-slate-100">{{ ucwords($fishspot->status) }}</span>
+                                        <span class="px-4 py-2 transition-all duration-300 bg-green-500 rounded-md text-slate-100 hover:bg-green-600">{{ ucwords($fishspot->status) }}</span>
                                     </td>
                                     <td class="py-3 text-center">
                                         <a

@@ -1,4 +1,4 @@
-<header id="navbar" class="flex fixed justify-between w-full lg:w-[calc(100vw-240px)] gap-12 px-8 text-lg bg-white shadow-lg h-fit transition-all duratio-300">
+<header id="navbar" class="flex fixed justify-between w-full lg:w-[calc(100vw-240px)] gap-12 px-8 text-lg bg-white shadow-lg h-fit transition-all duratio-300 " style="z-index: 2">
     <div class="py-6">
         <a href="#" id="hambuger" class=""><i class="fa-solid fa-bars"></i></a>
     </div>
