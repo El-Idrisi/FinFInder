@@ -43,7 +43,7 @@
                                         <span class="px-4 py-2 transition-all duration-300 bg-green-500 rounded-md text-slate-100 hover:bg-green-600">{{ ucwords($fishspot->status) }}</span>
                                     </td>
                                     <td class="py-3 text-center">
-                                        <a
+                                        <a href="{{ route('preview.data', $fishspot) }}"
                                             class="p-2 transition-all duration-300 rounded-md cursor-pointer bg-sky-500 text-slate-100 hover:bg-sky-600"><i
                                                 class=" fa-solid fa-magnifying-glass"></i></a>
                                     </td>

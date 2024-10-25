@@ -225,8 +225,6 @@ thead tr th, tbody tr td {
     @apply px-4
 }
 
-
-
 tbody tr:nth-child(odd):hover {
     @apply bg-slate-100
 }

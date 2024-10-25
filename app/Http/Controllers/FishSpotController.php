@@ -67,5 +67,8 @@ class FishSpotController extends Controller
         return response()->json($fishTypes);
     }
 
-
+    public function viewData($id) {
+        $spotIkan = SpotIkan::find($id);
+        return view('dashboard.tables.preview-data', ['title' => 'FinFinder | Show Data', 'spotIkan' => $spotIkan]);
+    }
 }
