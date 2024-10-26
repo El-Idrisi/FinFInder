@@ -12,9 +12,8 @@
                 <h4 class="font-bold">Keseluruhan Data</h4>
             </div>
             <div class="relative px-4 py-4">
-                <div class="overflow-x-auto shadow">
-
-                    <table class="w-full tables">
+                <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+                    <table class="w-full text-sm text-left">
                         <thead class="rounded-md bg-sky-300">
                             <tr class="">
                                 <th class="py-3 rounded-tl-md">No</th>
@@ -31,18 +30,22 @@
                         <tbody class="rounded-md">
                             @foreach ($fishdatas as $fishspot)
                                 <tr class="w-full transition-all ">
-                                    <td class="py-3 text-center">{{ $i++ }}</td>
-                                    <td class="flex justify-center gap-2 py-3">
-                                        @foreach ($fishspot->getFishTypes() as $fishtype)
-                                            <span class="px-2 py-1 transition-all duration-300 border-2 rounded-md border-sky-500 hover:bg-sky-100">{{ $fishtype->nama }}</span>
-                                        @endforeach
+                                    <td class="py-3">{{ $i++ }}</td>
+                                    <td class="py-3 ">
+                                        <div class="flex flex-wrap gap-2 min-w-[300px] max-w-[400px]">
+                                            @foreach($fishspot->getFishTypes() as $ikan)
+                                                <span class="px-3 py-1 text-sm transition-all duration-300 border rounded-md border-sky-500 hover:bg-sky-100">
+                                                    {{ $ikan->nama }}
+                                                </span>
+                                            @endforeach
+                                        </div>
                                     </td>
-                                    <td class="py-3 text-center">{{ $fishspot->creator->username }}</td>
-                                    <td class="py-3 text-center">{{ $fishspot->latitude .' , '. $fishspot->longitude }}</td>
-                                    <td class="py-3 text-center">
+                                    <td class="py-3">{{ $fishspot->creator->username }}</td>
+                                    <td class="py-3">{{ $fishspot->latitude .' , '.  $fishspot->longitude }}</td>
+                                    <td class="py-3">
                                         <span class="px-4 py-2 transition-all duration-300 bg-green-500 rounded-md text-slate-100 hover:bg-green-600">{{ ucwords($fishspot->status) }}</span>
                                     </td>
-                                    <td class="py-3 text-center">
+                                    <td class="py-3">
                                         <a href="{{ route('preview.data', $fishspot) }}"
                                             class="p-2 transition-all duration-300 rounded-md cursor-pointer bg-sky-500 text-slate-100 hover:bg-sky-600"><i
                                                 class=" fa-solid fa-magnifying-glass"></i></a>

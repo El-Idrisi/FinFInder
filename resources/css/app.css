@@ -241,6 +241,8 @@ tbody tr:nth-child(even):hover {
     display: none;
 }
 
+
+
 @media screen and (max-width: 768px) {
     .img-bullet {
         left: 10px

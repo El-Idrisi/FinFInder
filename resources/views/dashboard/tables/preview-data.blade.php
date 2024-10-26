@@ -1,6 +1,15 @@
 @extends('layouts.dashboard')
 
 @section('content')
+    <div class="mb-8">
+        <h2 class="mb-2 text-3xl font-bold">Detail Data Ikan</h2>
+        <a href="/dashboard"
+            class="after:content-['>'] transition-all duration-300 after:text-black after:px-2 hover:text-slate-500">Dashboard</a>
+        <a href="/data-ikan"
+            class="after:content-['>'] transition-all duration-300 after:text-black after:px-2 hover:text-slate-500">Data Ikan</a>
+        <p class="inline text-slate-500">Detail Data</p>
+    </div>
+
     <x-form-group :isDelete='false' title="Detail Data">
         <div class="px-4 py-6">
             <div class="mb-4">
@@ -74,7 +83,7 @@
                 @endforeach
             </div>
             <div class="mb-4">
-                {{ $spotIkan->deskripsi }} 
+                {{ $spotIkan->deskripsi }}
             </div>
             <div class="border-t border-slate-200">
                 <p class="italic text-gray-400">Created by <span class="not-italic font-bold">{{ $spotIkan->creator->username }}</span></p>
