@@ -12,7 +12,7 @@
             </div>
             <div class="mb-4">
                 <h2 class="mb-4 font-bold">Jenis Ikan</h2>
-                <div class="">
+                <div class="flex flex-wrap gap-2">
                     @foreach ($spotIkan->getFishTypes() as $jenisIkan)
                         <span
                             class="inline px-4 py-2 transition-all duration-300 border-2 rounded-md border-sky-300 hover:bg-sky-300">{{ $jenisIkan->nama }}</span>
@@ -23,9 +23,8 @@
                 <h2 class="mb-2 font-bold">Deskripsi</h2>
                 <p>{{ $spotIkan->deskripsi }}</p>
             </div>
-            <div class="w-full mt-2 border-2 rounded-md h-80 border-slate-400" id="map">
+            <div class="relative w-full mt-2 border-2 rounded-md h-80 border-slate-400" id="map">
             </div>
-            <p class="text-sm text-gray-400">{{ $spotIkan->latitude }}, {{ $spotIkan->longitude }}</p>
         </div>
     </x-form-group>
 @endsection
@@ -68,19 +67,39 @@
             <div class="mb-4">
                 <h4 class="font-bold text-md">Detail Data</h4>
             </div>
-            <div class="flex gap-1 mb-4">
+            <div class="flex flex-wrap gap-1 mb-4">
                 @foreach ($spotIkan->getFishTypes() as $jenisIkan)
 
                     <span class="p-1 transition-all duration-300 border rounded w-fit border-sky-300 hover:bg-sky-300">{{ $jenisIkan->nama }}</span>
                 @endforeach
             </div>
             <div class="mb-4">
-                {{ $spotIkan->deskripsi }}
+                {{ $spotIkan->deskripsi }} 
             </div>
             <div class="border-t border-slate-200">
                 <p class="italic text-gray-400">Created by <span class="not-italic font-bold">{{ $spotIkan->creator->username }}</span></p>
             </div>
                 `
         );
+
+
+        var coordDisplay = L.control({
+            position: 'topright'
+        });
+
+        coordDisplay.onAdd = function(map) {
+            var div = L.DomUtil.create('div', 'coord-display');
+            div.style.background = 'white';
+            div.style.padding = '5px';
+            div.style.border = '2px solid #ccc';
+            return div;
+        };
+
+        coordDisplay.addTo(map);
+        var coord = document.querySelector('.coord-display');
+        coord.innerHTML = `
+        <strong>Koordinat Titik Lokasi:</strong><br>
+        Lat:{{ $spotIkan->latitude }}, Long:{{ $spotIkan->longitude }}
+        `
     </script>
 @endpush

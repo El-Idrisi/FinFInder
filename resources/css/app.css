@@ -233,6 +233,14 @@ tbody tr:nth-child(even):hover {
     @apply bg-sky-200
 }
 
+.leaflet-popup-content {
+    min-width: 300px !important;
+}
+
+.leaflet-popup-close-button {
+    display: none;
+}
+
 @media screen and (max-width: 768px) {
     .img-bullet {
         left: 10px
