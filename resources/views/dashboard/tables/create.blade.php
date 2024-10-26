@@ -11,10 +11,7 @@
         <p class="inline text-slate-500">Tambah</p>
     </div>
 
-    <div class="bg-white rounded-md shadow-md ">
-        <div class="px-4 py-2 bg-sky-700 rounded-t-md">
-            <h4 class="font-bold text-white">Tambah Data</h4>
-        </div>
+    <x-form-group :isDelete="false" :isAccordion="false" :allowFooter="false" title="Tambah Data" >
         <div class="px-8 py-4">
             <form action="{{ route('fish.create') }}" method="POST">
                 @csrf
@@ -71,7 +68,7 @@
                     Data</button>
             </form>
         </div>
-    </div>
+    </x-form-group>
 @endsection
 
 @push('style')

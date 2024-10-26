@@ -11,7 +11,7 @@
     </div>
 
     <div class="flex flex-col gap-12">
-        <x-form-group title="Update Profile" :isDelete="false">
+        <x-form-group :isAccordion="true" :allowFooter="true" title="Update Profile" :isDelete="false">
             <form action="{{ route('update.profile') }}" method="POST" class="px-8 py-6">
                 @csrf
                 @method('PUT')
@@ -40,7 +40,7 @@
         </x-form-group>
 
         @if (Auth::user()->role != 'admin')
-            <x-form-group title="Ganti Email" :isDelete="false">
+            <x-form-group :isAccordion="true" :allowFooter="true" title="Ganti Email" :isDelete="false">
                 <form class="px-8 py-6" id="changeEmailForm">
                     <p>Untuk mengganti email akun Anda, masukkan password Anda dan email baru (<i>@gmail.com</i>) yang
                         diinginkan, lalu klik 'Kirim Kode Verifikasi'. Kami akan mengirim kode ke email baru tersebut.
@@ -81,7 +81,7 @@
             </x-form-group>
         @endif
 
-        <x-form-group title="Ganti Password" :isDelete="false">
+        <x-form-group :isAccordion="true" :allowFooter="true" title="Ganti Password" :isDelete="false">
             <form class="px-8 py-6">
                 @csrf
 
@@ -109,7 +109,7 @@
 
 
         @if (Auth::user()->role == 'nelayan')
-            <x-form-group title="Hapus Akun" :isDelete="true">
+            <x-form-group :isAccordion="true" :allowFooter="true" title="Hapus Akun" :isDelete="true">
                 <h5 class="p-4 font-bold text-center">Setelah Anda menghapus akun Anda, tidak ada jalan untuk kembali. Harap
                     pastikan kembali keputusan Anda.</h5>
 

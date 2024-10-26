@@ -10,7 +10,7 @@
         <p class="inline text-slate-500">Detail Data</p>
     </div>
 
-    <x-form-group :isDelete='false' title="Detail Data">
+    <x-form-group :isDelete='false' :isAccordion="false" :allowFooter="false" title="Detail Data">
         <div class="px-4 py-6">
             <div class="mb-4">
                 <h2 class="mb-4 font-bold">Diinput Oleh</h2>
