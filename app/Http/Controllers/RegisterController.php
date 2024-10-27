@@ -23,7 +23,7 @@ class RegisterController extends Controller
     public function processStep1(Request $request)
     {
         $request->validate([
-            'email' => 'required|email|unique:users',
+            'email' => 'required|email|unique:users|ends_with:@gmail.com',
         ]);
 
         $code = Str::random(6);

@@ -9,30 +9,34 @@ class="-translate-x-full lg:translate-x-0 h-full w-[240px] bg-white transition-a
     <div class="flex flex-col gap-6 mt-4 ml-4">
         <a href="/dashboard" class="flex items-center gap-4 transition-all duration-300 hover:text-sky-500 {{ request()->routeIs('dashboard') ? 'text-sky-300' : ''}}">
             <img src="{{ asset('img/sidebar/Group 133.svg') }}" alt="dashboard-icon" class="scale-125">
-            Dashboards
+            Dashboard
         </a>
         <a href="/" class="flex items-center gap-4 transition-all duration-300 hover:text-sky-500">
-            <img src="{{ asset('img/sidebar/Group 134.svg') }}" alt="dashboard-icon" class="scale-125">
+            <img src="{{ asset('img/sidebar/Group 134.svg') }}" alt="home-icon" class="scale-125">
             Beranda
         </a>
     </div>
 </div>
 
 <div class="px-4 mt-8 font-bold text-gray-400">
-    <h4 class="text-sm">Tables</h4>
+    <h4 class="text-sm">Tabel</h4>
     <div class="flex flex-col gap-6 mt-4 ml-4">
         <a href="/data-ikan" class="flex items-center gap-4 transition-all duration-300 hover:text-sky-500 {{ request()->routeIs('data-ikan') ? 'text-sky-300' : ''}}">
-            <img src="{{ asset('img/sidebar/Group 136.svg') }}" alt="dashboard-icon" class="scale-125">
+            <img src="{{ asset('img/sidebar/Group 136.svg') }}" alt="fish-icon" class="scale-125">
             Data Ikan
         </a>
         <a href="#" class="flex items-center gap-4 transition-all duration-300 hover:text-sky-500">
-            <img src="{{ asset('img/sidebar/Group 137.svg') }}" alt="dashboard-icon" class="scale-125">
+            <img src="{{ asset('img/sidebar/Group-137.svg') }}" alt="table-icon" class="scale-125">
             Data Anda
         </a>
         @if (Auth::user()->role == 'admin')
         <a href="#" class="flex items-center gap-4 transition-all duration-300 hover:text-sky-500">
-            <img src="{{ asset('img/sidebar/Group 140.svg') }}" alt="dashboard-icon" class="scale-125">
-            Tabel Verifikasi
+            <img src="{{ asset('img/sidebar/Group 140.svg') }}" alt="verif-icon" class="scale-125">
+            Verifikasi
+        </a>
+        <a href="#" class="flex items-center gap-4 transition-all duration-300 hover:text-sky-500">
+            <img src="{{ asset('img/sidebar/Group 141.svg') }}" alt="list-icon" class="scale-125">
+            List Jenis Ikan
         </a>
         @endif
     </div>

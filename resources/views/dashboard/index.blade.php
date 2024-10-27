@@ -11,11 +11,11 @@
         <div class="flex flex-wrap gap-12 lg:flex-nowrap">
 
             <x-card-info judul="Total Kontribusi" warna="sky" :isCheck="false" icon="database">
-                <span class="counter" data-target="{{ $kontribusi }}" id="counter-kontribusi"></span> Data
+                <span class="counter" data-target="{{ $kontribusi }}" id="counter-kontribusi">0</span> Data
             </x-card-info>
 
             <x-card-info judul="Total Data Terverifikasi" warna="green" :isCheck="true" icon="check">
-                <span class="counter" data-target="{{ $allVerif }}" id="counter-all-verifikasi"></span> Data
+                <span class="counter" data-target="{{ $allVerif }}" id="counter-all-verifikasi">0</span> Data
             </x-card-info>
 
             <x-card-info judul="Total Keselurahan Data" warna="fuchsia" :isCheck="false" icon="database">
@@ -25,9 +25,6 @@
             <x-card-info judul="Total Pengguna" warna="red" :isCheck="false" icon="user">
                 <span class="counter" data-target="{{ $allUsers }}" id="counter-all-users"></span> Pengguna
             </x-card-info>
-            {{-- {{ $allSpots }} --}}
-
-
         </div>
     </div>
 @endsection
@@ -43,7 +40,7 @@
             counters.forEach(counter => {
                 targetValues.push(parseInt(counter.getAttribute('data-target')));
             });
-
+            console.log(targetValues);
 
             // Mencari nilai target tertinggi untuk menentukan kapan interval berhenti
             const maxTarget = Math.max(...targetValues);
@@ -52,7 +49,6 @@
 
             function updated() {
                 upto++;
-
                 // Update semua counter
                 counters.forEach((counter, index) => {
                     // Hanya update jika upto belum mencapai target counter tersebut
