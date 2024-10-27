@@ -100,9 +100,10 @@ header.navbar-home:not(.navbar-fixed) .group:hover hr {
     top: 0;
     bottom: 0;
     left: 50%;
-    width: 5px;
-    background-color: #000;
+    width: 3px;
+    background: linear-gradient(to bottom, #0ea5e9, #0284c7);
     transform: translateX(-50%);
+    border-radius: 999px;
 }
 
 .accor {
@@ -192,11 +193,12 @@ header.navbar-home:not(.navbar-fixed) .group:hover hr {
     transition: all 0.3s ease;
 }
 
-.select2-container--default .select2-selection--multiple .select2-selection__choice:hover{
+.select2-container--default .select2-selection--multiple .select2-selection__choice:hover {
     background-color: #e0f2fe;
     border: 2px solid #0369a1;
 }
-.select2-container--default .select2-selection--multiple .select2-selection__choice:hover .select2-selection__choice__remove{
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice:hover .select2-selection__choice__remove {
     border-right: 2px solid #0369a1 !important;
 }
 
@@ -210,6 +212,7 @@ header.navbar-home:not(.navbar-fixed) .group:hover hr {
 tbody tr:nth-child(even) {
     @apply bg-sky-100
 }
+
 tbody tr:nth-child(odd) {
     @apply bg-white
 }
@@ -217,6 +220,7 @@ tbody tr:nth-child(odd) {
 tbody tr:last-child td:first-child {
     @apply rounded-bl-md
 }
+
 tbody tr:last-child td:last-child {
     @apply rounded-br-md
 }
@@ -241,7 +245,51 @@ tbody tr:nth-child(even):hover {
     display: none;
 }
 
+.img-bullet {
+    box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.2);
+    animation: pulse-shadow 2s infinite;
+}
 
+.animate-motion {
+    animation: motion 4s ease-in-out infinite;
+}
+
+@keyframes motion {
+
+    0%,
+    100% {
+        transform: translateY(0) rotate(0deg);
+    }
+
+    33% {
+        transform: translateY(-8px) rotate(1deg);
+    }
+
+    66% {
+        transform: translateY(8px) rotate(-1deg);
+    }
+}
+
+
+@keyframes pulse-shadow {
+    0% {
+        box-shadow: 0 0 0 0 rgba(14, 165, 233, 0.4);
+    }
+
+    70% {
+        box-shadow: 0 0 0 10px rgba(14, 165, 233, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(14, 165, 233, 0);
+    }
+}
+
+@media (max-width: 1024px) {
+    .timeline::before {
+        left: 31px;
+    }
+}
 
 @media screen and (max-width: 768px) {
     .img-bullet {
