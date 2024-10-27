@@ -13,7 +13,7 @@ class="-translate-x-full lg:translate-x-0 h-full w-[240px] bg-white transition-a
         </a>
         <a href="/" class="flex items-center gap-4 transition-all duration-300 hover:text-sky-500">
             <img src="{{ asset('img/sidebar/Group 134.svg') }}" alt="dashboard-icon" class="scale-125">
-            Home
+            Beranda
         </a>
     </div>
 </div>
@@ -27,7 +27,7 @@ class="-translate-x-full lg:translate-x-0 h-full w-[240px] bg-white transition-a
         </a>
         <a href="#" class="flex items-center gap-4 transition-all duration-300 hover:text-sky-500">
             <img src="{{ asset('img/sidebar/Group 137.svg') }}" alt="dashboard-icon" class="scale-125">
-            Your Data
+            Data Anda
         </a>
         @if (Auth::user()->role == 'admin')
         <a href="#" class="flex items-center gap-4 transition-all duration-300 hover:text-sky-500">
@@ -38,10 +38,10 @@ class="-translate-x-full lg:translate-x-0 h-full w-[240px] bg-white transition-a
     </div>
 </div>
 
-<div class="px-4 mt-8 font-bold">
+<div class="flex justify-center px-4 mt-8 font-bold">
     <a href="/data-ikan/create"
-        class="px-[3.5rem] py-2 text-white bg-gradient-to-r from-violet-400 via-sky-500 to-fuchsia-400 rounded-md bg-size-200 bg-pos-0 transition-all duration-300 hover:bg-pos-100">
-        <span class="shad"><i class="fa-solid fa-plus"></i> Add Data</span>
+        class="px-8 py-2 text-white transition-all duration-300 rounded-md bg-gradient-to-r from-violet-400 via-sky-500 to-fuchsia-400 bg-size-200 bg-pos-0 hover:bg-pos-100">
+        <span class="shad"><i class="fa-solid fa-plus"></i> Tambah Data</span>
     </a>
 </div>
 
