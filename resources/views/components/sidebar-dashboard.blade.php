@@ -34,7 +34,7 @@ class="-translate-x-full lg:translate-x-0 h-full w-[240px] bg-white transition-a
             <img src="{{ asset('img/sidebar/Group 140.svg') }}" alt="verif-icon" class="scale-125">
             Verifikasi
         </a>
-        <a href="#" class="flex items-center gap-4 transition-all duration-300 hover:text-sky-500">
+        <a href="/list-ikan" class="flex items-center gap-4 transition-all duration-300 hover:text-sky-500">
             <img src="{{ asset('img/sidebar/Group 141.svg') }}" alt="list-icon" class="scale-125">
             List Jenis Ikan
         </a>

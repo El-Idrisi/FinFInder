@@ -56,17 +56,6 @@ class FishSpotController extends Controller
         return redirect()->route('data-ikan')->with('success', 'Berhasil Menambahkan Fish Spot Baru');
     }
 
-    public function search(Request $request)
-    {
-        $term = $request->get('q');
-
-        $fishTypes = FishType::where('nama', 'LIKE', "%$term%")
-            ->select('id', 'nama as text')
-            ->get();
-
-        return response()->json($fishTypes);
-    }
-
     public function viewData($id) {
         $spotIkan = SpotIkan::find($id);
         return view('dashboard.tables.preview-data', ['title' => 'FinFinder | Show Data', 'spotIkan' => $spotIkan]);

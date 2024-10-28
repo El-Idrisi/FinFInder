@@ -70,7 +70,7 @@ class ProfileController extends Controller
     {
         $request->validate([
             'password' => 'required',
-            'new_email' => 'required|email|unique:users,email'
+            'new_email' => 'required|email|unique:users,email|ends_with:@gmail.com'
         ]);
 
         if (!Hash::check($request->password, auth()->user()->password)) {
@@ -95,8 +95,6 @@ class ProfileController extends Controller
             'verification_code' => 'required',
             'new_email' => 'required|email'
         ]);
-
-        // dd(session('email_change_code'));
 
         if (
             $request->verification_code !== session('email_change_code') ||

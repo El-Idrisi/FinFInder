@@ -5,8 +5,10 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FishSpotController;
+use App\Http\Controllers\ListIkanController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Middleware\AdminMiddleware;
 use App\Models\User;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
@@ -68,6 +70,13 @@ Route::middleware('auth')->group(function () {
 
         Route::get('/data-ikan/view/{id}', 'viewData')->name('preview.data');
 
-        Route::get('/fish-types/search', 'search')->name('fish-types.search');
+    });
+
+    Route::middleware(AdminMiddleware::class)->group(function () {
+        Route::controller(ListIkanController::class)->group(function () {
+            Route::get('/list-ikan', 'index')->name('list-ikan');
+            Route::get('/list-ikan/delete/{id}', 'delete')->name('list-ikan.delete');
+            Route::get('/fish-types/search', 'search')->name('fish-types.search');
+        });
     });
 });
