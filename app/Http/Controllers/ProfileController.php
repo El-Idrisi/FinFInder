@@ -20,15 +20,23 @@ class ProfileController extends Controller
 
         $allSpots = SpotIkan::all()->count();
         $kontribusi = SpotIkan::where('dibuat_oleh', Auth::id())->count();
-        $allVerif = SpotIkan::where('status', 'disetujui')
+        $allVerified = SpotIkan::where('status', 'disetujui')
         ->where('dibuat_oleh', Auth::id())
+        ->count();
+
+        $allRejected = SpotIkan::where('status', 'ditolak')
+        ->where('dibuat_oleh', Auth::id())
+        ->count();
+
+        $allVerif = SpotIkan::where('status', 'disetujui')
+        ->where('diverifikasi_oleh', Auth::id())
         ->count();
 
         $allReject = SpotIkan::where('status', 'ditolak')
-        ->where('dibuat_oleh', Auth::id())
+        ->where('diverifikasi_oleh', Auth::id())
         ->count();
 
-        return view('dashboard.profile.index', ['title' => 'FinFinder | Profile'], compact('user', 'allSpots', 'kontribusi', 'allVerif', 'allReject'));
+        return view('dashboard.profile.index', ['title' => 'FinFinder | Profile'], compact('user', 'allSpots', 'kontribusi', 'allVerified', 'allRejected', 'allVerif', 'allReject'));
     }
     public function settings()
     {

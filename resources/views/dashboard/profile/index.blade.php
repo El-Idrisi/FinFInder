@@ -3,7 +3,9 @@
 @section('content')
     <div class="mb-8">
         <h2 class="mb-2 text-3xl font-bold">Profile</h2>
-        <a href="/dashboard" class="after:content-['>'] transition-all duration-300 after:text-black after:px-2 hover:text-slate-500">Dashboard</a><p class="inline text-slate-500">Profile</p>
+        <a href="/dashboard"
+            class="after:content-['>'] transition-all duration-300 after:text-black after:px-2 hover:text-slate-500">Dashboard</a>
+        <p class="inline text-slate-500">Profile</p>
     </div>
 
     <div class="relative bg-white rounded-lg shadow-md -z-10">
@@ -67,14 +69,25 @@
                         <th class="py-2">Jumlah Data yang Di Input</th>
                         <td class="py-2">{{ $kontribusi }}</td>
                     </tr>
-                    <tr class=" border-y border-slate-300">
-                        <th class="py-2">Data yang Diverifikasi</th>
-                        <td class="py-2">{{ $allVerif }}</td>
-                    </tr>
-                    <tr class=" border-y border-slate-300">
-                        <th class="py-2">Data yang Ditolak</th>
-                        <td class="py-2">{{ $allReject }}</td>
-                    </tr>
+                    @if (Auth::user()->isAdmin())
+                        <tr class=" border-y border-slate-300">
+                            <th class="py-2">Data yang Diverifikasi</th>
+                            <td class="py-2">{{ $allVerif }}</td>
+                        </tr>
+                        <tr class=" border-y border-slate-300">
+                            <th class="py-2">Data yang Ditolak</th>
+                            <td class="py-2">{{ $allReject }}</td>
+                        </tr>
+                    @else
+                        <tr class=" border-y border-slate-300">
+                            <th class="py-2">Data yang Terverifikasi</th>
+                            <td class="py-2">{{ $allVerified }}</td>
+                        </tr>
+                        <tr class=" border-y border-slate-300">
+                            <th class="py-2">Data yang Tidak Disetujui</th>
+                            <td class="py-2">{{ $allRejected }}</td>
+                        </tr>
+                    @endif
                     <tr class=" border-y border-slate-300">
                         <th class="py-2">Keselurahan Data</th>
                         <td class="py-2">{{ $allSpots }}</td>

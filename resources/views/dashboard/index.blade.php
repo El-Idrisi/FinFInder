@@ -14,10 +14,15 @@
                 <span class="counter" data-target="{{ $kontribusi }}" id="counter-kontribusi">0</span> Data
             </x-card-info>
 
-            <x-card-info judul="Total Data Terverifikasi" warna="green" :isCheck="true" icon="check">
-                <span class="counter" data-target="{{ $allVerif }}" id="counter-all-verifikasi">0</span> Data
-            </x-card-info>
-
+            @if (Auth::user()->isAdmin())
+                <x-card-info judul="Total Verifikasi" warna="green" :isCheck="true" icon="check">
+                    <span class="counter" data-target="{{ $allVerif }}" id="counter-all-verifikasi">0</span> Data
+                </x-card-info>
+            @else
+                <x-card-info judul="Total Data Terverifikasi" warna="green" :isCheck="true" icon="check">
+                    <span class="counter" data-target="{{ $allVerified }}" id="counter-all-verifikasi">0</span> Data
+                </x-card-info>
+            @endif
             <x-card-info judul="Total Keselurahan Data" warna="fuchsia" :isCheck="false" icon="database">
                 <span class="counter" data-target="{{ $allSpots }}" id="counter-all-datas"></span> Data
             </x-card-info>
