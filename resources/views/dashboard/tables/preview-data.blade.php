@@ -6,7 +6,8 @@
         <a href="/dashboard"
             class="after:content-['>'] transition-all duration-300 after:text-black after:px-2 hover:text-slate-500">Dashboard</a>
         <a href="/data-ikan"
-            class="after:content-['>'] transition-all duration-300 after:text-black after:px-2 hover:text-slate-500">Data Ikan</a>
+            class="after:content-['>'] transition-all duration-300 after:text-black after:px-2 hover:text-slate-500">Data
+            Ikan</a>
         <p class="inline text-slate-500">Detail Data</p>
     </div>
 
@@ -34,7 +35,8 @@
             </div>
             <div class="mb-4">
                 <h2 class="mb-2 font-bold">Status</h2>
-                <span class="px-4 py-2 text-white transition-all duration-300 bg-green-500 rounded-md hover:bg-green-600">{{ $spotIkan->status }}</span>
+                <span
+                    class="px-4 py-2 text-white transition-all duration-300 bg-green-500 rounded-md hover:bg-green-600">{{ $spotIkan->status }}</span>
             </div>
             <div class="relative w-full mt-2 border-2 rounded-md h-80 border-slate-400" id="map">
             </div>
@@ -51,10 +53,6 @@
     <link rel="stylesheet" href="//unpkg.com/leaflet-gesture-handling/dist/leaflet-gesture-handling.min.css"
         type="text/css">
 
-    {{-- jquery --}}
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-
-
     {{-- LeafLet.Js --}}
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
@@ -64,55 +62,31 @@
 
 @push('script')
     <script>
-        map = L.map('map', {
-            fullscreenControl: true,
-            gestureHandling: true,
-        }).setView([{{ $spotIkan->latitude }}, {{ $spotIkan->longitude }}], 10);
-
-        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 19,
-            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-        }).addTo(map);
-
-        var marker = L.marker([{{ $spotIkan->latitude }}, {{ $spotIkan->longitude }}]).addTo(map);
-        marker.bindPopup(
-            `
-            <div class="mb-4">
-                <h4 class="font-bold text-md">Detail Data</h4>
-            </div>
-            <div class="flex flex-wrap gap-1 mb-4">
-                @foreach ($spotIkan->getFishTypes() as $jenisIkan)
-
-                    <span class="p-1 transition-all duration-300 border rounded w-fit border-sky-300 hover:bg-sky-300">{{ $jenisIkan->nama }}</span>
-                @endforeach
-            </div>
-            <div class="mb-4">
-                {{ $spotIkan->deskripsi }}
-            </div>
-            <div class="border-t border-slate-200">
-                <p class="italic text-gray-400">Created by <span class="not-italic font-bold">{{ $spotIkan->creator->username }}</span></p>
-            </div>
+        document.addEventListener('DOMContentLoaded', function() {
+            const spotData = {
+                latitude: {{ $spotIkan->latitude }},
+                longitude: {{ $spotIkan->longitude }},
+                popupContent: `
+                    <div class="mb-4">
+                        <h4 class="font-bold text-md">Detail Data</h4>
+                    </div>
+                    <div class="flex flex-wrap gap-1 mb-4">
+                        @foreach ($spotIkan->getFishTypes() as $jenisIkan)
+                            <span class="p-1 transition-all duration-300 border rounded w-fit border-sky-300 hover:bg-sky-300">{{ $jenisIkan->nama }}</span>
+                        @endforeach
+                    </div>
+                    <div class="mb-4">
+                        {{ $spotIkan->deskripsi }}
+                    </div>
+                    <div class="border-t border-slate-200">
+                        <p class="italic text-gray-400">Created by <span class="not-italic font-bold">{{ $spotIkan->creator->username }}</span></p>
+                    </div>
                 `
-        );
+            };
 
-
-        var coordDisplay = L.control({
-            position: 'topright'
+            initMap({
+                spotData
+            });
         });
-
-        coordDisplay.onAdd = function(map) {
-            var div = L.DomUtil.create('div', 'coord-display');
-            div.style.background = 'white';
-            div.style.padding = '5px';
-            div.style.border = '2px solid #ccc';
-            return div;
-        };
-
-        coordDisplay.addTo(map);
-        var coord = document.querySelector('.coord-display');
-        coord.innerHTML = `
-        <strong>Koordinat Titik Lokasi:</strong><br>
-        Lat:{{ $spotIkan->latitude }}, Long:{{ $spotIkan->longitude }}
-        `
     </script>
 @endpush

@@ -12,6 +12,8 @@
         rel="stylesheet">
     <script src="https://kit.fontawesome.com/bd2b93a447.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    {{-- jquery --}}
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     @stack('style')
     @vite('resources/css/app.css')
     <title>{{ $title }}</title>
@@ -34,6 +36,9 @@
 
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script src="{{ asset('js/map.js') }}"></script>
+
     <script>
         const accordions = document.querySelectorAll('.accordion');
 
@@ -101,6 +106,112 @@
                 confirmButtonText: 'Nice'
             })
         @endif
+    </script>
+
+    <script>
+        function initMapTabs() {
+            const tabs = document.querySelectorAll('.tabs');
+            tabs.forEach((tab) => {
+                tab.addEventListener('click', function(e) {
+                    e.preventDefault();
+
+                    // Update tab active state
+                    tabs.forEach(t => t.classList.remove('tab-active'));
+                    tab.classList.add('tab-active');
+
+                    // Update line position
+                    const line = document.querySelector('.line');
+                    line.style.width = e.target.offsetWidth + 'px';
+                    line.style.left = e.target.offsetLeft + 'px';
+
+                    // Get saved coordinates
+                    const savedLat = document.getElementById('latitude')?.value || '';
+                    const savedLng = document.getElementById('longitude')?.value || '';
+
+                    console.log(e.target.classList.contains('map'), e.target.classList.contains('input'));
+
+                    const panel = document.querySelector('#panel');
+
+                    if (e.target.classList.contains('map')) {
+                        panel.innerHTML = `
+                    <div class="w-full mt-2 border-2 rounded-md h-80 border-slate-400" id="map"></div>
+                    <input type="hidden" id="latitude" name="latitude" value="${savedLat}">
+                    <input type="hidden" id="longitude" name="longitude" value="${savedLng}">
+                `;
+
+                        initMap({
+                            isEditable: true,
+                            latitude: savedLat || 1.3848069459548475,
+                            longitude: savedLng || 102.18214794585786
+                        });
+                    } else if (e.target.classList.contains('input')) {
+                        console.log(panel)
+                        panel.innerHTML = `
+                    <div class="mt-4">
+                        <x-input-form id="latitude" title="Latitude" tipe="text" value="${savedLat}">
+                        </x-input-form>
+                    </div>
+                    <div class="mt-4">
+                        <x-input-form id="longitude" title="Longitude" tipe="text" value="${savedLng}">
+                        </x-input-form>
+                    </div>
+                `;
+                    }
+                });
+            });
+        }
+    </script>
+
+    <script>
+        function initFishTypeSelect(selector, showTypes = true) {
+            return $(selector).select2({
+                placeholder: "Pilih Jenis Ikan",
+                tokenSeparators: [','],
+                allowClear: true,
+                tags: true,
+                ajax: {
+                    url: '{{ route('fish-types.search') }}',
+                    dataType: 'json',
+                    delay: 250,
+                    data: function(params) {
+                        return {
+                            q: params.term
+                        };
+                    },
+                    processResults: function(data) {
+                        return {
+                            results: showTypes ? data : data.map(item => ({
+                                id: item.nama,
+                                text: item.nama,
+                                newTag: false
+                            }))
+                        };
+                    },
+                    cache: true
+                },
+                createTag: function(params) {
+                    const term = $.trim(params.term);
+                    if (term === '') {
+                        return null;
+                    }
+
+                    // Cek apakah nilai sudah ada di opsi yang ada
+                    const exists = $(this).find('option').filter(function() {
+                        return $(this).val().toLowerCase() === term.toLowerCase();
+                    }).length > 0;
+
+                    if (exists) {
+                        return null;
+                    }
+
+                    return {
+                        id: term,
+                        text: term,
+                        newTag: true
+                    };
+                }
+            });
+        }
     </script>
     @stack('script')
 </body>

@@ -89,6 +89,7 @@
                         Simpan
                     </button>
                 </div>
+
             </div>
         </div>
     </div>
@@ -98,9 +99,6 @@
     {{-- select2 css --}}
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
-    {{-- jquery --}}
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-
     {{-- select2.js --}}
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 @endpush
@@ -108,80 +106,28 @@
 @push('script')
     <script>
         $(document).ready(function() {
-            // Inisialisasi Select2 dengan fitur tags
-            $('#fish_type').select2({
-                placeholder: 'Pilih atau ketik jenis ikan',
-                tags: true,
-                tokenSeparators: [','],
-                ajax: {
-                    url: '{{ route('fish-types.search') }}',
-                    dataType: 'json',
-                    delay: 250,
-                    data: function(params) {
-                        return {
-                            q: params.term
-                        };
-                    },
-                    processResults: function(data) {
-                        return {
-                            results: data.map(function(item) {
-                                return {
-                                    id: item.nama, // gunakan nama sebagai id
-                                    text: item.nama
-                                };
-                            })
-                        };
-                    },
-                    cache: true
-                },
-                createTag: function(params) {
-                    // Jangan buat tag baru jika sama dengan yang sudah ada
-                    const term = $.trim(params.term);
-                    if (term === '') {
-                        return null;
-                    }
 
-                    // Cek apakah nilai sudah ada di opsi yang ada
-                    const exists = $(this).find('option').filter(function() {
-                        return $(this).val().toLowerCase() === term.toLowerCase();
-                    }).length > 0;
+            initFishTypeSelect('#fish_type', false);
 
-                    if (exists) {
-                        return null;
-                    }
-
-                    return {
-                        id: term,
-                        text: term,
-                        newTag: true
-                    };
-                }
-            });
-
-            // Event untuk membuka modal
             $('#add-type').click(function() {
                 $('#modal-add-type').removeClass('hidden');
             });
 
-            // Event untuk menutup modal
             $('#close-modal, #modal-overlay').click(function() {
                 $('#modal-add-type').addClass('hidden');
                 $('#fish_type').val(null).trigger('change'); // Reset select2
             });
 
-            // Stop propagation pada modal content
             $('.modal-content').click(function(e) {
                 e.stopPropagation();
             });
 
-            // Handle form submit
             $('#form-add-type').submit(function(e) {
                 e.preventDefault();
 
                 const selectedTypes = $('#fish_type').val();
 
                 if (!selectedTypes || selectedTypes.length === 0) {
-                    // alert('Pilih minimal satu jenis ikan');
                     $('#error').text('Pilih minimal satu jenis ikan');
                     return;
                 }

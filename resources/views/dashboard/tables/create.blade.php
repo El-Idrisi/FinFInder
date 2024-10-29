@@ -11,7 +11,7 @@
         <p class="inline text-slate-500">Tambah</p>
     </div>
 
-    <x-form-group :isDelete="false" :isAccordion="false" :allowFooter="false" title="Tambah Data" >
+    <x-form-group :isDelete="false" :isAccordion="false" :allowFooter="false" title="Tambah Data">
         <div class="px-8 py-4">
             <form action="{{ route('fish.create') }}" method="POST">
                 @csrf
@@ -97,154 +97,17 @@
 @endpush
 
 @push('script')
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            let map = null;
-            let currentMarker = null;
-
-            // Inisialisasi map
-            function initializeMap() {
-                if (map) {
-                    map.remove();
-                }
-
-                map = L.map('map', {
-                    fullscreenControl: true,
-                    gestureHandling: true,
-                }).setView([1.3848069459548475, 102.18214794585786], 10);
-
-                L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                    maxZoom: 19,
-                    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-                }).addTo(map);
-
-                map.on('click', function(e) {
-                    const lat = e.latlng.lat;
-                    const lng = e.latlng.lng;
-
-                    console.log("Latitude:", lat, "Longitude:", lng);
-
-                    if (currentMarker) {
-                        map.removeLayer(currentMarker);
-                    }
-
-                    currentMarker = L.marker([lat, lng]).addTo(map);
-                    currentMarker.bindPopup("Latitude: " + lat + "<br>Longitude: " + lng).openPopup();
-
-                    document.getElementById('latitude').value = lat;
-                    document.getElementById('longitude').value = lng;
-                });
-
-                setTimeout(() => {
-                    map.invalidateSize();
-                }, 100);
-            }
-
-            const tabs = document.querySelectorAll('.tabs');
-            tabs.forEach((tab, index) => {
-                tab.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    console.log(tab)
-                    tabs.forEach(tab => {
-                        tab.classList.remove('tab-active')
-                    });
-                    tab.classList.add('tab-active');
-
-                    var line = document.querySelector('.line');
-                    line.style.width = e.target.offsetWidth + 'px';
-                    line.style.left = e.target.offsetLeft + 'px';
-
-                    const savedLat = document.getElementById('latitude')?.value || '';
-                    const savedLng = document.getElementById('longitude')?.value || '';
-
-                    tabs.forEach(t => t.classList.remove('tabs-active'));
-                    e.target.classList.add('tabs-active');
-
-                    const panel = document.querySelector('#panel');
-
-                    if (e.target.classList.contains('map')) {
-                        panel.innerHTML = `
-                    <div class="w-full mt-2 border-2 rounded-md h-80 border-slate-400" id="map"></div>
-                    <input type="hidden" id="latitude" name="latitude" value="${savedLat}">
-                    <input type="hidden" id="longitude" name="longitude" value="${savedLng}">
-
-                    <p class="text-red-500">
-                        @error('latitude')
-                            {{ $message }}
-                        @enderror
-                        @error('longitude')
-                            {{ $message }}
-                        @enderror
-                    </p>
-                `;
-
-                        setTimeout(() => {
-                            initializeMap();
-
-                            if (savedLat && savedLng) {
-                                currentMarker = L.marker([savedLat, savedLng]).addTo(map);
-                                currentMarker.bindPopup("Latitude: " + savedLat +
-                                    "<br>Longitude: " + savedLng).openPopup();
-                            }
-                        }, 100);
-
-                    } else if (e.target.classList.contains('input')) {
-                        panel.innerHTML = `
-                    <div class="mt-4">
-                        <x-input-form id="latitude" title="Latitude" tipe="text" value="${savedLat}">
-                        </x-input-form>
-                    </div>
-                    <div class="mt-4">
-                        <x-input-form id="longitude" title="Longitude" tipe="text" value="${savedLng}">
-                        </x-input-form>
-                    </div>
-                `;
-                    }
-
-                });
+            initMap({
+                isEditable: true
             });
+            initMapTabs();
 
-            initializeMap();
         });
-    </script>
-
-    <script>
         $(document).ready(function() {
-            $('#fish_type').select2({
-                placeholder: "Pilih Jenis Ikan",
-                tokenSeparators: [','],
-                allowClear: true,
-                tags: true,
-                ajax: {
-                    url: '{{ route('fish-types.search') }}',
-                    dataType: 'json',
-                    delay: 250,
-                    data: function(params) {
-                        return {
-                            q: params.term
-                        };
-                    },
-                    processResults: function(data) {
-                        return {
-                            results: data
-                        };
-                    },
-                    cache: true
-                },
-                createTag: function(params) {
-                    // Jika tidak ada matches, buat tag baru
-                    const term = $.trim(params.term);
-                    if (term === '') {
-                        return null;
-                    }
-
-                    return {
-                        id: term, // Menandai bahwa ini adalah tag baru
-                        text: term, // Menambahkan indikator bahwa ini tag baru
-                        newTag: true // Flag untuk menandai ini adalah tag baru
-                    };
-                },
-            });
+            initFishTypeSelect('#fish_type');
         });
     </script>
 @endpush
