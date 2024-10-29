@@ -76,6 +76,7 @@ Route::middleware('auth')->group(function () {
         Route::controller(ListIkanController::class)->group(function () {
             Route::get('/list-ikan', 'index')->name('list-ikan');
             Route::get('/list-ikan/delete/{id}', 'delete')->name('list-ikan.delete');
+            Route::post('/list-ikan/create', 'store')->name('list-ikan.create');
             Route::get('/fish-types/search', 'search')->name('fish-types.search');
         });
     });
