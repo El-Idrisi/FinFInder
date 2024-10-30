@@ -254,7 +254,36 @@ tbody tr:nth-child(even):hover {
     animation: motion 4s ease-in-out infinite;
 }
 
+.bg-zigzag {
+    background-color: #f0f9ff;
+    opacity: 0.8;
+    background-image: linear-gradient(30deg, #0ea5e9 12%, transparent 12.5%, transparent 87%, #0ea5e9 87.5%, #0ea5e9), linear-gradient(150deg, #0ea5e9 12%, transparent 12.5%, transparent 87%, #0ea5e9 87.5%, #0ea5e9), linear-gradient(30deg, #0ea5e9 12%, transparent 12.5%, transparent 87%, #0ea5e9 87.5%, #0ea5e9), linear-gradient(150deg, #0ea5e9 12%, transparent 12.5%, transparent 87%, #0ea5e9 87.5%, #0ea5e9), linear-gradient(60deg, #0ea5e977 25%, transparent 25.5%, transparent 75%, #0ea5e977 75%, #0ea5e977), linear-gradient(60deg, #0ea5e977 25%, transparent 25.5%, transparent 75%, #0ea5e977 75%, #0ea5e977);
+    background-size: 80px 140px;
+    background-position: 0 0, 0 0, 40px 70px, 40px 70px, 0 0, 40px 70px;
 
+    animation: moveZigzag 12s linear infinite;
+}
+
+@keyframes moveZigzag {
+    from {
+        background-position:
+            0 0,
+            0 0,
+            40px 70px,
+            40px 70px,
+            0 0,
+            40px 70px;
+    }
+    to {
+        background-position:
+            0 -140px,
+            0 -140px,
+            40px -70px,
+            40px -70px,
+            0 -140px,
+            40px -70px;
+    }
+}
 @keyframes motion {
 
     0%,

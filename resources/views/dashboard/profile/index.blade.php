@@ -9,7 +9,7 @@
     </div>
 
     <div class="relative bg-white rounded-lg shadow-md -z-10">
-        <div class="relative px-12 py-20 rounded-t-md bg-gradient-to-r from-cyan-300 via-sky-400 to-blue-500">
+        <div class="relative px-12 py-20 rounded-t-md bg-zigzag">
             <div
                 class="absolute inline px-6 py-5 text-6xl -translate-x-1/2 -translate-y-1/2 border-8 border-white rounded-full top-full left-1/2 bg-slate-300">
                 <i class="fa-solid fa-user text-slate-500"></i>
