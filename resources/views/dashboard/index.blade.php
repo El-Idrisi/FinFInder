@@ -24,49 +24,39 @@
                 </x-card-info>
             @endif
             <x-card-info judul="Total Keselurahan Data" warna="fuchsia" :isCheck="false" icon="database">
-                <span class="counter" data-target="{{ $allSpots }}" id="counter-all-datas"></span> Data
+                <span class="counter" data-target="{{ $allSpots }}" id="counter-all-datas">0</span> Data
             </x-card-info>
 
             <x-card-info judul="Total Pengguna" warna="red" :isCheck="false" icon="user">
-                <span class="counter" data-target="{{ $allUsers }}" id="counter-all-users"></span> Pengguna
+                <span class="counter" data-target="{{ $allUsers }}" id="counter-all-users">0</span> Pengguna
             </x-card-info>
         </div>
     </div>
 @endsection
 
 @push('script')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            let upto = 0;
+            // Ambil semua elemen dengan class 'counter'
             const counters = document.querySelectorAll('.counter');
 
-            // Membuat array untuk menyimpan nilai target masing-masing counter
-            const targetValues = [];
-            counters.forEach(counter => {
-                targetValues.push(parseInt(counter.getAttribute('data-target')));
-            });
-            console.log(targetValues);
+            // Buat array untuk menyimpan target value dari setiap counter
+            const animations = Array.from(counters).map(counter => {
+                const targetValue = parseInt(counter.getAttribute('data-target'));
 
-            // Mencari nilai target tertinggi untuk menentukan kapan interval berhenti
-            const maxTarget = Math.max(...targetValues);
-
-            const counts = setInterval(updated, 100);
-
-            function updated() {
-                upto++;
-                // Update semua counter
-                counters.forEach((counter, index) => {
-                    // Hanya update jika upto belum mencapai target counter tersebut
-                    if (upto <= targetValues[index]) {
-                        counter.innerHTML = upto;
+                return anime({
+                    targets: counter,
+                    innerHTML: [0, targetValue],
+                    round: 1, // Membulatkan angka
+                    easing: 'easeInOutExpo', // Efek easing yang smooth
+                    duration: 2000, // Durasi 2 detik
+                    update: function(anim) {
+                        counter.innerHTML = parseInt(counter.innerHTML).toLocaleString();
                     }
                 });
-
-                // Hentikan interval jika sudah mencapai nilai tertinggi
-                if (upto === maxTarget) {
-                    clearInterval(counts);
-                }
-            }
+            });
         });
     </script>
 @endpush
