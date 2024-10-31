@@ -40,6 +40,14 @@
     <script src="{{ asset('js/map.js') }}"></script>
 
     <script>
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+    </script>
+
+    <script>
         const accordions = document.querySelectorAll('.accordion');
 
         accordions.forEach(acc => {

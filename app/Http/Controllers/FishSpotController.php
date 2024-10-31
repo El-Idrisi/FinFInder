@@ -37,10 +37,9 @@ class FishSpotController extends Controller
                 $fishTypeIds[] = $fishType;
             } else {
                 $newFishType = FishType::create(['nama' => $fishType]);
-                $fishTypeIds[] = $newFishType->id;
+                $fishTypeIds[] = "". $newFishType->id;
             }
         }
-
         $status = 'ditunda';
         if (Auth::user()->role == 'admin')  $status = 'disetujui';
 

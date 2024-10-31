@@ -78,6 +78,8 @@ Route::middleware('auth')->group(function () {
             Route::get('/list-ikan/delete/{id}', 'delete')->name('list-ikan.delete');
             Route::post('/list-ikan/create', 'store')->name('list-ikan.create');
             Route::get('/fish-types/search', 'search')->name('fish-types.search');
+            Route::put('/list-ikan/update/{id}', 'update')->name('list-ikan.update');
+            Route::get('/list-ikan/{id}', 'show')->name('list-ikan.sort');
         });
     });
 });

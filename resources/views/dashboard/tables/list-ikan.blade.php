@@ -34,8 +34,14 @@
                             </td>
                             <td class="px-4 py-2 text-left border-b-2 border-slate-300">{{ $fish->nama }}</td>
                             <td class="flex px-4 py-2 text-left border-b-2 !rounded-none border-slate-300">
+                                <a href="{{ route('list-ikan.sort', $fish->id) }}"
+                                    class="flex items-center justify-center p-2 transition-all duration-300 rounded-md bg-sky-500 text-slate-100 w-fit hover:bg-sky-600">
+                                    <i class="fas fa-search"></i>
+                                </a>
+                                <span class="mx-2">|</span>
                                 <a href="#"
-                                    class="flex items-center justify-center p-2 transition-all duration-300 bg-yellow-500 rounded-md text-slate-100 w-fit hover:bg-yellow-600">
+                                    class="flex items-center justify-center p-2 transition-all duration-300 bg-yellow-500 rounded-md btn-edit text-slate-100 w-fit hover:bg-yellow-600"
+                                    data-namaIkan="{{ $fish->nama }}" data-idIkan="{{ $fish->id }}">
                                     <i class="fas fa-edit"></i>
                                 </a>
                                 <span class="mx-2">|</span>
@@ -55,7 +61,7 @@
         </div>
     </div>
 
-    <div id="modal-add-type" class="fixed inset-0 z-[9999] hidden ">
+    {{-- <div id="modal-add-type" class="fixed inset-0 z-[9999] hidden ">
         <div class="fixed inset-0 bg-black/50" id="modal-overlay"></div>
         <div class="fixed w-full max-w-md -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
             <div class="bg-white rounded-lg shadow-lg">
@@ -92,7 +98,27 @@
 
             </div>
         </div>
-    </div>
+    </div> --}}
+    <x-modal title="Tambah Jenis Ikan" idModal="modal-add-type" idForm="form-add-type">
+        <div class="mb-4">
+            <label for="fish_type" class="block mb-2 font-bold">Jenis Ikan</label>
+            <select id="fish_type" name="fish_type[]" class="w-full" multiple>
+            </select>
+            <small class="text-slate-500">Ketik untuk menambahkan jenis ikan baru</small>
+            <small id="error" class="block text-red-500"></small>
+        </div>
+    </x-modal>
+
+    <x-modal title="Edit Jenis Ikan" idModal="modal-edit-type" idForm="form-edit-type">
+        <div class="mb-4">
+            @method('PUT')
+            <label for="edit-fish_type" class="block mb-2 font-bold">Jenis Ikan</label>
+            <input type="text" name="fish_type" id="edit-fish_type"
+                class="w-full p-2 border rounded-md border-slate-300">
+            <small class="text-slate-500">Ketik untuk meng-edit jenis ikan</small>
+            <small id="error" class="block text-red-500"></small>
+        </div>
+    </x-modal>
 @endsection
 
 @push('style')
@@ -109,17 +135,31 @@
 
             initFishTypeSelect('#fish_type', false);
 
-            $('#add-type').click(function() {
-                $('#modal-add-type').removeClass('hidden');
-            });
-
             $('#close-modal, #modal-overlay').click(function() {
                 $('#modal-add-type').addClass('hidden');
+                $('#modal-edit-type').addClass('hidden');
                 $('#fish_type').val(null).trigger('change'); // Reset select2
             });
 
             $('.modal-content').click(function(e) {
                 e.stopPropagation();
+            });
+
+            $('.btn-edit').click(function() {
+                var IdIkan = $(this).attr('data-idIkan');
+
+                console.log($(this).attr('data-namaIkan'), $(this).attr('data-idIkan'))
+
+                $('#modal-edit-type').removeClass('hidden');
+                console.log($('#edit-fish_type'));
+                $('#edit-fish_type').val($(this).attr('data-namaIkan'))
+
+                $('#form-edit-type').attr('method', 'POST');
+                $('#form-edit-type').attr('action', `/list-ikan/update/${IdIkan}`);
+            });
+
+            $('#add-type').click(function() {
+                $('#modal-add-type').removeClass('hidden');
             });
 
             $('#form-add-type').submit(function(e) {

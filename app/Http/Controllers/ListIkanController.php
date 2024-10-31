@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\FishType;
+use App\Models\SpotIkan;
 use Illuminate\Http\Request;
 
 class ListIkanController extends Controller
@@ -48,5 +49,25 @@ class ListIkanController extends Controller
             'message' => 'Jenis ikan berhasil ditambahkan',
             'new_types' => $newTypes
         ]);
+    }
+
+    public function update(Request $request, $id) {
+
+        $request->validate([
+            'fish_type' =>'required|string|max:255'
+        ]);
+        $fishType = FishType::find($id);
+        $fishType->nama = $request->fish_type;
+        $fishType->save();
+
+        // dd("berhasil", $request->all());
+        return redirect()->route('list-ikan')->with('success', 'Berhasil Mengubah Jenis Ikan');
+    }
+
+    public function show($id) {
+        $fishdatas = SpotIkan::whereJsonContains('tipe_ikan', $id)->get();
+        // dd($fishdatas);
+
+        return view('dashboard.tables.data-ikan', ['title'=>'fishdatas'], compact('fishdatas'));
     }
 }
