@@ -12,6 +12,9 @@
         rel="stylesheet">
     <script src="https://kit.fontawesome.com/bd2b93a447.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.dataTables.min.css">
+
     {{-- jquery --}}
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     @stack('style')
@@ -28,7 +31,7 @@
     <div class="lg:ml-[240px]" id="content">
         <x-navbar-dashboard></x-navbar-dashboard>
 
-        <div class="px-8 pb-12 pt-28">
+        <div class="px-8 pb-8 pt-28">
             @yield('content')
         </div>
     </div>
@@ -36,6 +39,8 @@
 
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
 
     <script src="{{ asset('js/map.js') }}"></script>
 

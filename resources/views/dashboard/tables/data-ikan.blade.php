@@ -12,38 +12,49 @@
                 <h4 class="font-bold">Keseluruhan Data</h4>
             </div>
             <div class="relative px-4 py-4">
-                <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-                    <table class="w-full text-sm text-left">
+                <div class="relative p-3 overflow-x-auto sm:rounded-lg">
+                    <table id="fishTable" class="w-full text-sm text-left row-border order-column stripe">
                         <thead class="rounded-md bg-sky-300">
                             <tr class="">
-                                <th class="py-3 rounded-tl-md">No</th>
-                                <th class="py-3">Jenis Ikan</th>
-                                <th class="py-3">Diinput Oleh</th>
-                                <th class="py-3">Koordinat</th>
-                                <th class="py-3">Status</th>
-                                <th class="py-3 rounded-tr-md">Aksi</th>
+                                <th class="py-3 rounded-tl-md">
+                                    No
+                                </th>
+                                <th class="py-3 cursor-pointer sort-header" data-sort="fish_type">
+                                    Jenis Ikan
+                                </th>
+                                <th class="py-3">
+                                    Diinput Oleh
+                                </th>
+                                <th class="py-3">
+                                    Koordinat
+                                </th>
+                                <th class="py-3">
+                                    Status
+                                </th>
+                                <th class="py-3 rounded-tr-md">
+                                    Aksi
+                                </th>
                             </tr>
                         </thead>
-                        @php
-                            $i = 1
-                        @endphp
-                        <tbody class="rounded-md">
+                        <tbody class="rounded-md" id="table-body">
                             @foreach ($fishdatas as $fishspot)
                                 <tr class="w-full transition-all ">
-                                    <td class="py-3">{{ $i++ }}</td>
+                                    <td class="py-3">{{ $loop->iteration }}</td>
                                     <td class="py-3 ">
                                         <div class="flex flex-wrap gap-2 min-w-[300px] max-w-[400px]">
-                                            @foreach($fishspot->getFishTypes() as $ikan)
-                                                <span class="px-3 py-1 text-sm transition-all duration-300 border rounded-md border-sky-500 hover:bg-sky-100">
+                                            @foreach ($fishspot->getFishTypes() as $ikan)
+                                                <span
+                                                    class="px-3 py-1 text-sm transition-all duration-300 border rounded-md border-sky-500 hover:bg-sky-100">
                                                     {{ $ikan->nama }}
                                                 </span>
                                             @endforeach
                                         </div>
                                     </td>
                                     <td class="py-3">{{ $fishspot->creator->username }}</td>
-                                    <td class="py-3">{{ $fishspot->latitude .' , '.  $fishspot->longitude }}</td>
+                                    <td class="py-3">{{ $fishspot->latitude . ' , ' . $fishspot->longitude }}</td>
                                     <td class="py-3">
-                                        <span class="px-4 py-2 transition-all duration-300 bg-green-500 rounded-md text-slate-100 hover:bg-green-600">{{ ucwords($fishspot->status) }}</span>
+                                        <span
+                                            class="px-4 py-2 transition-all duration-300 bg-green-500 rounded-md text-slate-100 hover:bg-green-600">{{ ucwords($fishspot->status) }}</span>
                                     </td>
                                     <td class="py-3">
                                         <a href="{{ route('preview.data', $fishspot) }}"
@@ -60,3 +71,18 @@
         </div>
     </div>
 @endsection
+
+@push('script')
+    <script>
+        $(document).ready(function() {
+            $('#fishTable').DataTable({
+                responsive: true,
+                columnDefs: [{
+                    targets: [5, 4], // kolom aksi
+                    orderable: false
+                }],
+                dom: '<"flex justify-between flex-wrap items-center mb-4"lf>rt<"flex justify-between items-center mt-4"ip>',
+            });
+        });
+    </script>
+@endpush

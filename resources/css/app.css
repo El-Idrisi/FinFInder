@@ -264,6 +264,37 @@ tbody tr:nth-child(even):hover {
     animation: moveZigzag 12s linear infinite;
 }
 
+.dataTables_wrapper .dataTables_filter {
+    float: none;
+    text-align: right;
+}
+
+.dataTables_wrapper .dataTables_length {
+    float: none;
+}
+
+.dataTables_wrapper .dataTables_paginate {
+    float: none;
+    text-align: right;
+}
+
+.dataTables_wrapper .dataTables_info {
+    float: none;
+    padding-top: 0;
+}
+
+/* Style untuk responsive tables */
+.dataTables_wrapper .dataTables_scroll {
+    overflow: auto;
+}
+
+/* Style untuk status badges */
+.status-badge {
+    @apply px-4 py-2 transition-all duration-300 rounded-md text-slate-100;
+}
+
+
+
 @keyframes moveZigzag {
     from {
         background-position:
