@@ -11,37 +11,43 @@
         <p class="inline text-slate-500">Detail Data</p>
     </div>
 
-    <x-form-group :isDelete='false' :isAccordion="false" :allowFooter="false" title="Detail Data">
-        <div class="px-4 py-6">
-            <div class="mb-4">
-                <h2 class="mb-4 font-bold">Diinput Oleh</h2>
-                <div
-                    class="inline px-4 py-2 transition-all duration-300 border-2 rounded-md border-sky-300 hover:bg-sky-300">
-                    <i class="fa-solid fa-user"></i> {{ $spotIkan->creator->username }}
+    <div class="bg-white rounded-md">
+        <div class="p-4 font-bold text-white bg-sky-800 rounded-t-md">
+            <h2>Detail Data</h2>
+        </div>
+        <div class="">
+
+            <div class="px-4 py-6">
+                <div class="mb-4">
+                    <h2 class="mb-4 font-bold">Diinput Oleh</h2>
+                    <div
+                        class="inline px-4 py-2 transition-all duration-300 border-2 rounded-md border-sky-300 hover:bg-sky-300">
+                        <i class="fa-solid fa-user"></i> {{ $spotIkan->creator->username }}
+                    </div>
                 </div>
-            </div>
-            <div class="mb-4">
-                <h2 class="mb-4 font-bold">Jenis Ikan</h2>
-                <div class="flex flex-wrap gap-2">
-                    @foreach ($spotIkan->getFishTypes() as $jenisIkan)
-                        <span
-                            class="inline px-4 py-2 transition-all duration-300 border-2 rounded-md border-sky-300 hover:bg-sky-300">{{ $jenisIkan->nama }}</span>
-                    @endforeach
+                <div class="mb-4">
+                    <h2 class="mb-4 font-bold">Jenis Ikan</h2>
+                    <div class="flex flex-wrap gap-2">
+                        @foreach ($spotIkan->getFishTypes() as $jenisIkan)
+                            <span
+                                class="inline px-4 py-2 transition-all duration-300 border-2 rounded-md border-sky-300 hover:bg-sky-300">{{ $jenisIkan->nama }}</span>
+                        @endforeach
+                    </div>
                 </div>
-            </div>
-            <div class="mb-4">
-                <h2 class="mb-2 font-bold">Deskripsi</h2>
-                <p>{{ $spotIkan->deskripsi }}</p>
-            </div>
-            <div class="mb-4">
-                <h2 class="mb-2 font-bold">Status</h2>
-                <span
-                    class="px-4 py-2 text-white transition-all duration-300 bg-green-500 rounded-md hover:bg-green-600">{{ $spotIkan->status }}</span>
-            </div>
-            <div class="relative w-full mt-2 border-2 rounded-md h-80 border-slate-400" id="map">
+                <div class="mb-4">
+                    <h2 class="mb-2 font-bold">Deskripsi</h2>
+                    <p>{{ $spotIkan->deskripsi }}</p>
+                </div>
+                <div class="mb-4">
+                    <h2 class="mb-2 font-bold">Status</h2>
+                    <span
+                        class="px-4 py-2 text-white transition-all duration-300 bg-green-500 rounded-md hover:bg-green-600">{{ $spotIkan->status }}</span>
+                </div>
+                <div class="relative w-full mt-2 border-2 rounded-md h-80 border-slate-400" id="map">
+                </div>
             </div>
         </div>
-    </x-form-group>
+    </div>
 @endsection
 
 @push('style')
@@ -85,6 +91,8 @@
             };
 
             initMap({
+                latitude: {{ $spotIkan->latitude }},
+                longitude: {{ $spotIkan->longitude }},
                 spotData
             });
         });

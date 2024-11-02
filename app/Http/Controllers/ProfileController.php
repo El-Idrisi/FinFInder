@@ -93,7 +93,7 @@ class ProfileController extends Controller
     {
         $request->validate([
             'verification_code' => 'required',
-            'new_email' => 'required|email'
+            'new_email' => 'required|email|ends_with:@gmail.com'
         ]);
 
         if (
