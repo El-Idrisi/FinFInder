@@ -41,8 +41,8 @@
                                 <tr class="w-full transition-all ">
                                     <td class="py-3">{{ $loop->iteration }}</td>
                                     <td class="py-3 ">
-                                        <div class="flex flex-wrap gap-2 min-w-[300px] max-w-[400px]">
-                                            @foreach ($fishspot->getFishTypes() as $ikan)
+                                        <div class="flex flex-wrap gap-2 lg:min-w-[300px] lg:max-w-[400px]">
+                                            @foreach ($fishspot->getFishTypes(5) as $ikan)
                                                 <span
                                                     class="px-3 py-1 text-sm transition-all duration-300 border rounded-md border-sky-500 hover:bg-sky-100">
                                                     {{ $ikan->nama }}
@@ -75,7 +75,11 @@
 @push('script')
     <script>
         $(document).ready(function() {
-            $('#fishTable').DataTable({
+            function isMobile() {
+                return window.innerWidth < 768;
+            }
+
+            const table = $('#fishTable').DataTable({
                 responsive: true,
                 language: {
                     url: '/datatable-language',
@@ -88,11 +92,24 @@
                 columnDefs: [{
                     targets: [5, 4], // kolom aksi
                     orderable: false
-                }],
+                }, {
+                    // Hanya tampilkan No dan Jenis Ikan
+                    responsivePriority: 1,
+                    targets: [0, 1, 5]
+                }, ],
                 dom: '<"flex justify-between flex-wrap items-center mb-4"lf>rt<"flex justify-end items-center mt-4"p>',
                 initComplete: function() {
                     $('.dataTables_filter input').attr('placeholder', 'Cari data...');
                     $('.dataTables_filter input').addClass('pl-10 border rounded-lg');
+
+                    if (isMobile()) {
+                        table.rows().every(function() {
+                            this.child.show();
+                            $(this.node()).addClass('parent shown');
+                            // Rotate icon saat expanded
+                            $(this.node()).find('td:first i').addClass('rotate-90');
+                        });
+                    }
                 },
             });
         });

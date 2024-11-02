@@ -318,6 +318,14 @@ table.dataTable.no-footer+.dataTables_paginate .paginate_button:hover,
     color: white !important;
     border-color: #0284c7 !important;
 }
+
+.dataTables_filter label{
+    @apply flex items-center;
+}
+
+.dataTables_filter label input{
+    @apply w-full;
+}
 /* Style DataTable */
 
 

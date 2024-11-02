@@ -32,9 +32,9 @@ class SpotIkan extends Model
         return $this->belongsTo(User::class, 'diverifikasi_oleh');
     }
 
-    public function getFishTypes()
+    public function getFishTypes($number='')
     {
         $fishTypeIds = json_decode($this->tipe_ikan, true);
-        return FishType::whereIn('id', $fishTypeIds)->get();
+        return FishType::whereIn('id', $fishTypeIds)->paginate($number);
     }
 }
