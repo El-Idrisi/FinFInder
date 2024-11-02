@@ -11,7 +11,7 @@ class ListIkanController extends Controller
     public function index()
     {
         $fishTypes = FishType::all();
-        return view('dashboard.tables.list-ikan', ['title' => 'FinFinder | List Ikan'], compact('fishTypes'));
+        return view('dashboard.jenisIkan.index', ['title' => 'FinFinder | List Ikan'], compact('fishTypes'));
     }
 
     public function delete($id)
