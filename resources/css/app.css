@@ -6,6 +6,7 @@
     font-family: "Inter", sans-serif;
 }
 
+/* Style Hambuger */
 .hamburger-active>span:nth-child(1) {
     @apply origin-top-left rotate-45;
 }
@@ -17,6 +18,7 @@
 .hamburger-active>span:nth-child(3) {
     @apply origin-bottom-left -rotate-45;
 }
+/* Style Hambuger */
 
 .navbar-fixed {
     @apply fixed z-[9999] bg-white bg-opacity-70 backdrop-blur-sm text-slate-900;
@@ -24,8 +26,7 @@
 }
 
 
-
-/* Styles for non-scrolled state */
+/* Styles Navbar Ketika Belum Di Scroll */
 header.navbar-home a.group.active {
     @apply font-bold text-sky-500;
 }
@@ -66,6 +67,7 @@ header.navbar-home:not(.navbar-fixed) a.group:hover {
 header.navbar-home:not(.navbar-fixed) .group:hover hr {
     @apply border-slate-900;
 }
+/* Styles Navbar Ketika Belum Di Scroll */
 
 .shadow-full-blue {
     box-shadow: -12px 12px 0 #0284c7;
@@ -77,6 +79,10 @@ header.navbar-home:not(.navbar-fixed) .group:hover hr {
 
 .desk {
     font-size: min(60px, 8vw);
+}
+
+.animate-motion {
+    animation: motion 4s ease-in-out infinite;
 }
 
 .shadow-manual {
@@ -106,6 +112,12 @@ header.navbar-home:not(.navbar-fixed) .group:hover hr {
     border-radius: 999px;
 }
 
+.img-bullet {
+    box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.2);
+    animation: pulse-shadow 2s infinite;
+}
+
+/* Style Accordion */
 .accor {
     max-height: 1000px;
     overflow: hidden;
@@ -129,6 +141,7 @@ header.navbar-home:not(.navbar-fixed) .group:hover hr {
 .accordion.active .fa-chevron-down {
     transform: rotate(180deg);
 }
+/* Style Accordion */
 
 #content {
     transition: margin-left 0.3s ease-out;
@@ -167,6 +180,7 @@ header.navbar-home:not(.navbar-fixed) .group:hover hr {
     @apply text-sky-500
 }
 
+/* Style Select 2 JS */
 .select2-container {
     width: 100% !important;
     z-index: 1;
@@ -208,7 +222,10 @@ header.navbar-home:not(.navbar-fixed) .group:hover hr {
     background: none !important;
     transition: all;
 }
+/* Style Select 2 JS */
 
+
+/* Style For Table */
 tbody tr:nth-child(even) {
     @apply bg-sky-100
 }
@@ -236,7 +253,10 @@ tbody tr:nth-child(odd):hover {
 tbody tr:nth-child(even):hover {
     @apply bg-sky-200
 }
+/* Style For Table */
 
+
+/* Style For LeaftLet */
 .leaflet-popup-content {
     min-width: 300px !important;
 }
@@ -244,16 +264,10 @@ tbody tr:nth-child(even):hover {
 .leaflet-popup-close-button {
     display: none;
 }
+/* Style For LeaftLet */
 
-.img-bullet {
-    box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.2);
-    animation: pulse-shadow 2s infinite;
-}
 
-.animate-motion {
-    animation: motion 4s ease-in-out infinite;
-}
-
+/* Style Bg-ZigZag */
 .bg-zigzag {
     background-color: #f0f9ff;
     opacity: 0.8;
@@ -263,58 +277,73 @@ tbody tr:nth-child(even):hover {
 
     animation: moveZigzag 12s linear infinite;
 }
+/* Style Bg-ZigZag */
 
-.dataTables_wrapper .dataTables_filter {
-    float: none;
-    text-align: right;
+
+/* Style DataTable */
+.dataTables_filter {
+    @apply bg-gray-200 pl-2 rounded-md
 }
 
-.dataTables_wrapper .dataTables_length {
-    float: none;
+.dataTables_filter label input {
+    @apply !bg-white
 }
 
-.dataTables_wrapper .dataTables_paginate {
-    float: none;
-    text-align: right;
+.dataTables_info {
+    @apply hidden
 }
 
-.dataTables_wrapper .dataTables_info {
-    float: none;
-    padding-top: 0;
+.dataTables_paginate {
+    @apply flex justify-end items-center mt-4
 }
 
-/* Style untuk responsive tables */
-.dataTables_wrapper .dataTables_scroll {
-    overflow: auto;
+.paginate_button {
+    @apply w-10 h-10 flex justify-center items-center !rounded-none !border !border-slate-200 transition-all !m-0 border-r-0
 }
 
-/* Style untuk status badges */
-.status-badge {
-    @apply px-4 py-2 transition-all duration-300 rounded-md text-slate-100;
+table.dataTable.no-footer+.dataTables_paginate .paginate_button:hover,
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+    background: #e2e8f0 !important;
+    color: #374151 !important;
+    border-color: #e2e8f0 !important;
 }
 
+.dataTables_wrapper .dataTables_paginate .paginate_button.current {
+    background: rgb(14 165 233) !important;
+    color: white !important;
+    border-color: rgb(14 165 233) !important;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+    background: #0284c7 !important;
+    color: white !important;
+    border-color: #0284c7 !important;
+}
+/* Style DataTable */
 
 
+/* KeyFrame */
 @keyframes moveZigzag {
     from {
         background-position:
-            0 0,
-            0 0,
-            40px 70px,
-            40px 70px,
-            0 0,
-            40px 70px;
+        0 0,
+        0 0,
+        40px 70px,
+        40px 70px,
+        0 0,
+        40px 70px;
     }
+
     to {
         background-position:
-            0 -140px,
-            0 -140px,
-            40px -70px,
-            40px -70px,
-            0 -140px,
-            40px -70px;
+        0 -140px,
+        0 -140px,
+        40px -70px,
+        40px -70px,
+        0 -140px,
+        40px -70px;
     }
 }
+
 @keyframes motion {
 
     0%,
@@ -345,7 +374,10 @@ tbody tr:nth-child(even):hover {
         box-shadow: 0 0 0 0 rgba(14, 165, 233, 0);
     }
 }
+/* KeyFrame */
 
+
+/* Custom Responsive */
 @media (max-width: 1024px) {
     .timeline::before {
         left: 31px;
@@ -357,3 +389,4 @@ tbody tr:nth-child(even):hover {
         left: 10px
     }
 }
+/* Custom Responsive */
