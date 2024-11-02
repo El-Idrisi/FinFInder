@@ -77,6 +77,9 @@
         $(document).ready(function() {
             $('#fishTable').DataTable({
                 responsive: true,
+                language: {
+                    url: '/datatable-language'
+                },
                 columnDefs: [{
                     targets: [5, 4], // kolom aksi
                     orderable: false

@@ -29,18 +29,30 @@ class="-translate-x-full lg:translate-x-0 h-full w-[240px] bg-white transition-a
             <img src="{{ asset('img/sidebar/Group-137.svg') }}" alt="table-icon" class="scale-125">
             Data Anda
         </a>
-        @if (Auth::user()->role == 'admin')
+    </div>
+</div>
+
+@if (Auth::user()->role == 'admin')
+<div class="px-4 mt-8 font-bold text-gray-400">
+    <h4 class="text-sm">Verifikasi</h4>
+    <div class="flex flex-col gap-6 mt-4 ml-4">
         <a href="#" class="flex items-center gap-4 transition-all duration-300 hover:text-sky-500">
             <img src="{{ asset('img/sidebar/Group 140.svg') }}" alt="verif-icon" class="scale-125">
             Verifikasi
         </a>
+    </div>
+</div>
+
+<div class="px-4 mt-8 font-bold text-gray-400">
+    <h4 class="text-sm">Jenis Ikan</h4>
+    <div class="flex flex-col gap-6 mt-4 ml-4">
         <a href="/list-ikan" class="flex items-center gap-4 transition-all duration-300 hover:text-sky-500">
             <img src="{{ asset('img/sidebar/Group 141.svg') }}" alt="list-icon" class="scale-125">
             List Jenis Ikan
         </a>
-        @endif
     </div>
 </div>
+@endif
 
 <div class="flex justify-center px-4 mt-8 font-bold">
     <a href="/data-ikan/create"

@@ -23,6 +23,11 @@ Route::get('/profil', function () {
 Route::get('/contact-us', [ContactController::class, 'index'])->name('contact');
 Route::post('/contact-us', [ContactController::class, 'send'])->name('contact.send');
 
+Route::get('/datatable-language', function() {
+    $json = file_get_contents('https://cdn.datatables.net/plug-ins/1.13.7/i18n/id.json');
+    return response($json)->header('Content-Type', 'application/json');
+});
+
 Route::middleware('guest')->group(function () {
     Route::controller(AuthController::class)->group(function () {
         Route::get('/login', 'showLoginForm')->name('login');
