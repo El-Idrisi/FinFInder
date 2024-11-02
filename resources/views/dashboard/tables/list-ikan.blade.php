@@ -16,35 +16,30 @@
         </div>
 
         <div class="">
-            <table class="w-full bg-white">
+            <table  class="w-full bg-white">
                 <thead>
-                    <tr class="bg-sky-300">
-                        <th class="px-4 py-2 text-left border-b-2 border-slate-300">No</th>
-                        <th class="px-4 py-2 text-left border-b-2 border-slate-300">Jenis Ikan</th>
-                        <th class="px-4 py-2 text-left border-b-2 border-slate-300">Aksi</th>
+                    <tr class="flex bg-sky-300">
+                        <th class="w-full px-4 py-2 text-left border-b-2 border-slate-300">No</th>
+                        <th class="w-full px-4 py-2 text-left border-b-2 border-slate-300">Jenis Ikan</th>
+                        <th class="w-full px-4 py-2 text-left border-b-2 border-slate-300">Aksi</th>
                     </tr>
                 </thead>
-                @php
-                    $i = 1;
-                @endphp
-                <tbody>
+                <tbody class="w-full">
                     @foreach ($fishTypes as $fish)
-                        <tr class="transition-all duration-300">
-                            <td class="px-4 py-2 text-left border-b-2 !rounded-none border-slate-300">{{ $i++ }}
+                        <tr class="flex items-center w-full duration-300 ransition-all">
+                            <td class="w-full  px-4 py-2 text-left  !rounded-none ">{{ $loop->iteration }}
                             </td>
-                            <td class="px-4 py-2 text-left border-b-2 border-slate-300">{{ $fish->nama }}</td>
-                            <td class="flex px-4 py-2 text-left border-b-2 !rounded-none border-slate-300">
+                            <td class="w-full py-2 text-left tpx-4 ">{{ $fish->nama }}</td>
+                            <td class="flex w-full  px-4 py-2 text-left gap-4  !rounded-none ">
                                 <a href="{{ route('list-ikan.sort', $fish->id) }}"
-                                    class="flex items-center justify-center p-2 transition-all duration-300 rounded-md bg-sky-500 text-slate-100 w-fit hover:bg-sky-600">
+                                    class="flex items-center justify-center p-2 transition-all duration-300 rounded-md bg-sky-500 text-slate-100 w-fit hover:bg-sky-600 h-fit">
                                     <i class="fas fa-search"></i>
                                 </a>
-                                <span class="mx-2">|</span>
                                 <a href="#"
-                                    class="flex items-center justify-center p-2 transition-all duration-300 bg-yellow-500 rounded-md btn-edit text-slate-100 w-fit hover:bg-yellow-600"
+                                    class="flex items-center justify-center p-2 transition-all duration-300 bg-yellow-500 rounded-md h-fit w-fit btn-edit text-slate-100 hover:bg-yellow-600"
                                     data-namaIkan="{{ $fish->nama }}" data-idIkan="{{ $fish->id }}">
                                     <i class="fas fa-edit"></i>
                                 </a>
-                                <span class="mx-2">|</span>
                                 <form action="{{ route('list-ikan.delete', $fish->id) }}" method="GET" class="inline">
                                     @csrf
                                     @method('DELETE')
