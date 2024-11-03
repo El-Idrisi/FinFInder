@@ -24,14 +24,14 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $request->validate([
-            'login' => 'required|string',
+            'username_atau_email' => 'required|string',
             'password' => 'required|string',
         ]);
 
-        $loginType = filter_var($request->input('login'), FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+        $loginType = filter_var($request->input('username_atau_email'), FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
 
         $credentials = [
-            $loginType => $request->input('login'),
+            $loginType => $request->input('username_atau_email'),
             'password' => $request->input('password'),
         ];
 
@@ -46,8 +46,8 @@ class AuthController extends Controller
 
 
         return back()->withErrors([
-            'login' => 'Username/email atau password yang diberikan tidak sesuai.',
-        ])->withInput($request->only('login'));
+            'username_atau_email' => 'Username/email atau password yang diberikan tidak sesuai.',
+        ])->withInput($request->only('username_atau_email'));
     }
 
     // Logout

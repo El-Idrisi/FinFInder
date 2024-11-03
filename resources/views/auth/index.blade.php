@@ -9,8 +9,8 @@
                     @csrf
 
                     <div class="flex flex-col my-8">
-                        <label for="login" class="mb-2 text-lg font-bold">Username atau Email</label>
-                        <input type="text" name="login" id="login" placeholder="Username atau Email"
+                        <label for="username_atau_email" class="mb-2 text-lg font-bold">Username atau Email</label>
+                        <input type="text" name="username_atau_email" id="username_atau_email" placeholder="Username atau Email"
                             class="px-4 py-3 rounded-full bg-[#e9e9e9] focus:outline outline-none focus:outline-sky-500"
                             autocomplete="off">
                     </div>
@@ -27,7 +27,7 @@
                         </div>
                     </div>
 
-                    @error('login')
+                    @error('username_atau_email')
                         <p class="text-center text-red-500">{{ $message }}</p>
                     @enderror
                     @error('password')

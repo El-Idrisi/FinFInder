@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.dataTables.min.css">
+    <link rel="shortcut icon" href="{{ asset('icon/favicon.ico') }}" type="image/x-icon">
 
     {{-- jquery --}}
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -25,8 +26,6 @@
 <body class="relative font-inter -z-[9999] overflow-x-hidden bg-sky-50">
 
     <x-sidebar-dashboard></x-sidebar-dashboard>
-    <div class="fixed top-0 bottom-0 w-full bg-black z-[9]  scale-0 transition-all duration-100 bg-opacity-0"
-        id="bg-cover"></div>
 
     <div class="lg:ml-[240px]" id="content">
         <x-navbar-dashboard></x-navbar-dashboard>
