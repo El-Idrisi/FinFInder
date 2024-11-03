@@ -30,6 +30,9 @@
                     @error('login')
                         <p class="text-center text-red-500">{{ $message }}</p>
                     @enderror
+                    @error('password')
+                        <p class="text-center text-red-500">{{ $message }}</p>
+                    @enderror
 
                     <button type="submit"
                         class="w-full py-2 my-4 text-lg font-bold transition-all duration-500 rounded-full bg-gradient-to-r from-sky-600 via-sky-400 to-sky-600 bg-pos-100 bg-size-200 text-slate-100 hover:bg-pos-0">Login

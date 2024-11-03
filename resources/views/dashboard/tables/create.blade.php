@@ -17,12 +17,12 @@
                 @csrf
 
                 <div class="flex flex-col !w-full mb-4">
-                    <label for="fish_type" class="mb-2 font-bold">Jenis Ikan</label>
-                    <select name="fish_type[]" id="fish_type" class="h-10 border-2 rounded-md border-slate-400"
+                    <label for="jenis_ikan" class="mb-2 font-bold">Jenis Ikan</label>
+                    <select name="jenis_ikan[]" id="jenis_ikan" class="h-10 border-2 rounded-md border-slate-400"
                         multiple="multiple">
                     </select>
                     <p class="text-red-500">
-                        @error('fish_type')
+                        @error('jenis_ikan')
                             {{ $message }}
                         @enderror
                     </p>
@@ -139,7 +139,7 @@
 
         });
         $(document).ready(function() {
-            initFishTypeSelect('#fish_type');
+            initFishTypeSelect('#jenis_ikan');
         });
     </script>
 @endpush

@@ -53,7 +53,7 @@
                     </div>
 
                     <div class="flex flex-wrap gap-12 mt-8 lg:flex-nowrap">
-                        <x-input-form id="new_email" title="New Email" tipe="email" value=""></x-input-form>
+                        <x-input-form id="email_baru" title="Email Baru" tipe="email" value=""></x-input-form>
                     </div>
 
                     <x-btn-submit tipe="button" id="sendVerificationCode">Kirim Kode Verifikasi</x-btn-submit>
@@ -91,15 +91,15 @@
                 </div>
 
                 <div class="flex flex-wrap gap-12 lg:flex-nowrap">
-                    <x-input-password-form id="current_password" title="Password Sekarang"></x-input-password-form>
+                    <x-input-password-form id="password_sekarang" title="Password Sekarang"></x-input-password-form>
                 </div>
 
                 <div class="flex flex-wrap gap-12 mt-8 lg:flex-nowrap">
-                    <x-input-password-form id="new_password" title="Password Baru"></x-input-password-form>
+                    <x-input-password-form id="password_baru" title="Password Baru"></x-input-password-form>
                 </div>
 
                 <div class="flex flex-wrap gap-12 mt-8 lg:flex-nowrap">
-                    <x-input-password-form id="new_password_confirmation"
+                    <x-input-password-form id="password_baru_confirmation"
                         title="Konfirmasi Password"></x-input-password-form>
                 </div>
 
@@ -135,7 +135,7 @@
 
                 const password = document.getElementById('password');
                 const code = document.getElementById('verification_code');
-                const newEmail = document.getElementById('new_email');
+                const newEmail = document.getElementById('email_baru');
 
                 // Tambahkan elemen loading
                 const loadingIndicator = document.createElement('div');
@@ -172,7 +172,7 @@
 
                     axios.post('/send-verification-code', {
                             password: password.value,
-                            new_email: newEmail.value
+                            email_baru: newEmail.value
                         })
                         .then(function(response) {
                             showLoading(false);
@@ -192,7 +192,7 @@
 
                     axios.post('/verify-email-change', {
                             verification_code: code.value,
-                            new_email: newEmail.value
+                            email_baru: newEmail.value
                         })
                         .then(function(response) {
                             showLoading(false);
@@ -208,15 +208,15 @@
 
                 const updatePasswordBtn = document.getElementById('UpdatePassword');
                 const messagePass = document.getElementById('message-pass');
-                const currentPassword = document.getElementById('current_password');
-                const newPassword = document.getElementById('new_password');
-                const newPasswordConfirmation = document.getElementById('new_password_confirmation');
+                const currentPassword = document.getElementById('password_sekarang');
+                const newPassword = document.getElementById('password_baru');
+                const newPasswordConfirmation = document.getElementById('password_baru_confirmation');
 
                 updatePasswordBtn.addEventListener('click', function() {
                     axios.post('/change-password', {
-                            current_password: currentPassword.value,
-                            new_password: newPassword.value,
-                            new_password_confirmation: newPasswordConfirmation.value
+                            password_sekarang: currentPassword.value,
+                            password_baru: newPassword.value,
+                            password_baru_confirmation: newPasswordConfirmation.value
                         })
                         .then(function(response) {
                             showMessage(messagePass, response.data.message, true, true);

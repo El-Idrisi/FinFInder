@@ -70,7 +70,7 @@ class ProfileController extends Controller
     {
         $request->validate([
             'password' => 'required',
-            'new_email' => 'required|email|unique:users,email|ends_with:@gmail.com'
+            'email_baru' => 'required|email|unique:users,email|ends_with:@gmail.com'
         ]);
 
         if (!Hash::check($request->password, auth()->user()->password)) {
@@ -81,10 +81,10 @@ class ProfileController extends Controller
 
         // Simpan kode di session atau database
         session(['email_change_code' => $code]);
-        session(['new_email' => $request->new_email]);
+        session(['email_baru' => $request->email_baru]);
 
         // Kirim email dengan kode
-        Mail::to($request->new_email)->send(new VerificationCodeMail($code));
+        Mail::to($request->email_baru)->send(new VerificationCodeMail($code));
 
         return response()->json(['message' => 'Kode verifikasi telah dikirim']);
     }
@@ -93,21 +93,21 @@ class ProfileController extends Controller
     {
         $request->validate([
             'verification_code' => 'required',
-            'new_email' => 'required|email|ends_with:@gmail.com'
+            'email_baru' => 'required|email|ends_with:@gmail.com'
         ]);
 
         if (
             $request->verification_code !== session('email_change_code') ||
-            $request->new_email !== session('new_email')
+            $request->email_baru !== session('email_baru')
         ) {
             return response()->json(['message' => 'Kode verifikasi salah atau email tidak cocok'], 422);
         }
 
         $user = auth()->user();
-        $user->email = $request->new_email;
+        $user->email = $request->email_baru;
         $user->save();
 
-        session()->forget(['email_change_code', 'new_email']);
+        session()->forget(['email_change_code', 'email_baru']);
 
         return response()->json(['message' => 'Email berhasil diubah']);
     }
@@ -115,12 +115,12 @@ class ProfileController extends Controller
     public function changePassword(Request $request)
     {
         $request->validate([
-            'current_password' => ['required', function ($attribute, $value, $fail) {
+            'password_sekarang' => ['required', function ($attribute, $value, $fail) {
                 if (!Hash::check($value, Auth::user()->password)) {
                     $fail('Password saat ini tidak benar.');
                 }
             }],
-            'new_password' => ['required', 'confirmed', Password::defaults()],
+            'password_baru' => ['required', 'confirmed', Password::defaults()],
         ]);
 
         $user = Auth::user();

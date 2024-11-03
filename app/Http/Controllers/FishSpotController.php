@@ -23,7 +23,7 @@ class FishSpotController extends Controller
     public function create(Request $request)
     {
         $request->validate([
-            'fish_type' => 'required|array',
+            'jenis_ikan' => 'required|array',
             'longitude' => 'required|numeric',
             'latitude' => 'required|numeric',
             'deskripsi' => 'required|string',
@@ -32,7 +32,7 @@ class FishSpotController extends Controller
         $fishTypeIds = [];
 
 
-        foreach ($request->fish_type as $fishType) {
+        foreach ($request->jenis_ikan as $fishType) {
             if (is_numeric($fishType)) {
                 $fishTypeIds[] = $fishType;
             } else {
