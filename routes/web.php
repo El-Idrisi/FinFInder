@@ -23,7 +23,7 @@ Route::get('/profil', function () {
 Route::get('/contact-us', [ContactController::class, 'index'])->name('contact');
 Route::post('/contact-us', [ContactController::class, 'send'])->name('contact.send');
 
-Route::get('/datatable-language', function() {
+Route::get('/datatable-language', function () {
     $json = file_get_contents('https://cdn.datatables.net/plug-ins/1.13.7/i18n/id.json');
     return response($json)->header('Content-Type', 'application/json');
 });
@@ -74,15 +74,15 @@ Route::middleware('auth')->group(function () {
         Route::get('/data-ikan', 'showAll')->name('data-ikan');
 
         Route::get('/data-ikan/view/{id}', 'viewData')->name('preview.data');
-
     });
 
-    Route::middleware(AdminMiddleware::class)->group(function () {
-        Route::controller(ListIkanController::class)->group(function () {
+
+    Route::controller(ListIkanController::class)->group(function () {
+        Route::get('/fish-types/search', 'search')->name('fish-types.search');
+        Route::middleware(AdminMiddleware::class)->group(function () {
             Route::get('/list-ikan', 'index')->name('list-ikan');
             Route::get('/list-ikan/delete/{id}', 'delete')->name('list-ikan.delete');
             Route::post('/list-ikan/create', 'store')->name('list-ikan.create');
-            Route::get('/fish-types/search', 'search')->name('fish-types.search');
             Route::put('/list-ikan/update/{id}', 'update')->name('list-ikan.update');
             Route::get('/list-ikan/{id}', 'show')->name('list-ikan.sort');
         });
