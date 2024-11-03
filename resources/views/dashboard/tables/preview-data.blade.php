@@ -36,7 +36,7 @@
                 </div>
                 <div class="mb-4">
                     <h2 class="mb-2 font-bold">Deskripsi</h2>
-                    <p>{{ $spotIkan->deskripsi }}</p>
+                    <p>{!! $spotIkan->deskripsi !!}</p>
                 </div>
                 <div class="mb-4">
                     <h2 class="mb-2 font-bold">Status</h2>
@@ -82,7 +82,7 @@
                         @endforeach
                     </div>
                     <div class="mb-4">
-                        {{ $spotIkan->deskripsi }}
+                        {!! $spotIkan->deskripsi !!}
                     </div>
                     <div class="border-t border-slate-200">
                         <p class="italic text-gray-400">Created by <span class="not-italic font-bold">{{ $spotIkan->creator->username }}</span></p>

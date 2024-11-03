@@ -83,6 +83,9 @@
     {{-- select2 css --}}
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
+    <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/43.3.0/ckeditor5.css" />
+
+
     {{-- jquery --}}
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
@@ -97,6 +100,35 @@
 @endpush
 
 @push('script')
+    <script type="importmap">
+        {
+            "imports": {
+                "ckeditor5": "https://cdn.ckeditor.com/ckeditor5/43.3.0/ckeditor5.js",
+                "ckeditor5/": "https://cdn.ckeditor.com/ckeditor5/43.3.0/"
+            }
+        }
+    </script>
+
+    <script type="module">
+        import {
+            ClassicEditor,
+            Essentials,
+            Bold,
+            Italic,
+            Font,
+            Paragraph
+        } from 'ckeditor5';
+
+        ClassicEditor
+            .create( document.querySelector( '#deskripsi' ), {
+                plugins: [ Essentials, Bold, Italic, Font, Paragraph ],
+                toolbar: [
+                    'undo', 'redo', '|', 'bold', 'italic', '|',
+                    'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor'
+                ]
+            } )
+    </script>
+
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
