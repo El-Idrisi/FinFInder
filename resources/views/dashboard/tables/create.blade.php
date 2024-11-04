@@ -86,6 +86,7 @@
     <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/43.3.0/ckeditor5.css" />
 
 
+
     {{-- jquery --}}
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
@@ -96,10 +97,6 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js'></script>
-    <script src="//unpkg.com/leaflet-gesture-handling"></script>
-@endpush
-
-@push('script')
     <script type="importmap">
         {
             "imports": {
@@ -108,7 +105,10 @@
             }
         }
     </script>
+    <script src="//unpkg.com/leaflet-gesture-handling"></script>
+@endpush
 
+@push('script')
     <script type="module">
         import {
             ClassicEditor,
@@ -120,15 +120,16 @@
         } from 'ckeditor5';
 
         ClassicEditor
-            .create( document.querySelector( '#deskripsi' ), {
-                plugins: [ Essentials, Bold, Italic, Font, Paragraph ],
+            .create(document.querySelector('#deskripsi'), {
+                plugins: [Essentials, Bold, Italic, Font, Paragraph],
                 toolbar: [
                     'undo', 'redo', '|', 'bold', 'italic', '|',
                     'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor'
                 ]
-            } )
+            })
+            .then( /* ... */ )
+            .catch( /* ... */ );
     </script>
-
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
