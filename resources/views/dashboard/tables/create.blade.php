@@ -127,8 +127,6 @@
                     'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor'
                 ]
             })
-            .then( /* ... */ )
-            .catch( /* ... */ );
     </script>
 
     <script>

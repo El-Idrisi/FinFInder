@@ -82,7 +82,7 @@
             const table = $('#fishTable').DataTable({
                 responsive: true,
                 language: {
-                    url: '/datatable-language',
+                    url: '{{ asset('js/datatables-id.json') }}',
                     search: `<i class="fas fa-search"></i>`,
                     paginate: {
                         next: '<i class="fas fa-chevron-right"></i>',
