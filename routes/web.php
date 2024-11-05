@@ -67,6 +67,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/data-ikan/create', 'showCreate')->name('fish.showCreate');
         Route::post('/data-ikan/submit', 'create')->name('fish.create');
         Route::get('/data-ikan', 'showAll')->name('data-ikan');
+        Route::get('/data-anda', 'index')->name('data.index');
 
         Route::get('/data-ikan/view/{id}', 'viewData')->name('preview.data');
     });

@@ -27,7 +27,7 @@
                 <img src="{{ asset('img/sidebar/Group 136.svg') }}" alt="fish-icon" class="scale-125">
                 Data Ikan
             </a>
-            <a href="#" class="flex items-center gap-4 transition-all duration-300 hover:text-sky-500">
+            <a href="/data-anda" class="flex items-center gap-4 transition-all duration-300 hover:text-sky-500">
                 <img src="{{ asset('img/sidebar/Group-137.svg') }}" alt="table-icon" class="scale-125">
                 Data Anda
             </a>

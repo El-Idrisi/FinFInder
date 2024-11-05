@@ -16,6 +16,12 @@ class FishSpotController extends Controller
         return view('dashboard.tables.data-ikan', ['title' => 'FinFinder | All Fish Spots', 'fishdatas' => $fishdatas]);
     }
 
+    public function index() {
+        $userId = Auth::id();
+        $fishdatas = SpotIkan::where('dibuat_oleh', $userId)->get();
+        return view('dashboard.tables.index', ['title' => 'FinFinder | Show Data', 'fishdatas' => $fishdatas]);
+    }
+
     public function showCreate()
     {
         return view('dashboard.tables.create', ['title' => 'FinFinder | Create Fish Spot']);

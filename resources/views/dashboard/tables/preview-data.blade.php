@@ -41,7 +41,7 @@
                 <div class="mb-4">
                     <h2 class="mb-2 font-bold">Status</h2>
                     <span
-                        class="px-4 py-2 text-white transition-all duration-300 bg-green-500 rounded-md hover:bg-green-600">{{ $spotIkan->status }}</span>
+                        class="px-4 py-2 font-bold text-white transition-all duration-300 rounded-md {{ $spotIkan->status == 'disetujui' ? 'bg-green-500 hover:bg-green-600' : ($spotIkan->status == 'ditunda' ? 'bg-yellow-500 hover:bg-yellow-600' : 'bg-red-500 hover:bg-red-600') }}">{{ ucwords($spotIkan->status) }}</span>
                 </div>
                 <div class="relative w-full mt-2 border-2 rounded-md h-80 border-slate-400" id="map">
                 </div>
