@@ -5,7 +5,7 @@
         <h2 class="mb-2 text-3xl font-bold">Data Ikan</h2>
         <a href="/dashboard"
             class="after:content-['>'] transition-all duration-300 after:text-black after:px-2 hover:text-slate-500">Dashboard</a>
-        <p class="inline text-slate-500">Data Ikan</p>
+        <p class="inline text-slate-500">Data Anda</p>
 
         <div class="relative mt-4 bg-white">
             <div class="px-4 py-2 border-b-2 border-slate-200">
@@ -13,7 +13,7 @@
             </div>
             <div class="relative px-4 py-4">
                 <div class="relative p-3 overflow-x-auto sm:rounded-lg">
-                    <table id="fishTable" class="w-full text-sm text-left row-border order-column stripe">
+                    <table id="fishTable" class="w-full text-sm text-left row-border order-column stripe" style="width: 100%">
                         <thead class="rounded-md bg-sky-300">
                             <tr class="">
                                 <th class="py-3 rounded-tl-md">
@@ -56,11 +56,11 @@
                                         <span
                                             class="px-4 py-2 transition-all duration-300 rounded-md text-slate-100 font-bold {{ $fishspot->status == 'disetujui' ? 'bg-green-500 hover:bg-green-600' : ($fishspot->status == 'ditunda' ? 'bg-yellow-500 hover:bg-yellow-600' : 'bg-red-500 hover:bg-red-600') }}">{{ ucwords($fishspot->status) }}</span>
                                     </td>
-                                    <td class="py-3">
+                                    <td class="flex gap-2 py-3">
                                         <a href="{{ route('preview.data', $fishspot) }}"
                                             class="p-2 transition-all duration-300 rounded-md cursor-pointer bg-sky-500 text-slate-100 hover:bg-sky-600"><i
                                                 class=" fa-solid fa-magnifying-glass"></i></a>
-                                        <a href="#"
+                                        <a href="{{ route('fish.edit', $fishspot) }}"
                                             class="p-2 transition-all duration-300 bg-yellow-500 rounded-md cursor-pointer text-slate-100 hover:bg-yellow-600"><i
                                                 class="fa-solid fa-pen-to-square"></i></a>
                                         <a href="#"

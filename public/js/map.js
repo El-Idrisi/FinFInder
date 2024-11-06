@@ -1,4 +1,3 @@
-// Buat file baru: public/js/map-initialize.js
 function initMap(options = {}) {
     const {
         containerId = 'map',
@@ -8,6 +7,9 @@ function initMap(options = {}) {
         isEditable = false,
         spotData = null,
     } = options;
+
+    ;
+
 
     let map = L.map(containerId, {
         fullscreenControl: true,

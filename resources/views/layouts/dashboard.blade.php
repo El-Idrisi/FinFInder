@@ -121,7 +121,96 @@
     </script>
 
     <script>
-        function initMapTabs() {
+        function initMap(options = {}) {
+            const {
+                containerId = 'map',
+                    latitude = 1.3848069459548475,
+                    longitude = 102.18214794585786,
+                    zoom = 10,
+                    isEditable = false,
+                    spotData = null,
+                    isEdit = false // Tambah parameter untuk mode edit
+            } = options;
+
+            let map = L.map(containerId, {
+                fullscreenControl: true,
+                gestureHandling: true,
+            }).setView([latitude, longitude], zoom);
+
+            L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+            }).addTo(map);
+
+            let currentMarker = null;
+
+            // Jika mode edit atau edit existing spot
+            if (isEditable || isEdit) {
+                map.on('click', function(e) {
+                    const lat = e.latlng.lat;
+                    const lng = e.latlng.lng;
+
+                    if (currentMarker) {
+                        map.removeLayer(currentMarker);
+                    }
+
+                    currentMarker = L.marker([lat, lng]).addTo(map);
+                    currentMarker.bindPopup("Latitude: " + lat + "<br>Longitude: " + lng).openPopup();
+
+                    document.getElementById('latitude').value = lat;
+                    document.getElementById('longitude').value = lng;
+                });
+
+                // Jika mode edit, gunakan data yang ada
+                if (isEdit && spotData) {
+                    currentMarker = L.marker([spotData.latitude, spotData.longitude]).addTo(map);
+                    currentMarker.bindPopup("Latitude: " + spotData.latitude + "<br>Longitude: " + spotData.longitude)
+                        .openPopup();
+                    map.setView([spotData.latitude, spotData.longitude], zoom);
+                } else {
+                    // Jika ada nilai yang tersimpan
+                    const savedLat = document.getElementById('latitude')?.value;
+                    const savedLng = document.getElementById('longitude')?.value;
+                    if (savedLat && savedLng) {
+                        currentMarker = L.marker([savedLat, savedLng]).addTo(map);
+                        currentMarker.bindPopup("Latitude: " + savedLat + "<br>Longitude: " + savedLng).openPopup();
+                    }
+                }
+            }
+
+            // Jika mode view (dengan data spot)
+            if (spotData && !isEdit) {
+                const marker = L.marker([spotData.latitude, spotData.longitude]).addTo(map);
+                marker.bindPopup(spotData.popupContent);
+
+                // Tambahkan coordinate display
+                const coordDisplay = L.control({
+                    position: 'topright'
+                });
+                coordDisplay.onAdd = function(map) {
+                    const div = L.DomUtil.create('div', 'coord-display');
+                    div.style.background = 'white';
+                    div.style.padding = '5px';
+                    div.style.border = '2px solid #ccc';
+                    return div;
+                };
+                coordDisplay.addTo(map);
+
+                const coord = document.querySelector('.coord-display');
+                coord.innerHTML = `
+                    <strong>Koordinat Titik Lokasi:</strong><br>
+                    Lat:${spotData.latitude}, Long:${spotData.longitude}
+                `;
+            }
+
+            setTimeout(() => {
+                map.invalidateSize();
+            }, 100);
+
+            return map;
+        }
+
+        function initMapTabs(spotData = null) { // Tambah parameter spotData
             const tabs = document.querySelectorAll('.tabs');
             tabs.forEach((tab) => {
                 tab.addEventListener('click', function(e) {
@@ -136,11 +225,11 @@
                     line.style.width = e.target.offsetWidth + 'px';
                     line.style.left = e.target.offsetLeft + 'px';
 
-                    // Get saved coordinates
-                    const savedLat = document.getElementById('latitude')?.value || '';
-                    const savedLng = document.getElementById('longitude')?.value || '';
-
-                    console.log(e.target.classList.contains('map'), e.target.classList.contains('input'));
+                    // Get coordinates (dari spotData jika ada, atau dari input)
+                    const savedLat = spotData ? spotData.latitude : (document.getElementById('latitude')
+                        ?.value || '');
+                    const savedLng = spotData ? spotData.longitude : (document.getElementById('longitude')
+                        ?.value || '');
 
                     const panel = document.querySelector('#panel');
 
@@ -153,11 +242,12 @@
 
                         initMap({
                             isEditable: true,
+                            isEdit: !!spotData,
+                            spotData: spotData,
                             latitude: savedLat || 1.3848069459548475,
                             longitude: savedLng || 102.18214794585786
                         });
                     } else if (e.target.classList.contains('input')) {
-                        console.log(panel)
                         panel.innerHTML = `
                     <div class="mt-4">
                         <x-input-form id="latitude" title="Latitude" tipe="text" value="${savedLat}">

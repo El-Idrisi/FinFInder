@@ -10,6 +10,7 @@ class SpotIkan extends Model
     use HasFactory;
 
     protected $table = 'spot_ikan';
+    protected $guarded = ['id'];  
 
     protected $fillable = [
         'tipe_ikan',

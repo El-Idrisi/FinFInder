@@ -2,13 +2,12 @@
 
 @section('content')
     <div class="mb-8">
-        <h2 class="mb-2 text-3xl font-bold">Tambah Data</h2>
+        <h2 class="mb-2 text-3xl font-bold">Edit Data</h2>
         <a href="/dashboard"
             class="after:content-['>'] transition-all duration-300 after:text-black after:px-2 hover:text-slate-500">Dashboard</a>
-        <a href="/data-ikan"
-            class="after:content-['>'] transition-all duration-300 after:text-black after:px-2 hover:text-slate-500">Data
-            Ikan</a>
-        <p class="inline text-slate-500">Tambah Data</p>
+        <a href="/data-anda"
+            class="after:content-['>'] transition-all duration-300 after:text-black after:px-2 hover:text-slate-500">Data Anda</a>
+        <p class="inline text-slate-500">Edit Data</p>
     </div>
 
     <x-form-group :isDelete="false" :isAccordion="false" :allowFooter="false" title="Tambah Data">
@@ -20,6 +19,9 @@
                     <label for="jenis_ikan" class="mb-2 font-bold">Jenis Ikan</label>
                     <select name="jenis_ikan[]" id="jenis_ikan" class="h-10 border-2 rounded-md border-slate-400"
                         multiple="multiple">
+                        @foreach ($spotIkan->getFishTypes() as $fish)
+                            <option selected value="{{ $fish->id }}">{{ $fish->nama }}</option>
+                        @endforeach
                     </select>
                     <p class="text-red-500">
                         @error('jenis_ikan')
@@ -28,7 +30,9 @@
                     </p>
                 </div>
 
-                <x-textarea-input id="deskripsi" title="Deskripsi"></x-textarea-input>
+                <x-textarea-input id="deskripsi" title="Deskripsi">
+                    {{ $spotIkan->deskripsi }}
+                </x-textarea-input>
                 <p class="text-red-500">
                     @error('deskripsi')
                         {{ $message }}
@@ -131,10 +135,17 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            initMap({
-                isEditable: true
-            });
-            initMapTabs();
+            const spotData = {
+                latitude: {{ $spotIkan->latitude }},
+                longitude: {{ $spotIkan->longitude }},
+                popupContent: `
+                    <strong>Koordinat Titik Lokasi:</strong><br>
+                    Lat{{ $spotIkan->latitude }}, Long{{ $spotIkan->longitude }}
+                `
+            }
+            initMapTabs(spotData);
+
+            document.querySelector('.tabs.map').click();
 
         });
         $(document).ready(function() {

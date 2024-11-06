@@ -61,6 +61,11 @@ class FishSpotController extends Controller
         return redirect()->route('data-ikan')->with('success', 'Berhasil Menambahkan Fish Spot Baru');
     }
 
+    public function showEdit(SpotIkan $spotIkan) {
+        // dd($spotIkan);
+        return view('dashboard.tables.edit', ['title' => 'FinFinder | Edit Fish Spot', 'spotIkan' => $spotIkan]);
+    }
+
     public function viewData($id) {
         $spotIkan = SpotIkan::find($id);
         return view('dashboard.tables.preview-data', ['title' => 'FinFinder | Show Data', 'spotIkan' => $spotIkan]);
