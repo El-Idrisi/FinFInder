@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="mb-8">
-        <h2 class="mb-2 text-3xl font-bold">Data Ikan</h2>
+        <h2 class="mb-2 text-3xl font-bold">Data Anda</h2>
         <a href="/dashboard"
             class="after:content-['>'] transition-all duration-300 after:text-black after:px-2 hover:text-slate-500">Dashboard</a>
         <p class="inline text-slate-500">Data Anda</p>
@@ -60,7 +60,7 @@
                                         <a href="{{ route('preview.data', $fishspot) }}"
                                             class="p-2 transition-all duration-300 rounded-md cursor-pointer bg-sky-500 text-slate-100 hover:bg-sky-600"><i
                                                 class=" fa-solid fa-magnifying-glass"></i></a>
-                                        <a href="{{ route('fish.edit', $fishspot) }}"
+                                        <a href="{{ route('fish.showEdit', $fishspot) }}"
                                             class="p-2 transition-all duration-300 bg-yellow-500 rounded-md cursor-pointer text-slate-100 hover:bg-yellow-600"><i
                                                 class="fa-solid fa-pen-to-square"></i></a>
                                         <a href="#"

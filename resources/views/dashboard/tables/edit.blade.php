@@ -10,11 +10,11 @@
         <p class="inline text-slate-500">Edit Data</p>
     </div>
 
-    <x-form-group :isDelete="false" :isAccordion="false" :allowFooter="false" title="Tambah Data">
+    <x-form-group :isDelete="false" :isAccordion="false" :allowFooter="false" title="Edit Data">
         <div class="px-8 py-4">
-            <form action="{{ route('fish.create') }}" method="POST">
+            <form action="{{ route('fish.edit', $spotIkan->id) }}" method="POST">
                 @csrf
-
+                @method('PUT')
                 <div class="flex flex-col !w-full mb-4">
                     <label for="jenis_ikan" class="mb-2 font-bold">Jenis Ikan</label>
                     <select name="jenis_ikan[]" id="jenis_ikan" class="h-10 border-2 rounded-md border-slate-400"
@@ -56,6 +56,7 @@
 
                         <input type="hidden" id="latitude" name="latitude">
                         <input type="hidden" id="longitude" name="longitude">
+                        <small class="text-slate-500">Pilih pada peta untuk menentukan titik lokasi   </small>
                         <p class="text-red-500">
                             @error('latitude')
                                 {{ $message }}
@@ -68,7 +69,7 @@
                 </div>
 
                 <button type="submit"
-                    class="w-full py-2 mt-8 text-lg font-bold text-center text-white transition duration-300 rounded-md bg-sky-500 hover:bg-sky-600">Tambah
+                    class="w-full py-2 mt-8 text-lg font-bold text-center text-white transition duration-300 rounded-md bg-sky-500 hover:bg-sky-600">Update
                     Data</button>
             </form>
         </div>
@@ -120,15 +121,17 @@
             Bold,
             Italic,
             Font,
-            Paragraph
+            Paragraph,
+            Alignment,
+            Underline
         } from 'ckeditor5';
 
         ClassicEditor
             .create(document.querySelector('#deskripsi'), {
-                plugins: [Essentials, Bold, Italic, Font, Paragraph],
+                plugins: [Essentials, Bold, Italic, Font, Paragraph, Alignment, Underline],
                 toolbar: [
-                    'undo', 'redo', '|', 'bold', 'italic', '|',
-                    'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor'
+                    'undo', 'redo', '|', 'bold', 'italic', 'underline','|',
+                    'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', '|', 'alignment'
                 ]
             })
     </script>

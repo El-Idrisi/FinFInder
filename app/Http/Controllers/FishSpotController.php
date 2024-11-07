@@ -58,7 +58,7 @@ class FishSpotController extends Controller
             'status' => $status,
         ]);
 
-        return redirect()->route('data-ikan')->with('success', 'Berhasil Menambahkan Fish Spot Baru');
+        return redirect()->route('data.index')->with('success', 'Berhasil Menambahkan Fish Spot Baru');
     }
 
     public function showEdit(SpotIkan $spotIkan) {
@@ -69,5 +69,32 @@ class FishSpotController extends Controller
     public function viewData($id) {
         $spotIkan = SpotIkan::find($id);
         return view('dashboard.tables.preview-data', ['title' => 'FinFinder | Show Data', 'spotIkan' => $spotIkan]);
+    }
+
+    public function update(Request $request, SpotIkan $spotIkan) {
+        $request->validate([
+            'jenis_ikan' => 'required|array',
+            'longitude' => 'required|numeric',
+            'latitude' => 'required|numeric',
+            'deskripsi' => 'required|string',
+        ]);
+
+        $fishTypeIds = [];
+        foreach ($request->jenis_ikan as $fishType) {
+            if (is_numeric($fishType)) {
+                $fishTypeIds[] = $fishType;
+            } else {
+                $newFishType = FishType::create(['nama' => $fishType]);
+                $fishTypeIds[] = "". $newFishType->id;
+            }
+        }
+
+        $spotIkan->tipe_ikan = json_encode($fishTypeIds);
+        $spotIkan->longitude = $request->longitude;
+        $spotIkan->latitude = $request->latitude;
+        $spotIkan->deskripsi = $request->deskripsi;
+        $spotIkan->save();
+
+        return redirect()->route('data.index')->with('success', 'Berhasil Mengubah Data Fish Spot');
     }
 }

@@ -33,6 +33,13 @@ export default {
                 'size-200': '200% 200%',
             },
         },
+        listStyleType: {
+            none: 'none',
+            disc: 'disc',
+            decimal: 'decimal',
+            square: 'square',
+            roman: 'upper-roman',
+        }
     },
     plugins: [],
 }

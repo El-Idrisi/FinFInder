@@ -1,4 +1,4 @@
-<div id="{{ $idModal }}" class="fixed inset-0 z-[9999] hidden ">
+<div id="{{ $idModal }}" class="fixed inset-0 z-[99999] hidden ">
     <div class="fixed inset-0 bg-black/50" id="modal-overlay"></div>
     <div class="fixed w-full max-w-md -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
         <div class="bg-white rounded-lg shadow-lg">

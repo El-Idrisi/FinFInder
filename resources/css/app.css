@@ -119,7 +119,7 @@ header.navbar-home:not(.navbar-fixed) .group:hover hr {
 
 /* Style Accordion */
 .accor {
-    max-height: 1000px;
+    max-height: 100%;
     overflow: hidden;
     transition: max-height .5s ease-out;
 }
@@ -328,7 +328,33 @@ table.dataTable.no-footer+.dataTables_paginate .paginate_button:hover,
 }
 /* Style DataTable */
 
+.swal2-container {
+    z-index: 999999;
+}
 
+.text-tiny {
+    font-size: .7em;
+}
+.text-small {
+    font-size: .85em;
+}
+.text-big {
+    font-size: 1.4em;
+}
+.text-huge {
+    font-size: 1.8em;
+}
+
+.ck-content ul li {
+    @apply list-disc list-inside
+}
+.ck-content ol li{
+    @apply list-decimal list-inside
+}
+
+.ck-content ul li span, .ck-content ol li span{
+    @apply !inline
+}
 /* KeyFrame */
 @keyframes moveZigzag {
     from {

@@ -64,6 +64,18 @@
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js'></script>
     <script src="//unpkg.com/leaflet-gesture-handling"></script>
+
+    <style>
+        ul li {
+            list-style: disc;
+            list-style-position: inside;
+        }
+
+        ol li {
+            list-style: decimal;
+            list-style-position: inside;
+        }
+    </style>
 @endpush
 
 @push('script')

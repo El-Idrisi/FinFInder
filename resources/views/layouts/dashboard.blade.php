@@ -131,10 +131,12 @@
                     spotData = null,
                     isEdit = false // Tambah parameter untuk mode edit
             } = options;
+            if (window.innerWidth > 768) {
 
+            }
             let map = L.map(containerId, {
                 fullscreenControl: true,
-                gestureHandling: true,
+                gestureHandling: window.innerWidth > 768 ? true : false,
             }).setView([latitude, longitude], zoom);
 
             L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -236,6 +238,7 @@
                     if (e.target.classList.contains('map')) {
                         panel.innerHTML = `
                     <div class="w-full mt-2 border-2 rounded-md h-80 border-slate-400" id="map"></div>
+                    <small class="text-slate-500">Pilih pada peta untuk menentukan titik lokasi</small>
                     <input type="hidden" id="latitude" name="latitude" value="${savedLat}">
                     <input type="hidden" id="longitude" name="longitude" value="${savedLng}">
                 `;

@@ -6,30 +6,30 @@
                 class="w-[130px] grayscale transition-all duration-300 hover:grayscale-0">
         </a>
     </div>
-    <nav id="navbar-list" class="hidden lg:block">
-        <ul class="flex items-center justify-center gap-12">
-            <li>
+    <nav id="navbar-list" class="hidden lg:block li">
+        <ul class="flex items-center justify-center gap-12 list-none">
+            <li class="list-none">
                 <a href="/"
                     class="flex flex-col items-center justify-center transition-all duration-300 hover:text-sky-500 group {{ request()->routeIs('beranda') ? 'active' : '' }}">
                     Beranda
                     <hr class="w-0 transition-all duration-500 group-hover:border-sky-500 group-hover:w-full">
                 </a>
             </li>
-            <li>
+            <li class="list-none">
                 <a href="/profil"
                     class="flex flex-col items-center justify-center transition-all duration-300 hover:text-sky-500 group {{ request()->routeIs('profil') ? 'active' : '' }}">
                     Profil
                     <hr class="w-0 transition-all duration-500 group-hover:border-sky-500 group-hover:w-full">
                 </a>
             </li>
-            <li>
+            <li class="list-none">
                 <a href="#"
                     class="flex flex-col items-center justify-center transition-all duration-300 hover:text-sky-500 group">
                     Peta Interaktif
                     <hr class="w-0 transition-all duration-500 group-hover:border-sky-500 group-hover:w-full">
                 </a>
             </li>
-            <li>
+            <li class="list-none">
                 <a href="/contact-us"
                     class="flex flex-col items-center justify-center transition-all duration-300 hover:text-sky-500 group {{ request()->routeIs('contact') ? 'active' : '' }}">
                     Kontak Kami

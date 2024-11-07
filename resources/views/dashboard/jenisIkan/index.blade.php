@@ -16,7 +16,7 @@
         </div>
 
         <div class="">
-            <table  class="w-full bg-white">
+            <table class="w-full bg-white">
                 <thead>
                     <tr class="flex bg-sky-300">
                         <th class="w-full px-4 py-2 text-left border-b-2 border-slate-300">No</th>
@@ -40,7 +40,8 @@
                                     data-namaIkan="{{ $fish->nama }}" data-idIkan="{{ $fish->id }}">
                                     <i class="fas fa-edit"></i>
                                 </a>
-                                <form action="{{ route('list-ikan.delete', $fish->id) }}" method="GET" class="inline">
+                                <form action="{{ route('list-ikan.delete', $fish->id) }}" method="GET"
+                                    class="inline delete-ikan">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit"
@@ -125,6 +126,26 @@
 @endpush
 
 @push('script')
+    <script>
+        $(document).ready(function() {
+            $('.delete-ikan').submit(function(e) {
+                e.preventDefault();
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "You won't be able to revert this!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes, delete it!"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        this.submit();
+                    }
+                });
+            })
+        });
+    </script>
     <script>
         $(document).ready(function() {
 

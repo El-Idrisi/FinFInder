@@ -5,9 +5,9 @@
         <h2 class="mb-2 text-3xl font-bold">Tambah Data</h2>
         <a href="/dashboard"
             class="after:content-['>'] transition-all duration-300 after:text-black after:px-2 hover:text-slate-500">Dashboard</a>
-        <a href="/data-ikan"
+        <a href="/data-anda"
             class="after:content-['>'] transition-all duration-300 after:text-black after:px-2 hover:text-slate-500">Data
-            Ikan</a>
+            Anda</a>
         <p class="inline text-slate-500">Tambah Data</p>
     </div>
 
@@ -52,6 +52,7 @@
 
                         <input type="hidden" id="latitude" name="latitude">
                         <input type="hidden" id="longitude" name="longitude">
+                        <small class="text-slate-500">Pilih pada peta untuk menentukan titik lokasi   </small>
                         <p class="text-red-500">
                             @error('latitude')
                                 {{ $message }}
@@ -109,25 +110,29 @@
 @endpush
 
 @push('script')
-    <script type="module">
-        import {
-            ClassicEditor,
-            Essentials,
-            Bold,
-            Italic,
-            Font,
-            Paragraph
-        } from 'ckeditor5';
+<script type="module">
+    import {
+        ClassicEditor,
+        Essentials,
+        Bold,
+        Italic,
+        Font,
+        Paragraph,
+        Alignment,
+        Underline,
+        List
+    } from 'ckeditor5';
 
-        ClassicEditor
-            .create(document.querySelector('#deskripsi'), {
-                plugins: [Essentials, Bold, Italic, Font, Paragraph],
-                toolbar: [
-                    'undo', 'redo', '|', 'bold', 'italic', '|',
-                    'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor'
-                ]
-            })
-    </script>
+    ClassicEditor
+        .create(document.querySelector('#deskripsi'), {
+            plugins: [Essentials, Bold, Italic, Font, Paragraph, Alignment, Underline, List],
+            toolbar: [
+                'undo', 'redo', '|', 'bold', 'italic', 'underline','|',
+                'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', '|', 'alignment', '|',
+                'bulletedList', 'numberedList'
+            ]
+        })
+</script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
