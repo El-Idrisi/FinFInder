@@ -19,9 +19,12 @@ class DashboardController extends Controller
         ->where('diverifikasi_oleh', Auth::id())
         ->count();
 
-        
+        $topGlobals = User::withCount('owner')
+        ->orderBy('owner_count', 'desc')
+        ->limit(5)
+        ->get();
 
 
-        return view('dashboard.index', ['title' => 'FinFinder | Dashboard',], compact('allUsers', 'allSpots', 'allVerif', 'kontribusi', 'allVerified'));
+        return view('dashboard.index', ['title' => 'FinFinder | Dashboard',], compact('allUsers', 'allSpots', 'allVerif', 'kontribusi', 'allVerified', 'topGlobals'));
     }
 }

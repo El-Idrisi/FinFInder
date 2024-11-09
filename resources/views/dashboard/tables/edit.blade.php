@@ -123,15 +123,17 @@
             Font,
             Paragraph,
             Alignment,
-            Underline
+            Underline,
+            List
         } from 'ckeditor5';
 
         ClassicEditor
             .create(document.querySelector('#deskripsi'), {
-                plugins: [Essentials, Bold, Italic, Font, Paragraph, Alignment, Underline],
+                plugins: [Essentials, Bold, Italic, Font, Paragraph, Alignment, Underline, List],
                 toolbar: [
                     'undo', 'redo', '|', 'bold', 'italic', 'underline','|',
-                    'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', '|', 'alignment'
+                    'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', '|', 'alignment', '|',
+                    'bulletedList', 'numberedList'
                 ]
             })
     </script>

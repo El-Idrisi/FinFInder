@@ -352,7 +352,7 @@ table.dataTable.no-footer+.dataTables_paginate .paginate_button:hover,
     @apply list-decimal list-inside
 }
 
-.ck-content ul li span, .ck-content ol li span{
+.ck-content ul li *, .ck-content ol li *{
     @apply !inline
 }
 /* KeyFrame */

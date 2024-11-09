@@ -13,7 +13,8 @@
             </div>
             <div class="relative px-4 py-4">
                 <div class="relative p-3 overflow-x-auto sm:rounded-lg">
-                    <table id="fishTable" class="w-full text-sm text-left row-border order-column stripe" style="width: 100%">
+                    <table id="fishTable" class="w-full text-sm text-left row-border order-column stripe"
+                        style="width: 100%">
                         <thead class="rounded-md bg-sky-300">
                             <tr class="">
                                 <th class="py-3 rounded-tl-md">
@@ -58,15 +59,19 @@
                                     </td>
                                     <td class="flex gap-2 py-3">
                                         <a href="{{ route('preview.data', $fishspot) }}"
-                                            class="p-2 transition-all duration-300 rounded-md cursor-pointer bg-sky-500 text-slate-100 hover:bg-sky-600"><i
+                                            class="p-2 px-3 transition-all duration-300 rounded-md cursor-pointer bg-sky-500 text-slate-100 hover:bg-sky-600"><i
                                                 class=" fa-solid fa-magnifying-glass"></i></a>
                                         <a href="{{ route('fish.showEdit', $fishspot) }}"
-                                            class="p-2 transition-all duration-300 bg-yellow-500 rounded-md cursor-pointer text-slate-100 hover:bg-yellow-600"><i
+                                            class="p-2 px-3 transition-all duration-300 bg-yellow-500 rounded-md cursor-pointer text-slate-100 hover:bg-yellow-600"><i
                                                 class="fa-solid fa-pen-to-square"></i></a>
-                                        <a href="#"
-                                            class="p-2 transition-all duration-300 bg-red-500 rounded-md cursor-pointer text-slate-100 hover:bg-red-600">
-                                            <i class="fa-solid fa-trash"></i>
-                                        </a>
+                                        <form method="POST" class="inline delete-spotikan" action="{{ route('fish.delete', $fishspot->id) }}">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit"
+                                                class="p-2 px-3 transition-all duration-300 bg-red-500 rounded-md cursor-pointer text-slate-100 hover:bg-red-600">
+                                                <i class="fa-solid fa-trash"></i>
+                                            </button>
+                                        </form>
                                     </td>
                                 </tr>
                             @endforeach
@@ -82,6 +87,25 @@
 @push('script')
     <script>
         $(document).ready(function() {
+
+            $('.delete-spotikan').submit(function(e){
+                e.preventDefault();
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "You won't be able to revert this!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes, delete it!"
+                }).then((result) => {
+                    console.log('delete-spotikan');
+                    if (result.isConfirmed) {
+                        this.submit();
+                    }
+                });
+            })
+
             function isMobile() {
                 return window.innerWidth < 768;
             }

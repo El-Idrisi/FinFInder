@@ -19,14 +19,14 @@
 
             <div class="px-4 py-6">
                 <div class="mb-4">
-                    <h2 class="mb-4 font-bold">Diinput Oleh</h2>
+                    <h2 class="mb-4 text-xl font-bold">Diinput Oleh</h2>
                     <div
                         class="inline px-4 py-2 transition-all duration-300 border-2 rounded-md border-sky-300 hover:bg-sky-300">
                         <i class="fa-solid fa-user"></i> {{ $spotIkan->creator->username }}
                     </div>
                 </div>
                 <div class="mb-4">
-                    <h2 class="mb-4 font-bold">Jenis Ikan</h2>
+                    <h2 class="mb-4 text-xl font-bold">Jenis Ikan</h2>
                     <div class="flex flex-wrap gap-2">
                         @foreach ($spotIkan->getFishTypes() as $jenisIkan)
                             <span
@@ -35,11 +35,11 @@
                     </div>
                 </div>
                 <div class="mb-4">
-                    <h2 class="mb-2 font-bold">Deskripsi</h2>
+                    <h2 class="mb-2 text-xl font-bold">Deskripsi</h2>
                     <p>{!! $spotIkan->deskripsi !!}</p>
                 </div>
                 <div class="mb-4">
-                    <h2 class="mb-2 font-bold">Status</h2>
+                    <h2 class="mb-2 text-xl font-bold">Status</h2>
                     <span
                         class="px-4 py-2 font-bold text-white transition-all duration-300 rounded-md {{ $spotIkan->status == 'disetujui' ? 'bg-green-500 hover:bg-green-600' : ($spotIkan->status == 'ditunda' ? 'bg-yellow-500 hover:bg-yellow-600' : 'bg-red-500 hover:bg-red-600') }}">{{ ucwords($spotIkan->status) }}</span>
                 </div>
@@ -74,6 +74,10 @@
         ol li {
             list-style: decimal;
             list-style-position: inside;
+        }
+
+        ol li *, ul li * {
+            display: inline !important;
         }
     </style>
 @endpush

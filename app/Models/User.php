@@ -57,8 +57,17 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    public function owner()
+    {
+        return $this->hasMany(SpotIkan::class, 'dibuat_oleh');
+    }
+    public function verificator()
+    {
+        return $this->hasMany(SpotIkan::class, 'diverifikasi_oleh');
+    }
 
-    public function isAdmin() {
+    public function isAdmin()
+    {
         return $this->role === 'admin';
     }
 }

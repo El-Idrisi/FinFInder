@@ -97,4 +97,10 @@ class FishSpotController extends Controller
 
         return redirect()->route('data.index')->with('success', 'Berhasil Mengubah Data Fish Spot');
     }
+
+    public function delete(SpotIkan $spotIkan)  {
+        // dd($spotIkan);
+        $spotIkan->delete();
+        return redirect()->route('data.index')->with('success', 'Berhasil Menghapus Data Fish Spot');
+    }
 }

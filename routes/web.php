@@ -68,6 +68,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/data-ikan/submit', 'create')->name('fish.create');
         Route::get('/data-ikan/edit/{spotIkan}', 'showEdit')->name('fish.showEdit');
         Route::put('/data-ikan/edit/{spotIkan}', 'update')->name('fish.edit');
+        Route::delete('data-ikan/delete/{spotIkan}', 'delete')->name('fish.delete');
         Route::get('/data-ikan', 'showAll')->name('data-ikan');
         Route::get('/data-anda', 'index')->name('data.index');
 
