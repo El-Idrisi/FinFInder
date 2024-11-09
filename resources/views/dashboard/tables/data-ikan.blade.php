@@ -36,34 +36,6 @@
                                 </th>
                             </tr>
                         </thead>
-                        <tbody class="rounded-md" id="table-body">
-                            @foreach ($fishdatas as $fishspot)
-                                <tr class="w-full transition-all ">
-                                    <td class="py-3">{{ $loop->iteration }}</td>
-                                    <td class="py-3 ">
-                                        <div class="flex flex-wrap gap-2 lg:min-w-[300px] lg:max-w-[400px]">
-                                            @foreach ($fishspot->getFishTypes(5) as $ikan)
-                                                <span
-                                                    class="px-3 py-1 text-sm transition-all duration-300 border rounded-md border-sky-500 hover:bg-sky-100">
-                                                    {{ $ikan->nama }}
-                                                </span>
-                                            @endforeach
-                                        </div>
-                                    </td>
-                                    <td class="py-3">{{ $fishspot->creator->username }}</td>
-                                    <td class="py-3">{{ $fishspot->latitude . ' , ' . $fishspot->longitude }}</td>
-                                    <td class="py-3">
-                                        <span
-                                            class="px-4 py-2 font-bold transition-all duration-300 rounded-md text-slate-100 {{ $fishspot->status == 'disetujui' ? 'bg-green-500 hover:bg-green-600' : ($fishspot->status == 'ditunda' ? 'bg-yellow-500 hover:bg-yellow-600' : 'bg-red-500 hover:bg-red-600') }}">{{ ucwords($fishspot->status) }}</span>
-                                    </td>
-                                    <td class="py-3">
-                                        <a href="{{ route('preview.data', $fishspot) }}"
-                                            class="p-2 transition-all duration-300 rounded-md cursor-pointer bg-sky-500 text-slate-100 hover:bg-sky-600"><i
-                                                class=" fa-solid fa-magnifying-glass"></i></a>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
                     </table>
                 </div>
             </div>
@@ -75,42 +47,60 @@
 @push('script')
     <script>
         $(document).ready(function() {
-            function isMobile() {
-                return window.innerWidth < 768;
-            }
 
             const table = $('#fishTable').DataTable({
+                processing: true,
+                serverSide: true,
                 responsive: true,
+                ajax: "{{ route('data-ikan') }}", // Sesuaikan dengan route Anda
+                columns: [{
+                        data: 'DT_RowIndex',
+                        name: 'DT_RowIndex',
+                        orderable: true, // Ubah menjadi true
+                        searchable: false,
+                    },
+                    {
+                        data: 'jenis_ikan',
+                        name: 'jenis_ikan'
+                    },
+                    {
+                        data: 'dibuat_oleh',
+                        name: 'dibuat_oleh'
+                    },
+                    {
+                        data: 'koordinat',
+                        name: 'koordinat'
+                    },
+                    {
+                        data: 'status',
+                        name: 'status',
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
+                        data: 'aksi',
+                        name: 'aksi',
+                        orderable: false,
+                        searchable: false
+                    }
+                ],
+                columnDefs: [{
+                    responsivePriority: 1,
+                    targets: [0,1, 5]
+                }, ],
                 language: {
                     url: '{{ asset('js/datatables-id.json') }}',
-                    search: `<i class="fas fa-search"></i>`,
+                    search: '<i class="fas fa-search"></i>',
+                    searchPlaceholder: "Cari data...",
                     paginate: {
                         next: '<i class="fas fa-chevron-right"></i>',
                         previous: '<i class="fas fa-chevron-left"></i>',
                     }
                 },
-                columnDefs: [{
-                    targets: [5, 4], // kolom aksi
-                    orderable: false
-                }, {
-                    // Hanya tampilkan No dan Jenis Ikan
-                    responsivePriority: 1,
-                    targets: [0, 1, 5]
-                }, ],
                 dom: '<"flex justify-between flex-wrap items-center mb-4"lf>rt<"flex justify-end items-center mt-4"p>',
                 initComplete: function() {
-                    $('.dataTables_filter input').attr('placeholder', 'Cari data...');
                     $('.dataTables_filter input').addClass('pl-10 border rounded-lg');
-
-                    if (isMobile()) {
-                        table.rows().every(function() {
-                            this.child.show();
-                            $(this.node()).addClass('parent shown');
-                            // Rotate icon saat expanded
-                            $(this.node()).find('td:first i').addClass('rotate-90');
-                        });
-                    }
-                },
+                }
             });
         });
     </script>

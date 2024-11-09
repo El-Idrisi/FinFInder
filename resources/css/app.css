@@ -297,8 +297,12 @@ tbody tr:nth-child(even):hover {
     @apply flex justify-end items-center mt-4
 }
 
+.dataTables_paginate.paging_simple_numbers span{
+    @apply flex flex-wrap justify-center
+}
+
 .paginate_button {
-    @apply w-10 h-10 flex justify-center items-center !rounded-none !border !border-slate-200 transition-all !m-0 border-r-0
+    @apply w-10 h-10 !flex justify-center items-center !rounded-none !border !border-slate-200 transition-all !m-0 border-r-0 flex-col
 }
 
 table.dataTable.no-footer+.dataTables_paginate .paginate_button:hover,

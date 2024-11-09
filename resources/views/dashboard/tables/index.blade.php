@@ -20,11 +20,11 @@
                                 <th class="py-3 rounded-tl-md">
                                     No
                                 </th>
-                                <th class="py-3 cursor-pointer sort-header" data-sort="fish_type">
+                                <th class="py-3">
                                     Jenis Ikan
                                 </th>
                                 <th class="py-3">
-                                    Diinput Oleh
+                                    Di Buat Pada Tanggal
                                 </th>
                                 <th class="py-3">
                                     Koordinat
@@ -37,7 +37,7 @@
                                 </th>
                             </tr>
                         </thead>
-                        <tbody class="rounded-md" id="table-body">
+                        {{-- <tbody class="rounded-md" id="table-body">
                             @foreach ($fishdatas as $fishspot)
                                 <tr class="w-full transition-all ">
                                     <td class="py-3">{{ $loop->iteration }}</td>
@@ -75,8 +75,9 @@
                                     </td>
                                 </tr>
                             @endforeach
-                        </tbody>
+                        </tbody> --}}
                     </table>
+                    {{-- {{ $dataTable->table() }} --}}
                 </div>
             </div>
 
@@ -85,63 +86,114 @@
 @endsection
 
 @push('script')
+    {{-- {{ $dataTable->scripts(attributes: ['type' => 'module']) }} --}}
     <script>
         $(document).ready(function() {
-
-            $('.delete-spotikan').submit(function(e){
-                e.preventDefault();
-                Swal.fire({
-                    title: "Are you sure?",
-                    text: "You won't be able to revert this!",
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#3085d6",
-                    cancelButtonColor: "#d33",
-                    confirmButtonText: "Yes, delete it!"
-                }).then((result) => {
-                    console.log('delete-spotikan');
-                    if (result.isConfirmed) {
-                        this.submit();
-                    }
-                });
-            })
-
-            function isMobile() {
-                return window.innerWidth < 768;
-            }
-
             const table = $('#fishTable').DataTable({
+                processing: true,
+                serverSide: true,
                 responsive: true,
+                ajax: "{{ route('data.index') }}", // Sesuaikan dengan route Anda
+                columns: [{
+                        data: 'DT_RowIndex',
+                        name: 'DT_RowIndex',
+                        orderable: true, // Ubah menjadi true
+                        searchable: false,
+                        // Tambahkan ini untuk custom sorting
+                        render: function(data, type, row, meta) {
+                            if (type === 'display') {
+                                return data;
+                            }
+                            return meta.row + 1; // Gunakan index baris untuk sorting
+                        }
+                    },
+                    {
+                        data: 'jenis_ikan',
+                        name: 'jenis_ikan'
+                    },
+                    {
+                        data: 'dibuat_pada_tanggal',
+                        name: 'dibuat_pada_tanggal'
+                    },
+                    {
+                        data: 'koordinat',
+                        name: 'koordinat'
+                    },
+                    {
+                        data: 'status',
+                        name: 'status'
+                    },
+                    {
+                        data: 'aksi',
+                        name: 'aksi',
+                        orderable: false,
+                        searchable: false
+                    }
+                ],
+                columnDefs: [{
+                    responsivePriority: 1,
+                    targets: [0,1, 5]
+                }, ],
                 language: {
                     url: '{{ asset('js/datatables-id.json') }}',
-                    search: `<i class="fas fa-search"></i>`,
+                    search: '<i class="fas fa-search"></i>',
+                    searchPlaceholder: "Cari data...",
                     paginate: {
                         next: '<i class="fas fa-chevron-right"></i>',
                         previous: '<i class="fas fa-chevron-left"></i>',
                     }
                 },
-                columnDefs: [{
-                    targets: [5, 4], // kolom aksi
-                    orderable: false
-                }, {
-                    // Hanya tampilkan No dan Jenis Ikan
-                    responsivePriority: 1,
-                    targets: [0, 1, 5]
-                }, ],
                 dom: '<"flex justify-between flex-wrap items-center mb-4"lf>rt<"flex justify-end items-center mt-4"p>',
                 initComplete: function() {
-                    $('.dataTables_filter input').attr('placeholder', 'Cari data...');
                     $('.dataTables_filter input').addClass('pl-10 border rounded-lg');
+                }
+            });
 
-                    if (isMobile()) {
-                        table.rows().every(function() {
-                            this.child.show();
-                            $(this.node()).addClass('parent shown');
-                            // Rotate icon saat expanded
-                            $(this.node()).find('td:first i').addClass('rotate-90');
+            $('#fishTable').on('submit', '.delete-spotikan', function(e) {
+                e.preventDefault();
+                const form = $(this);
+                const url = form.attr('action');
+
+                Swal.fire({
+                    title: 'Apakah anda yakin?',
+                    text: "Data yang dihapus tidak dapat dikembalikan!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#EF4444',
+                    cancelButtonColor: '#6B7280',
+                    confirmButtonText: 'Ya, hapus!',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: url,
+                            type: 'POST',
+                            data: {
+                                '_token': $('meta[name="csrf-token"]').attr('content'),
+                                '_method': 'DELETE'
+                            },
+                            success: function(response) {
+                                // Tampilkan pesan sukses
+                                Swal.fire(
+                                    'Terhapus!',
+                                    'Data berhasil dihapus.',
+                                    'success'
+                                );
+
+                                // Reload DataTable
+                                $('#fishTable').DataTable().ajax.reload();
+                            },
+                            error: function(xhr) {
+                                // Tampilkan pesan error
+                                Swal.fire(
+                                    'Error!',
+                                    'Terjadi kesalahan saat menghapus data.',
+                                    'error'
+                                );
+                            }
                         });
                     }
-                },
+                });
             });
         });
     </script>

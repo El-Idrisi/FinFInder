@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\SpotIkan;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -33,5 +34,14 @@ class DatabaseSeeder extends Seeder
         $this->call([
             TypefishSeeder::class,
         ]);
+
+        // Buat 5 spot dengan status ditunda
+        SpotIkan::factory()->count(100)->ditunda()->create();
+
+        // Buat 5 spot dengan status disetujui
+        SpotIkan::factory()->count(100)->disetujui()->create();
+
+        // Buat 5 spot dengan status ditolak
+        SpotIkan::factory()->count(100)->ditolak()->create();
     }
 }
