@@ -8,7 +8,7 @@
         <p class="inline text-slate-500">Profile</p>
     </div>
 
-    <div class="relative bg-white rounded-lg shadow-md -z-10">
+    <div class="relative rounded-lg shadow-md bg-white-100 -z-10">
         <div class="relative px-12 py-20 rounded-t-md bg-zigzag">
             <div
                 class="absolute inline px-6 py-5 text-6xl -translate-x-1/2 -translate-y-1/2 border-8 border-white rounded-full top-full left-1/2 bg-slate-300">
@@ -27,7 +27,7 @@
     <div class="flex flex-wrap gap-8 mt-8 lg:flex-nowrap">
 
         <div
-            class="w-full p-4 transition-all duration-300 bg-white rounded-md shadow-md lg:w-1/2 hover:-translate-y-4 hover:shadow-xl">
+            class="w-full p-4 transition-all duration-300 rounded-md shadow-md bg-white-100 lg:w-1/2 hover:-translate-y-4 hover:shadow-xl">
 
             <h3 class="mb-4 text-lg font-bold">Data Diri</h3>
             <div class="overflow-x-auto">
@@ -61,7 +61,7 @@
         </div>
 
         <div
-            class="w-full p-4 transition-all duration-300 bg-white rounded-md shadow-md lg:w-1/2 hover:-translate-y-4 hover:shadow-xl">
+            class="w-full p-4 transition-all duration-300 rounded-md shadow-md bg-white-100 lg:w-1/2 hover:-translate-y-4 hover:shadow-xl">
             <h3 class="mb-4 text-lg font-bold">Kontribusi</h3>
             <div class="overflow-x-auto">
                 <table class="w-full text-left whitespace-no-wrap border-collapse">

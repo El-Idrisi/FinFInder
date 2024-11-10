@@ -12,8 +12,9 @@
                     nelayan.
                 </p>
                 <a href="#"
-                    class="px-8 py-2 my-2 font-semibold rounded-full cursor-pointer bg-slate-100 text-sky-500">Gabung
-                    Sekarang</a>
+                    class="relative flex items-center justify-center h-10 overflow-hidden text-white transition-all bg-white rounded-full shadow-2xl cursor-pointer w-52 before:absolute before:h-0 before:w-0 before:rounded-full before:bg-sky-300 before:duration-500 before:ease-out hover:shadow-sky-300 hover:before:h-56 hover:before:w-56">
+                    <span class="relative z-10 font-bold text-slate-900">Mulai Sekarang!</span>
+                </a>
             </div>
             <div class="w-full mx-4 lg:w-1/2">
                 <img id="heroImage" src="{{ asset('img/hero/img.svg') }}" alt="img-hero"
@@ -26,7 +27,8 @@
     <section id="tentang-kami" class="pt-32 pb-16 bg-sky-50 lg:px-12">
         <div class="flex flex-wrap items-center justify-center gap-6 px-6 lg:px-28 lg:flex-nowrap">
             <div class="w-full lg:w-1/2 lg:mr-14" id="img-tentang-kami">
-                <div class="w-full h-[600px] bg-[url('/public/img/about/img.jpg')] bg-cover bg-center rounded-xl transition-all duration-300 shadow-xl hover:shadow-2xl">
+                <div
+                    class="w-full h-[600px] bg-[url('/public/img/about/img.jpg')] bg-cover bg-center rounded-xl transition-all duration-300 shadow-xl hover:shadow-2xl">
                 </div>
             </div>
             <div class="w-full lg:w-1/2 lg:ml-14">

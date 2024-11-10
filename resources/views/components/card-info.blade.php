@@ -1,4 +1,4 @@
-<div class="w-full p-4 transition-all duration-300 bg-white rounded-md shadow-md lg:w-1/4 hover:-translate-y-4 hover:shadow-xl">
+<div class="w-full p-4 transition-all duration-300 rounded-md shadow-md bg-white-100 lg:w-1/4 hover:-translate-y-4 hover:shadow-xl">
     <h4 class="font-semibold text-slate-400">{{ $judul }}</h4>
     <div class="flex justify-between mt-4 text-xl font-semibold lg:text-2xl">
         <h4 class="">{{ $slot }}</h4>

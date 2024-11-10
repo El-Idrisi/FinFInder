@@ -6,6 +6,7 @@ export default {
         "./resources/**/*.vue",
     ],
     theme: {
+
         extend: {
             keyframes: {
                 'slide-left': {
@@ -31,6 +32,9 @@ export default {
 
             backgroundSize: {
                 'size-200': '200% 200%',
+            },
+            colors: {
+                'white-100' : '#fafafa',
             },
         },
         listStyleType: {

@@ -1,4 +1,4 @@
-<div class="w-full bg-white rounded-lg shadow">
+<div class="w-full rounded-lg shadow bg-white-100">
     <div
         class="text-white transition-all duration-300 rounded-t-lg
     {{ $isDelete ? 'bg-red-600' : 'bg-sky-800' }}

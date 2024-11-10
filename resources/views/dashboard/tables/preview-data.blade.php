@@ -11,7 +11,7 @@
         <p class="inline text-slate-500">Detail Data</p>
     </div>
 
-    <div class="bg-white rounded-md">
+    <div class="rounded-md shadow-md bg-white-100">
         <div class="p-4 font-bold text-white bg-sky-800 rounded-t-md">
             <h2>Detail Data</h2>
         </div>

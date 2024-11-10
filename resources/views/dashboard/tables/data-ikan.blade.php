@@ -7,7 +7,7 @@
             class="after:content-['>'] transition-all duration-300 after:text-black after:px-2 hover:text-slate-500">Dashboard</a>
         <p class="inline text-slate-500">Data Ikan</p>
 
-        <div class="relative mt-4 bg-white">
+        <div class="relative mt-4 shadow-md bg-white-100">
             <div class="px-4 py-2 border-b-2 border-slate-200">
                 <h4 class="font-bold">Keseluruhan Data</h4>
             </div>

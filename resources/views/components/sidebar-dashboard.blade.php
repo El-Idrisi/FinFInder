@@ -1,5 +1,5 @@
 <aside id="sidebar"
-    class="-translate-x-full lg:translate-x-0 h-full w-[240px] bg-white transition-all duration-300 fixed top-0 bottom-0 shadow-lg z-[99999]">
+    class="-translate-x-full lg:translate-x-0 h-full w-[240px] bg-white-100 transition-all duration-300 fixed top-0 bottom-0 shadow-lg z-[99999]">
     <div class="px-12 py-4">
         <img src="{{ asset('img/finfinder.png') }}" alt="logo finfinder">
     </div>
@@ -20,7 +20,7 @@
     </div>
 
     <div class="px-4 mt-8 font-bold text-gray-400">
-        <h4 class="text-sm">Tabel</h4>
+        <h4 class="text-sm">Data</h4>
         <div class="flex flex-col gap-6 mt-4 ml-4">
             <a href="/data-ikan"
                 class="flex items-center gap-4 transition-all duration-300 hover:text-sky-500 {{ request()->routeIs('data-ikan') ? 'text-sky-300' : '' }}">

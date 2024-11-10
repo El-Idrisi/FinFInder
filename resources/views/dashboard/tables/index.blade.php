@@ -7,7 +7,7 @@
             class="after:content-['>'] transition-all duration-300 after:text-black after:px-2 hover:text-slate-500">Dashboard</a>
         <p class="inline text-slate-500">Data Anda</p>
 
-        <div class="relative mt-4 bg-white">
+        <div class="relative mt-4 shadow-md bg-white-100">
             <div class="px-4 py-2 border-b-2 border-slate-200">
                 <h4 class="font-bold">Keseluruhan Data</h4>
             </div>
@@ -24,7 +24,7 @@
                                     Jenis Ikan
                                 </th>
                                 <th class="py-3">
-                                    Diinput Oleh
+                                    Dibuat Pada Tanggal
                                 </th>
                                 <th class="py-3">
                                     Koordinat
@@ -51,7 +51,7 @@
                                             @endforeach
                                         </div>
                                     </td>
-                                    <td class="py-3">{{ $fishspot->creator->username }}</td>
+                                    <td class="py-3">{{ $fishspot->created_at->translatedFormat('d F Y') }}</td>
                                     <td class="py-3">{{ $fishspot->latitude . ' , ' . $fishspot->longitude }}</td>
                                     <td class="py-3">
                                         <span
@@ -121,7 +121,7 @@
                     }
                 },
                 columnDefs: [{
-                    targets: [5, 4], // kolom aksi
+                    targets: [5], // kolom aksi
                     orderable: false
                 }, {
                     // Hanya tampilkan No dan Jenis Ikan
