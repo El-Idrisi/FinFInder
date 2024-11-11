@@ -86,11 +86,6 @@
 
     <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/43.3.0/ckeditor5.css" />
 
-
-
-    {{-- jquery --}}
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-
     {{-- select2.js --}}
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
@@ -119,7 +114,7 @@
         Font,
         Paragraph,
         Alignment,
-        Underline   
+        Underline
     } from 'ckeditor5';
 
     ClassicEditor

@@ -8,6 +8,7 @@ use App\Http\Controllers\FishSpotController;
 use App\Http\Controllers\ListIkanController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\VerifikasiController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Models\User;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
@@ -75,15 +76,20 @@ Route::middleware('auth')->group(function () {
         Route::get('/data-ikan/view/{id}', 'viewData')->name('preview.data');
     });
 
+    Route::get('/fish-types/search', [ListIkanController::class, 'search'])->name('fish-types.search');
 
-    Route::controller(ListIkanController::class)->group(function () {
-        Route::get('/fish-types/search', 'search')->name('fish-types.search');
-        Route::middleware(AdminMiddleware::class)->group(function () {
+    Route::middleware(AdminMiddleware::class)->group(function () {
+
+        Route::controller(ListIkanController::class)->group(function () {
             Route::get('/list-ikan', 'index')->name('list-ikan');
             Route::get('/list-ikan/delete/{id}', 'delete')->name('list-ikan.delete');
             Route::post('/list-ikan/create', 'store')->name('list-ikan.create');
             Route::put('/list-ikan/update/{id}', 'update')->name('list-ikan.update');
             Route::get('/list-ikan/{id}', 'show')->name('list-ikan.sort');
+        });
+
+        Route::controller(VerifikasiController::class)->group(function () {
+            Route::get('/verifikasi', 'index')->name('verifikasi');
         });
     });
 });

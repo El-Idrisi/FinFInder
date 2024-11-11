@@ -10,7 +10,7 @@ class SpotIkan extends Model
     use HasFactory;
 
     protected $table = 'spot_ikan';
-    protected $guarded = ['id'];  
+    protected $guarded = ['id'];
 
     protected $fillable = [
         'tipe_ikan',
@@ -36,6 +36,9 @@ class SpotIkan extends Model
     public function getFishTypes($number='')
     {
         $fishTypeIds = json_decode($this->tipe_ikan, true);
+        if ($number === '') {
+            return FishType::whereIn('id', $fishTypeIds)->get();
+        }
         return FishType::whereIn('id', $fishTypeIds)->paginate($number);
     }
 }
