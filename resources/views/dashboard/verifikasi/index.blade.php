@@ -36,3 +36,31 @@
         </div>
     </div>
 @endsection
+
+
+@push('script')
+    <script>
+        // Inisialisasi map untuk setiap card
+        function initCardMap(containerId, latitude, longitude) {
+            const map = L.map(containerId, {
+                zoomControl: false, // Sembunyikan zoom control karena preview
+                dragging: false, // Disable dragging untuk preview
+                scrollWheelZoom: false // Disable zoom dengan scroll
+            }).setView([latitude, longitude], 10);
+
+            // Tambahkan tile layer
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(map);
+
+            // Tambahkan marker
+            L.marker([latitude, longitude]).addTo(map);
+
+            return map;
+        }
+
+        @foreach ($spots as $spot)
+            initCardMap('map-{{ $spot->id }}', {{ $spot->latitude }}, {{ $spot->longitude }});
+        @endforeach
+    </script>
+@endpush
