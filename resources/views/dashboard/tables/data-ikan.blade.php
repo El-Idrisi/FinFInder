@@ -13,7 +13,7 @@
             </div>
             <div class="relative px-4 py-4">
                 <div class="relative p-3 overflow-x-auto sm:rounded-lg">
-                    <table id="fishTable" class="w-full text-sm text-left row-border order-column stripe">
+                    <table id="fishTable" class="w-full text-sm text-left row-border order-column stripe" style="width: 100%">
                         <thead class="rounded-md bg-sky-300">
                             <tr class="">
                                 <th class="py-3 rounded-tl-md">
