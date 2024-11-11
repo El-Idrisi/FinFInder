@@ -9,7 +9,7 @@ class VerifikasiController extends Controller
 {
     public function index() {
         $spots = SpotIkan::where('status', 'ditunda')
-        ->paginate(6);
+        ->paginate(9);
         return view('dashboard.verifikasi.index', ['title' => 'FinFinder | Verfikasi'], compact('spots'));
     }
 }

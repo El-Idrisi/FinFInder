@@ -358,7 +358,7 @@ table.dataTable.no-footer+.dataTables_paginate .paginate_button:hover,
 
 .ck-content ul li *, .ck-content ol li *{
     @apply !inline
-}
+}   
 /* KeyFrame */
 @keyframes moveZigzag {
     from {

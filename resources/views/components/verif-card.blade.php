@@ -1,8 +1,8 @@
-<div class="overflow-hidden bg-white rounded-lg shadow-md">
+<div class="overflow-hidden bg-white rounded-lg shadow-lg tilt" style="transform-style: preserve-3d;">
     <!-- Card Header dengan Map -->
     <div class="relative h-48">
         <div id="map-{{ $idMap }}" class="w-full h-full"></div>
-        <span class="absolute px-3 py-1 text-sm text-white bg-yellow-500 rounded-full z-[999] top-2 right-2">
+        <span class="absolute px-3 py-1 text-sm text-white bg-yellow-500 rounded-full z-[999] top-2 right-2" style="transform: translateZ(50px)">
             Belum Diverifikasi
         </span>
     </div>
@@ -33,16 +33,20 @@
             </div>
         </div>
 
-        <!-- Action Buttons -->
-        <div class="flex gap-2 mt-4">
-            <button class="flex-1 px-4 py-2 text-white rounded-md bg-sky-500 hover:bg-sky-600">
-                <i class="mr-2 fas fa-eye"></i>View
+        <!-- Action Buttons dengan Parallax -->
+        <div class="flex gap-2 mt-4 transform-style-preserve">
+            <button class="flex-1 px-4 py-2 text-white transition-all duration-300 rounded-md view-btn bg-sky-500 hover:bg-sky-600 hover:scale-105 group">
+                <i class="mr-2 transition-transform fas fa-eye group-hover:rotate-12"></i>
+                <span class="transition-all group-hover:font-bold">View</span>
             </button>
-            <button class="flex-1 px-4 py-2 text-white bg-green-500 rounded-md hover:bg-green-600">
-                <i class="mr-2 fas fa-check"></i>Setuju
+            <button
+                class="flex-1 px-4 py-2 text-white transition-all duration-300 bg-green-500 rounded-md approve-btn hover:bg-green-600 hover:scale-105 group">
+                <i class="mr-2 transition-all fas fa-check group-hover:rotate-12"></i>
+                <span class="transition-all group-hover:font-bold">Setuju</span>
             </button>
-            <button class="flex-1 px-4 py-2 text-white bg-red-500 rounded-md hover:bg-red-600">
-                <i class="mr-2 fas fa-times"></i>Tolak
+            <button class="flex-1 px-4 py-2 text-white transition-all duration-300 bg-red-500 rounded-md reject-btn hover:bg-red-600 hover:scale-105 group">
+                <i class="mr-2 transition-all fas fa-times group-hover:rotate-12"></i>
+                <span class="transition-all group-hover:font-bold">Tolak</span>
             </button>
         </div>
     </div>
