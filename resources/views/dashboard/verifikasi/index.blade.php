@@ -16,20 +16,43 @@
 @endpush
 
 @section('content')
+
     <div class="mb-8">
         <h2 class="mb-2 text-3xl font-bold">Verifikasi</h2>
         <a href="/dashboard"
             class="after:content-['>'] transition-all duration-300 after:text-black after:px-2 hover:text-slate-500">Dashboard</a>
         <p class="inline text-slate-500">Verifikasi</p>
 
+        <div class="mb-6 space-y-4">
+                <!-- Filter Options -->
+            <div class="flex flex-wrap justify-end gap-4">
+
+                <select class="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500">
+                    <option value="">Jenis Ikan</option>
+                    @foreach ($fishTypes as $fish)
+                    <option value="{{ $fish->id }}">{{ $fish->nama }}</option>
+
+                    @endforeach
+                    <!-- dll -->
+                </select>
+
+                <select class="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500">
+                    <option value="">Urutkan</option>
+                    <option value="newest">Terbaru</option>
+                    <option value="oldest">Terlama</option>
+                </select>
+            </div>
+        </div>
+
         <div class="grid grid-cols-1 gap-4 mt-8 md:grid-cols-2 lg:grid-cols-3">
             @forelse ($spots as $spot)
                 <x-verif-card :spot="$spot" idMap="{{ $spot->id }}" creator="{{ $spot->creator->username }}"
                     latitude="{{ $spot->latitude }}" longitude="{{ $spot->longitude }}" :jenis-ikan="$spot->getFishTypes()" />
             @empty
-            <div class="col-span-1 py-2 border rounded-md shadow md:col-span-2 lg:col-span-3 bg-white-100 border-slate-300 ">
-                <p class="text-lg text-center text-gray-700">Ya Kosong~</p>
-            </div>
+                <div
+                    class="col-span-1 py-2 border rounded-md shadow md:col-span-2 lg:col-span-3 bg-white-100 border-slate-300 ">
+                    <p class="text-lg text-center text-gray-700">Ya Kosong~</p>
+                </div>
             @endforelse
         </div>
 
