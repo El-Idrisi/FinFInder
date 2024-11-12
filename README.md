@@ -23,7 +23,7 @@ FinFinder dibangun dengan Laravel, menawarkan solusi yang kuat dan dapat diskala
 - Pengajuan Titik Penangkapan Ikan
 - Sistem Verifikasi Data
 - Manajemen Profil Pengguna
-- Dasbor Admin
+- Dasbor Admin dan Nelayan
 
 ## Teknologi yang Digunakan
 
@@ -33,15 +33,6 @@ FinFinder memanfaatkan kekuatan teknologi web modern:
 - **[Tailwind CSS](https://tailwindcss.com)**: Untuk styling yang responsif dan dapat disesuaikan
 - **[Leaflet.js](https://leafletjs.com)**: Untuk fungsionalitas peta interaktif
 - **MySQL**: Sebagai sistem manajemen database
-
-## Lisensi
-
-FinFinder adalah perangkat lunak open-source yang dilisensikan di bawah [lisensi MIT](https://opensource.org/licenses/MIT).
-
-## Ucapan Terima Kasih
-
-- Terima kasih kepada semua kontributor yang telah membantu membentuk FinFinder
-- Terima kasih khusus kepada komunitas Laravel atas dokumentasi dan sumber daya mereka yang sangat baik
 
 ## Kontak
 
