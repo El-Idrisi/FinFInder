@@ -2,7 +2,7 @@
     <!-- Card Header dengan Map -->
     <div class="relative h-48">
         <div id="map-{{ $idMap }}" class="w-full h-full"></div>
-        <span class="absolute px-3 py-1 text-sm text-white bg-yellow-500 rounded-full z-[999] top-2 right-2" style="transform: translateZ(50px)">
+        <span class="absolute px-3 py-1 text-sm text-white bg-yellow-500 rounded-full z-[999] top-2 right-2">
             Belum Diverifikasi
         </span>
     </div>
@@ -33,21 +33,27 @@
             </div>
         </div>
 
-        <!-- Action Buttons dengan Parallax -->
-        <div class="flex gap-2 mt-4 transform-style-preserve">
-            <button class="flex-1 px-4 py-2 text-white transition-all duration-300 rounded-md view-btn bg-sky-500 hover:bg-sky-600 hover:scale-105 group">
+        <!-- Action Buttons -->
+        <div class="flex flex-col gap-2 mt-4">
+            <button
+                class="w-full px-4 py-2 text-white transition-all duration-300 rounded-md view-btn bg-sky-500 hover:bg-sky-600 hover:scale-105 group">
                 <i class="mr-2 transition-transform fas fa-eye group-hover:rotate-12"></i>
                 <span class="transition-all group-hover:font-bold">View</span>
             </button>
-            <button
-                class="flex-1 px-4 py-2 text-white transition-all duration-300 bg-green-500 rounded-md approve-btn hover:bg-green-600 hover:scale-105 group">
-                <i class="mr-2 transition-all fas fa-check group-hover:rotate-12"></i>
-                <span class="transition-all group-hover:font-bold">Setuju</span>
-            </button>
-            <button class="flex-1 px-4 py-2 text-white transition-all duration-300 bg-red-500 rounded-md reject-btn hover:bg-red-600 hover:scale-105 group">
-                <i class="mr-2 transition-all fas fa-times group-hover:rotate-12"></i>
-                <span class="transition-all group-hover:font-bold">Tolak</span>
-            </button>
+
+            <div class="flex gap-2">
+                <button
+                    class="flex-1 px-4 py-2 text-white transition-all duration-300 bg-green-500 rounded-md approve-btn hover:bg-green-600 hover:scale-105 group">
+                    <i class="mr-2 transition-all fas fa-check group-hover:rotate-12"></i>
+                    <span class="transition-all group-hover:font-bold">Setuju</span>
+                </button>
+
+                <button
+                    class="flex-1 px-4 py-2 text-white transition-all duration-300 bg-red-500 rounded-md reject-btn hover:bg-red-600 hover:scale-105 group">
+                    <i class="mr-2 transition-all fas fa-times group-hover:rotate-12"></i>
+                    <span class="transition-all group-hover:font-bold">Tolak</span>
+                </button>
+            </div>
         </div>
     </div>
 </div>

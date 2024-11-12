@@ -27,12 +27,15 @@
                 <x-verif-card :spot="$spot" idMap="{{ $spot->id }}" creator="{{ $spot->creator->username }}"
                     latitude="{{ $spot->latitude }}" longitude="{{ $spot->longitude }}" :jenis-ikan="$spot->getFishTypes()" />
             @empty
-                <p class="text-center">Ya Kosong~</p>
+            <div class="col-span-1 py-2 border rounded-md shadow md:col-span-2 lg:col-span-3 bg-white-100 border-slate-300 ">
+                <p class="text-lg text-center text-gray-700">Ya Kosong~</p>
+            </div>
             @endforelse
         </div>
 
+
         <div class="mt-6">
-            {{ $spots->links() }}
+            {{ $spots->onEachSide(1)->links() }}
         </div>
     </div>
 @endsection
