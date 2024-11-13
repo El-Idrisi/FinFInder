@@ -65,7 +65,10 @@ class ListIkanController extends Controller
     }
 
     public function show($id) {
-        $fishdatas = SpotIkan::whereJsonContains('tipe_ikan', $id)->get();
+        $fishdatas = SpotIkan::whereJsonContains('tipe_ikan', $id)
+        ->orWhereRaw('JSON_CONTAINS(tipe_ikan, ?)', [$id])
+        ->orWhere('tipe_ikan', 'LIKE', '%' . $id . '%')
+        ->get();
         // dd($fishdatas);
 
         return view('dashboard.tables.data-ikan', ['title'=>'fishdatas'], compact('fishdatas'));

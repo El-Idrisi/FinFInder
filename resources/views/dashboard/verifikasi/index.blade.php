@@ -16,7 +16,6 @@
 @endpush
 
 @section('content')
-
     <div class="mb-8">
         <h2 class="mb-2 text-3xl font-bold">Verifikasi</h2>
         <a href="/dashboard"
@@ -24,31 +23,38 @@
         <p class="inline text-slate-500">Verifikasi</p>
 
         <div class="mb-6 space-y-4">
-                <!-- Filter Options -->
+            <!-- Filter Options -->
             <div class="flex flex-wrap justify-end gap-4">
 
-                <select class="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500">
-                    <option value="">Jenis Ikan</option>
-                    @foreach ($fishTypes as $fish)
-                    <option value="{{ $fish->id }}">{{ $fish->nama }}</option>
+                <form method="GET" class="mb-6">
+                    <select name="fish_type"
+                        class="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500"
+                        onchange="this.form.submit()">
+                        <option value="">Semua Jenis Ikan</option>
+                        @foreach ($fishTypes as $fish)
+                            <option value="{{ $fish->id }}" {{ request('fish_type') == $fish->id ? 'selected' : '' }}>
+                                {{ $fish->nama }}
+                            </option>
+                        @endforeach
+                    </select>
+                </form>
 
-                    @endforeach
-                    <!-- dll -->
-                </select>
-
-                <select class="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500">
-                    <option value="">Urutkan</option>
-                    <option value="newest">Terbaru</option>
-                    <option value="oldest">Terlama</option>
-                </select>
+                <form method="GET" class="mb-6">
+                    <select name="date" class="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500" onchange="this.form.submit()">
+                        <option value="terbaru" {{ request('date') == 'terbaru' ? 'selected' : '' }}>Terbaru</option>
+                        <option value="terlama" {{ request('date') == 'terlama' ? 'selected' : '' }}>Terlama</option>
+                    </select>
+                </form>
             </div>
         </div>
 
+
         <div class="grid grid-cols-1 gap-4 mt-8 md:grid-cols-2 lg:grid-cols-3">
             @forelse ($spots as $spot)
+                {{-- {{ $spot->tipe_ikan }}<br><br> --}}
                 <x-verif-card :spot="$spot" idMap="{{ $spot->id }}" creator="{{ $spot->creator->username }}"
-                    latitude="{{ $spot->latitude }}" longitude="{{ $spot->longitude }}" :jenis-ikan="$spot->getFishTypes()"
-                    date="{{ $spot->created_at->translatedFormat('d F Y') }}"/>
+                latitude="{{ $spot->latitude }}" longitude="{{ $spot->longitude }}" :jenis-ikan="$spot->getFishTypes()"
+                date="{{ $spot->created_at->translatedFormat('d F Y') }}"/>
             @empty
                 <div
                     class="col-span-1 py-2 border rounded-md shadow md:col-span-2 lg:col-span-3 bg-white-100 border-slate-300 ">
@@ -59,7 +65,7 @@
 
 
         <div class="mt-6">
-            {{ $spots->onEachSide(1)->links() }}
+            {{ $spots->onEachSide(1)->withQueryString()->links() }}
         </div>
     </div>
 @endsection

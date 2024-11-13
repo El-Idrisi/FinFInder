@@ -8,11 +8,43 @@ use Illuminate\Http\Request;
 
 class VerifikasiController extends Controller
 {
-    public function index() {
-        $spots = SpotIkan::where('status', 'ditunda')
-        ->paginate(9);
+    public function index(Request $request)
+    {
+        // Query dasar dengan status 'ditunda'
+        $query = SpotIkan::where('status', 'ditunda');
 
+        // Tambahkan filter jenis ikan jika ada
+        if ($request->has('fish_type') && $request->fish_type !== null) {
+            $fishTypeId = $request->fish_type;
+            $query->where(function ($q) use ($fishTypeId) {
+                // Cek untuk format dengan petik dua ["1","2"]
+                $q->whereJsonContains('tipe_ikan', $fishTypeId)
+                    // Cek untuk format tanpa petik dua [1,2]
+                    ->orWhereRaw('JSON_CONTAINS(tipe_ikan, ?)', [$fishTypeId]);
+            });
+        }
+
+        switch ($request->date) {
+            case 'terbaru':
+                $query->orderBy('created_at', 'desc');
+                break;
+            case 'terlama':
+                $query->orderBy('created_at', 'asc');
+                break;
+            default:
+                $query->orderBy('created_at', 'asc');
+        }
+
+        // Eksekusi query dengan pagination
+        $spots = $query->paginate(9);
+
+        // Ambil semua jenis ikan untuk dropdown
         $fishTypes = FishType::all();
-        return view('dashboard.verifikasi.index', ['title' => 'FinFinder | Verfikasi'], compact('spots', 'fishTypes'));
+
+        return view('dashboard.verifikasi.index', [
+            'title' => 'FinFinder | Verfikasi',
+            'spots' => $spots,
+            'fishTypes' => $fishTypes
+        ]);
     }
 }
