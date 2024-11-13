@@ -26,6 +26,13 @@
                     </div>
                 </div>
                 <div class="mb-4">
+                    <h2 class="mb-4 text-xl font-bold">Diinput Pada Tanggal</h2>
+                    <p>
+                        <i class="mr-2 fa-solid fa-calendar-days"></i>
+                        {{ $spotIkan->created_at->translatedFormat('d F Y') }}
+                    </p>
+                </div>
+                <div class="mb-4">
                     <h2 class="mb-4 text-xl font-bold">Jenis Ikan</h2>
                     <div class="flex flex-wrap gap-2">
                         @foreach ($spotIkan->getFishTypes() as $jenisIkan)

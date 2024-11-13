@@ -17,14 +17,16 @@ class verifCard extends Component
     public $latitude;
     public $longitude;
     public $jenisIkan;
+    public $date;
 
-    public function __construct($idMap, $creator, $latitude, $longitude, $jenisIkan)
+    public function __construct($idMap, $creator, $latitude, $longitude, $jenisIkan, $date)
     {
         $this->idMap = $idMap;
         $this->creator = $creator;
         $this->latitude = $latitude;
         $this->longitude = $longitude;
         $this->jenisIkan = $jenisIkan;
+        $this->date = $date;
     }
 
     /**

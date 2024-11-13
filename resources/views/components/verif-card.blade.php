@@ -31,15 +31,19 @@
                 <i class="mt-1 text-gray-500 fas fa-location-dot"></i>
                 <span>{{ $latitude }}, {{ $longitude }}</span>
             </div>
+            <div class="flex items-start gap-2">
+                <i class="mt-1 text-gray-500 fa-solid fa-calendar-days"></i>
+                <span>Dibuat Pada Tanggal: {{ $date }}</span>
+            </div>
         </div>
 
         <!-- Action Buttons -->
         <div class="flex flex-col gap-2 mt-4">
-            <button
-                class="w-full px-4 py-2 text-white transition-all duration-300 rounded-md view-btn bg-sky-500 hover:bg-sky-600 hover:scale-105 group">
+            <a href="{{ route('preview.data', $idMap) }}"
+                class="flex items-center justify-center w-full px-4 py-2 text-white transition-all duration-300 rounded-md cursor-pointer view-btn bg-sky-500 hover:bg-sky-600 hover:scale-105 group">
                 <i class="mr-2 transition-transform fas fa-eye group-hover:rotate-12"></i>
-                <span class="transition-all group-hover:font-bold">View</span>
-            </button>
+                <span class="transition-all group-hover:font-bold">Lihat Selengkapnya</span>
+            </a>
 
             <div class="flex gap-2">
                 <button
