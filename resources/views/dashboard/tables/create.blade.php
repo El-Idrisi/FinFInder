@@ -52,7 +52,7 @@
 
                         <input type="hidden" id="latitude" name="latitude">
                         <input type="hidden" id="longitude" name="longitude">
-                        <small class="text-slate-500">Pilih pada peta untuk menentukan titik lokasi   </small>
+                        <small class="text-slate-500">Pilih pada peta untuk menentukan titik lokasi </small>
                         <p class="text-red-500">
                             @error('latitude')
                                 {{ $message }}
@@ -105,27 +105,27 @@
 @endpush
 
 @push('script')
-<script type="module">
-    import {
-        ClassicEditor,
-        Essentials,
-        Bold,
-        Italic,
-        Font,
-        Paragraph,
-        Alignment,
-        Underline
-    } from 'ckeditor5';
+    <script type="module">
+        import {
+            ClassicEditor,
+            Essentials,
+            Bold,
+            Italic,
+            Font,
+            Paragraph,
+            Alignment,
+            Underline
+        } from 'ckeditor5';
 
-    ClassicEditor
-        .create(document.querySelector('#deskripsi'), {
-            plugins: [Essentials, Bold, Italic, Font, Paragraph, Alignment, Underline],
-            toolbar: [
-                'undo', 'redo', '|', 'bold', 'italic', 'underline','|',
-                'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', '|', 'alignment'
-            ]
-        })
-</script>
+        ClassicEditor
+            .create(document.querySelector('#deskripsi'), {
+                plugins: [Essentials, Bold, Italic, Font, Paragraph, Alignment, Underline],
+                toolbar: [
+                    'undo', 'redo', '|', 'bold', 'italic', 'underline', '|',
+                    'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', '|', 'alignment'
+                ]
+            })
+    </script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
