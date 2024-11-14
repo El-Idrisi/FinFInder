@@ -78,31 +78,45 @@
             class="after:content-['>'] transition-all duration-300 after:text-black after:px-2 hover:text-slate-500">Dashboard</a>
         <p class="inline text-slate-500">Verifikasi</p>
 
-        <div class="mb-6 space-y-4">
-
+        <div class="my-6 space-y-4">
             <!-- Filter Options -->
-            <div class="flex flex-wrap items-center justify-end gap-4">
-                {{-- Filter Jenis Ikan --}}
-                <form method="GET" id="filterForm" class="w-64"> {{-- Atur lebar form --}}
-                    <select name="fish_type" class="fish_type">
-                        <option value="">Semua Jenis Ikan</option>
-                        @foreach ($fishTypes as $fish)
-                            <option value="{{ $fish->id }}" {{ request('fish_type') == $fish->id ? 'selected' : '' }}>
-                                {{ $fish->nama }}
-                            </option>
-                        @endforeach
-                    </select>
-                </form>
+            <div class="flex flex-wrap items-center justify-between gap-4 px-4 py-2 border rounded-md shadow bg-white-100 border-slate-300">
+                <div class="">
+                    <form method="GET">
+                        <label for="count">Tampilkan</label>
+                        <select name="count" id="count" onchange="this.form.submit()"           class="h-[38px] px-2 pr-6 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500">
+                            <option value="9" {{ request('count') == '9' ? 'selected' : '' }}>9</option>
+                            <option value="15" {{ request('count') == '15' ? 'selected' : '' }}>15</option>
+                            <option value="27" {{ request('count') == '27' ? 'selected' : '' }}>27</option>
+                            <option value="48" {{ request('count') == '48' ? 'selected' : '' }}>48</option>
+                        </select>
+                    </form>
+                </div>
 
-                {{-- Filter Date --}}
-                <form method="GET">
-                    <select name="date"
-                        class="h-[38px] px-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500"
-                        onchange="this.form.submit()">
-                        <option value="terbaru" {{ request('date') == 'terbaru' ? 'selected' : '' }}>Terbaru</option>
-                        <option value="terlama" {{ request('date') == 'terlama' ? 'selected' : '' }}>Terlama</option>
-                    </select>
-                </form>
+                <div class="flex flex-wrap items-center justify-end gap-4 ">
+                    {{-- Filter Jenis Ikan --}}
+                    <form method="GET" id="filterForm" class="w-64"> {{-- Atur lebar form --}}
+                        <select name="fish_type" class="fish_type">
+                            <option value="">Semua Jenis Ikan</option>
+                            @foreach ($fishTypes as $fish)
+                                <option value="{{ $fish->id }}"
+                                    {{ request('fish_type') == $fish->id ? 'selected' : '' }}>
+                                    {{ $fish->nama }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </form>
+
+                    {{-- Filter Date --}}
+                    <form method="GET">
+                        <select name="date"
+                            class="h-[38px] px-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500"
+                            onchange="this.form.submit()">
+                            <option value="terbaru" {{ request('date') == 'terbaru' ? 'selected' : '' }}>Terbaru</option>
+                            <option value="terlama" {{ request('date') == 'terlama' ? 'selected' : '' }}>Terlama</option>
+                        </select>
+                    </form>
+                </div>
             </div>
 
         </div>

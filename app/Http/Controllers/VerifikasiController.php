@@ -13,6 +13,7 @@ class VerifikasiController extends Controller
         // Query dasar dengan status 'ditunda'
         $query = SpotIkan::where('status', 'ditunda');
         $sort = "desc";
+        $count = 9;
 
         // Tambahkan filter jenis ikan jika ada
         if ($request->has('fish_type') && $request->fish_type !== null) {
@@ -36,8 +37,26 @@ class VerifikasiController extends Controller
                 $sort = 'desc';
         }
 
+        switch ($request->count) {
+            case '9':
+                $count = 9;
+                break;
+            case '15':
+                $count = 15;
+                break;
+            case '27':
+                $count = 27;
+                break;
+            case '48':
+                $count = 48;
+                break;
+            default:
+                $count = 9;
+                break;
+        }
+
         // Eksekusi query dengan pagination
-        $spots = $query->orderBy('created_at', $sort)->paginate(9);
+        $spots = $query->orderBy('created_at', $sort)->paginate($count);
 
         // Ambil semua jenis ikan untuk dropdown
         $fishTypes = FishType::all();
