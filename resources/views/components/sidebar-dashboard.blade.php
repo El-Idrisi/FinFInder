@@ -38,7 +38,7 @@
         <div class="px-4 mt-8 font-bold text-gray-400">
             <h4 class="text-sm">Verifikasi</h4>
             <div class="flex flex-col gap-6 mt-4 ml-4">
-                <a href="/verifikasi" class="flex items-center gap-4 transition-all duration-300 hover:text-sky-500 {{ request()->routeIs('verifikasi') ? 'text-sky-400' : '' }}">
+                <a href="/verifikasi" class="flex items-center gap-4 transition-all duration-300 hover:text-sky-500 {{ request()->routeIs('verifikasi.index') ? 'text-sky-400' : '' }}">
                     <img src="{{ asset('img/sidebar/Group 140.svg') }}" alt="verif-icon" class="scale-125">
                     Verifikasi
                 </a>

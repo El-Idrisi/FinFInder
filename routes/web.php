@@ -89,7 +89,7 @@ Route::middleware('auth')->group(function () {
         });
 
         Route::controller(VerifikasiController::class)->group(function () {
-            Route::get('/verifikasi', 'index')->name('verifikasi');
+            Route::get('/verifikasi', 'index')->name('verifikasi.index');
         });
     });
 });

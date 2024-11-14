@@ -80,51 +80,63 @@
 
         <div class="my-6 space-y-4">
             <!-- Filter Options -->
-            <div class="flex flex-wrap items-center justify-between gap-4 px-4 py-2 border rounded-md shadow bg-white-100 border-slate-300">
-                <div class="">
-                    <form method="GET">
+            <form method="GET" id="filterForm">
+                <div
+                    class="flex flex-wrap items-center justify-between gap-4 px-4 py-2 border rounded-md shadow bg-white-100 border-slate-300">
+                    {{-- Filter Count dengan Label (Sebelah Kiri) --}}
+                    <div class="">
                         <label for="count">Tampilkan</label>
-                        <select name="count" id="count" onchange="this.form.submit()"           class="h-[38px] px-2 pr-6 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500">
+                        <select name="count" id="count"
+                            class="h-[38px] px-2 pr-6 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500">
                             <option value="9" {{ request('count') == '9' ? 'selected' : '' }}>9</option>
                             <option value="15" {{ request('count') == '15' ? 'selected' : '' }}>15</option>
                             <option value="27" {{ request('count') == '27' ? 'selected' : '' }}>27</option>
                             <option value="48" {{ request('count') == '48' ? 'selected' : '' }}>48</option>
                         </select>
-                    </form>
-                </div>
+                    </div>
 
-                <div class="flex flex-wrap items-center justify-end gap-4 ">
-                    {{-- Filter Jenis Ikan --}}
-                    <form method="GET" id="filterForm" class="w-64"> {{-- Atur lebar form --}}
-                        <select name="fish_type" class="fish_type">
-                            <option value="">Semua Jenis Ikan</option>
-                            @foreach ($fishTypes as $fish)
-                                <option value="{{ $fish->id }}"
-                                    {{ request('fish_type') == $fish->id ? 'selected' : '' }}>
-                                    {{ $fish->nama }}
+                    {{-- Wrapper untuk Fish Type, Date, dan Reset (Sebelah Kanan) --}}
+                    <div class="flex flex-wrap items-center gap-4">
+                        {{-- Filter Jenis Ikan --}}
+                        <div class="w-64">
+                            <select name="fish_type" class="fish_type">
+                                <option value="">Semua Jenis Ikan</option>
+                                @foreach ($fishTypes as $fish)
+                                    <option value="{{ $fish->id }}"
+                                        {{ request('fish_type') == $fish->id ? 'selected' : '' }}>
+                                        {{ $fish->nama }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        {{-- Filter Date --}}
+                        <div>
+                            <select name="date" id="date"
+                                class="h-[38px] px-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500">
+                                <option value="terbaru" {{ request('date') == 'terbaru' ? 'selected' : '' }}>Terbaru
                                 </option>
-                            @endforeach
-                        </select>
-                    </form>
+                                <option value="terlama" {{ request('date') == 'terlama' ? 'selected' : '' }}>Terlama
+                                </option>
+                            </select>
+                        </div>
 
-                    {{-- Filter Date --}}
-                    <form method="GET">
-                        <select name="date"
-                            class="h-[38px] px-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500"
-                            onchange="this.form.submit()">
-                            <option value="terbaru" {{ request('date') == 'terbaru' ? 'selected' : '' }}>Terbaru</option>
-                            <option value="terlama" {{ request('date') == 'terlama' ? 'selected' : '' }}>Terlama</option>
-                        </select>
-                    </form>
+                        {{-- Tombol Reset --}}
+                        <div>
+                            <a href="{{ route('verifikasi.index') }}"
+                                class="h-[38px] px-4 py-2 text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200">
+                                Reset
+                            </a>
+                        </div>
+                    </div>
                 </div>
-            </div>
+            </form>
 
         </div>
 
 
         <div class="grid grid-cols-1 gap-4 mt-8 md:grid-cols-2 lg:grid-cols-3">
             @forelse ($spots as $spot)
-                {{-- {{ $spot->tipe_ikan }}<br><br> --}}
                 <x-verif-card :spot="$spot" idMap="{{ $spot->id }}" creator="{{ $spot->creator->username }}"
                     latitude="{{ $spot->latitude }}" longitude="{{ $spot->longitude }}" :jenis-ikan="$spot->getFishTypes()"
                     date="{{ $spot->created_at->translatedFormat('d F Y') }}" />
@@ -156,6 +168,10 @@
 
             // Handle perubahan nilai select2
             $('.fish_type').on('change', function() {
+                $('#filterForm').submit();
+            });
+
+            $('.fish_type, #count, #date').on('change', function() {
                 $('#filterForm').submit();
             });
         });
