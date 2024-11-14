@@ -79,15 +79,15 @@
         <p class="inline text-slate-500">Verifikasi</p>
 
         <div class="my-6 space-y-4">
-            <!-- Filter Options -->
             <form method="GET" id="filterForm">
                 <div
-                    class="flex flex-wrap items-center justify-between gap-4 px-4 py-2 border rounded-md shadow bg-white-100 border-slate-300">
-                    {{-- Filter Count dengan Label (Sebelah Kiri) --}}
-                    <div class="">
-                        <label for="count">Tampilkan</label>
+                    class="flex flex-col px-4 py-2 border rounded-md shadow bg-white-100 border-slate-300 md:flex-row md:items-center md:justify-between md:gap-4">
+                    {{-- Filter Count Group --}}
+                    <div class="w-full mb-3 md:mb-0 md:w-auto">
+                        <label for="count"
+                            class="block mb-1 text-sm font-medium text-gray-700 md:inline md:mr-2">Tampilkan</label>
                         <select name="count" id="count"
-                            class="h-[38px] px-2 pr-6 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500">
+                            class="w-full h-[38px] px-2 pr-6 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 md:w-20">
                             <option value="9" {{ request('count') == '9' ? 'selected' : '' }}>9</option>
                             <option value="15" {{ request('count') == '15' ? 'selected' : '' }}>15</option>
                             <option value="27" {{ request('count') == '27' ? 'selected' : '' }}>27</option>
@@ -95,12 +95,12 @@
                         </select>
                     </div>
 
-                    {{-- Wrapper untuk Fish Type, Date, dan Reset (Sebelah Kanan) --}}
-                    <div class="flex flex-wrap items-center gap-4">
+                    {{-- Filter Controls Group --}}
+                    <div class="flex flex-col gap-3 md:flex-row md:items-center md:gap-4">
                         {{-- Filter Jenis Ikan --}}
-                        <div class="w-64">
-                            <select name="fish_type" class="fish_type">
-                                <option value="">Semua Jenis Ikan</option>
+                        <div class="w-full md:w-64">
+                            <select name="fish_type" class="w-full fish_type">
+                                <option value="">Pilih Jenis Ikan</option>
                                 @foreach ($fishTypes as $fish)
                                     <option value="{{ $fish->id }}"
                                         {{ request('fish_type') == $fish->id ? 'selected' : '' }}>
@@ -110,21 +110,20 @@
                             </select>
                         </div>
 
-                        {{-- Filter Date --}}
-                        <div>
-                            <select name="date" id="date"
-                                class="h-[38px] px-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500">
+                        {{-- Sort dan Reset Group --}}
+                        <div class="flex items-center gap-2">
+                            {{-- Filter Date --}}
+                            <select name="date"
+                                class="flex-1 h-[38px] px-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 md:flex-none">
                                 <option value="terbaru" {{ request('date') == 'terbaru' ? 'selected' : '' }}>Terbaru
                                 </option>
                                 <option value="terlama" {{ request('date') == 'terlama' ? 'selected' : '' }}>Terlama
                                 </option>
                             </select>
-                        </div>
 
-                        {{-- Tombol Reset --}}
-                        <div>
+                            {{-- Tombol Reset --}}
                             <a href="{{ route('verifikasi.index') }}"
-                                class="h-[38px] px-4 py-2 text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200">
+                                class="h-[38px] px-4 py-2 text-sm text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200">
                                 Reset
                             </a>
                         </div>
