@@ -13,7 +13,7 @@
 
     <x-form-group :isDelete="false" :isAccordion="false" :allowFooter="false" title="Tambah Data">
         <div class="px-8 py-4">
-            <form action="{{ route('fish.create') }}" method="POST">
+            <form action="{{ route('data-anda.create') }}" method="POST">
                 @csrf
 
                 <div class="flex flex-col !w-full mb-4">

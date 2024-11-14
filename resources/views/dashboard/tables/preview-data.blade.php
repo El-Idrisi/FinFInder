@@ -5,9 +5,18 @@
         <h2 class="mb-2 text-3xl font-bold">Detail Data Ikan</h2>
         <a href="/dashboard"
             class="after:content-['>'] transition-all duration-300 after:text-black after:px-2 hover:text-slate-500">Dashboard</a>
-        <a href="/data-ikan"
-            class="after:content-['>'] transition-all duration-300 after:text-black after:px-2 hover:text-slate-500">Data
-            Ikan</a>
+        @if (request()->routeIs('verifikasi.*'))
+            <a href="/verifikasi"
+                class="after:content-['>'] transition-all duration-300 after:text-black after:px-2 hover:text-slate-500">Verifikasi</a>
+        @elseif(request()->routeIs('data-anda.*'))
+            <a href="/data-anda"
+                class="after:content-['>'] transition-all duration-300 after:text-black after:px-2 hover:text-slate-500">Data
+                Anda</a>
+        @elseif(request()->routeIs('data-ikan.*'))
+            <a href="/data-ikan"
+                class="after:content-['>'] transition-all duration-300 after:text-black after:px-2 hover:text-slate-500">Data
+                Ikan</a>
+        @endif
         <p class="inline text-slate-500">Detail Data</p>
     </div>
 
@@ -83,7 +92,8 @@
             list-style-position: inside;
         }
 
-        ol li *, ul li * {
+        ol li *,
+        ul li * {
             display: inline !important;
         }
     </style>

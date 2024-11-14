@@ -12,7 +12,7 @@
 
     <x-form-group :isDelete="false" :isAccordion="false" :allowFooter="false" title="Edit Data">
         <div class="px-8 py-4">
-            <form action="{{ route('fish.edit', $spotIkan->id) }}" method="POST">
+            <form action="{{ route('data-anda.edit', $spotIkan->id) }}" method="POST">
                 @csrf
                 @method('PUT')
                 <div class="flex flex-col !w-full mb-4">

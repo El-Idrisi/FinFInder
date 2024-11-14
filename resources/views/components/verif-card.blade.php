@@ -39,7 +39,7 @@
 
         <!-- Action Buttons -->
         <div class="flex flex-col gap-2 mt-4">
-            <a href="{{ route('preview.data', $idMap) }}"
+            <a href="{{ route('verifikasi.show', $idMap) }}"
                 class="flex items-center justify-center w-full px-4 py-2 text-white transition-all duration-300 rounded-md cursor-pointer view-btn bg-sky-500 hover:bg-sky-600 hover:scale-105 group">
                 <i class="mr-2 transition-transform fas fa-eye group-hover:rotate-12"></i>
                 <span class="transition-all group-hover:font-bold">Lihat Selengkapnya</span>

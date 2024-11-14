@@ -63,4 +63,9 @@ class VerifikasiController extends Controller
             'fishTypes' => $fishTypes
         ]);
     }
+
+    public function show($id) {
+        $spotIkan = SpotIkan::find($id);
+        return view('dashboard.tables.preview-data', ['title' => 'FinFinder | Show Data', 'spotIkan' => $spotIkan]);
+    }
 }

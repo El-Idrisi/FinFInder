@@ -57,7 +57,7 @@
                                             class="px-4 py-2 font-bold transition-all duration-300 rounded-md text-slate-100 {{ $fishspot->status == 'disetujui' ? 'bg-green-500 hover:bg-green-600' : ($fishspot->status == 'ditunda' ? 'bg-yellow-500 hover:bg-yellow-600' : 'bg-red-500 hover:bg-red-600') }}">{{ ucwords($fishspot->status) }}</span>
                                     </td>
                                     <td class="py-3">
-                                        <a href="{{ route('preview.data', $fishspot) }}"
+                                        <a href="{{ route('data-ikan.show', $fishspot) }}"
                                             class="p-2 transition-all duration-300 rounded-md cursor-pointer bg-sky-500 text-slate-100 hover:bg-sky-600"><i
                                                 class=" fa-solid fa-magnifying-glass"></i></a>
                                     </td>

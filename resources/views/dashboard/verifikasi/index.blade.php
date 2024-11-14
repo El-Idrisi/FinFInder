@@ -113,7 +113,7 @@
                         {{-- Sort dan Reset Group --}}
                         <div class="flex items-center gap-2">
                             {{-- Filter Date --}}
-                            <select name="date"
+                            <select name="date" id="date"
                                 class="flex-1 h-[38px] px-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 md:flex-none">
                                 <option value="terbaru" {{ request('date') == 'terbaru' ? 'selected' : '' }}>Terbaru
                                 </option>

@@ -23,11 +23,11 @@
         <h4 class="text-sm">Data</h4>
         <div class="flex flex-col gap-6 mt-4 ml-4">
             <a href="/data-ikan"
-                class="flex items-center gap-4 transition-all duration-300 hover:text-sky-500 {{ request()->routeIs('data-ikan') ? 'text-sky-400' : '' }}">
+                class="flex items-center gap-4 transition-all duration-300 hover:text-sky-500 {{ request()->routeIs('data-ikan.index') ? 'text-sky-400' : '' }}">
                 <img src="{{ asset('img/sidebar/Group 136.svg') }}" alt="fish-icon" class="scale-125">
                 Data Ikan
             </a>
-            <a href="/data-anda" class="flex items-center gap-4 transition-all duration-300 hover:text-sky-500 {{ request()->routeIs('data.index') ? 'text-sky-400' : '' }}">
+            <a href="/data-anda" class="flex items-center gap-4 transition-all duration-300 hover:text-sky-500 {{ request()->routeIs('data-anda.index') ? 'text-sky-400' : '' }}">
                 <img src="{{ asset('img/sidebar/Group-137.svg') }}" alt="table-icon" class="scale-125">
                 Data Anda
             </a>
@@ -48,7 +48,7 @@
         <div class="px-4 mt-8 font-bold text-gray-400">
             <h4 class="text-sm">Jenis Ikan</h4>
             <div class="flex flex-col gap-6 mt-4 ml-4">
-                <a href="/list-ikan" class="flex items-center gap-4 transition-all duration-300 hover:text-sky-500 {{ request()->routeIs('list-ikan') ? 'text-sky-400' : '' }} ">
+                <a href="/list-ikan" class="flex items-center gap-4 transition-all duration-300 hover:text-sky-500 {{ request()->routeIs('list-ikan.index') ? 'text-sky-400' : '' }} ">
                     <img src="{{ asset('img/sidebar/Group 141.svg') }}" alt="list-icon" class="scale-125">
                     List Jenis Ikan
                 </a>
@@ -57,7 +57,7 @@
     @endif
 
     <div class="flex justify-center px-4 mt-8 font-bold">
-        <a href="/data-ikan/create"
+        <a href="/data-anda/create"
             class="px-8 py-2 text-white transition-all duration-300 rounded-md bg-gradient-to-r from-violet-400 via-sky-500 to-fuchsia-400 bg-size-200 bg-pos-0 hover:bg-pos-100">
             <span class="shad"><i class="fa-solid fa-plus"></i> Tambah Data</span>
         </a>

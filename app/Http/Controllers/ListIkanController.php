@@ -61,13 +61,12 @@ class ListIkanController extends Controller
         $fishType->save();
 
         // dd("berhasil", $request->all());
-        return redirect()->route('list-ikan')->with('success', 'Berhasil Mengubah Jenis Ikan');
+        return redirect()->route('list-ikan.index')->with('success', 'Berhasil Mengubah Jenis Ikan');
     }
 
     public function show($id) {
         $fishdatas = SpotIkan::whereJsonContains('tipe_ikan', $id)
         ->orWhereRaw('JSON_CONTAINS(tipe_ikan, ?)', [$id])
-        ->orWhere('tipe_ikan', 'LIKE', '%' . $id . '%')
         ->get();
         // dd($fishdatas);
 

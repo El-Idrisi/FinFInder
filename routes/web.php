@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DataAndaController;
 use App\Http\Controllers\FishSpotController;
 use App\Http\Controllers\ListIkanController;
 use App\Http\Controllers\ProfileController;
@@ -35,15 +36,15 @@ Route::middleware('guest')->group(function () {
         Route::post('/change-password', 'resetPassword')->name('password.update');
     });
 
-    Route::controller(RegisterController::class)->group(function () {
-        Route::get('/register', 'showStep1')->name('register');
-        Route::post('/register/step1', 'processStep1')->name('register.step1');
+    Route::controller(RegisterController::class)->prefix('register')->name('register.')->group(function () {
+        Route::get('/', 'showStep1')->name('index');
+        Route::post('/step1', 'processStep1')->name('step1');
 
-        Route::get('/register/step2/{email}', 'showStep2')->name('register.step2');
-        Route::post('/register/step2', 'processStep2')->name('register.step2.process');
+        Route::get('/step2/{email}', 'showStep2')->name('step2');
+        Route::post('/step2', 'processStep2')->name('step2.process');
 
-        Route::get('/register/step3/{email}', 'showStep3')->name('register.step3');
-        Route::post('/register/step3', 'processStep3')->name('register.step3.process');
+        Route::get('/step3/{email}', 'showStep3')->name('step3');
+        Route::post('/step3', 'processStep3')->name('step3.process');
     });
 });
 
@@ -64,32 +65,36 @@ Route::middleware('auth')->group(function () {
     });
 
 
-    Route::controller(FishSpotController::class)->group(function () {
-        Route::get('/data-ikan/create', 'showCreate')->name('fish.showCreate');
-        Route::post('/data-ikan/submit', 'create')->name('fish.create');
-        Route::get('/data-ikan/edit/{spotIkan}', 'showEdit')->name('fish.showEdit');
-        Route::put('/data-ikan/edit/{spotIkan}', 'update')->name('fish.edit');
-        Route::delete('data-ikan/delete/{spotIkan}', 'delete')->name('fish.delete');
-        Route::get('/data-ikan', 'showAll')->name('data-ikan');
-        Route::get('/data-anda', 'index')->name('data.index');
+    Route::controller(FishSpotController::class)->prefix('data-ikan')->name('data-ikan.')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('show/{spotIkan}', 'show')->name('show');
+    });
 
-        Route::get('/data-ikan/view/{id}', 'viewData')->name('preview.data');
+    Route::controller(DataAndaController::class)->prefix('data-anda')->name('data-anda.')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/show{spotIkan}', 'show')->name('show');
+        Route::get('/create', 'showCreate')->name('showCreate');
+        Route::post('/submit', 'create')->name('create');
+        Route::get('/edit/{spotIkan}', 'showEdit')->name('showEdit');
+        Route::put('/edit/{spotIkan}', 'update')->name('edit');
+        Route::delete('/delete/{spotIkan}', 'delete')->name('delete');
     });
 
     Route::get('/fish-types/search', [ListIkanController::class, 'search'])->name('fish-types.search');
 
     Route::middleware(AdminMiddleware::class)->group(function () {
 
-        Route::controller(ListIkanController::class)->group(function () {
-            Route::get('/list-ikan', 'index')->name('list-ikan');
-            Route::get('/list-ikan/delete/{id}', 'delete')->name('list-ikan.delete');
-            Route::post('/list-ikan/create', 'store')->name('list-ikan.create');
-            Route::put('/list-ikan/update/{id}', 'update')->name('list-ikan.update');
-            Route::get('/list-ikan/{id}', 'show')->name('list-ikan.sort');
+        Route::controller(ListIkanController::class)->prefix('list-ikan')->name('list-ikan.')->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('/delete/{id}', 'delete')->name('delete');
+            Route::post('/create', 'store')->name('create');
+            Route::put('/update/{id}', 'update')->name('update');
+            Route::get('/{id}', 'show')->name('sort');
         });
 
-        Route::controller(VerifikasiController::class)->group(function () {
-            Route::get('/verifikasi', 'index')->name('verifikasi.index');
+        Route::controller(VerifikasiController::class)->prefix('verifikasi')->name('verifikasi.')->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('show/{spotIkan}', 'show')->name('show');
         });
     });
 });

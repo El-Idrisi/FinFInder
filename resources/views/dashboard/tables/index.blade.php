@@ -58,13 +58,13 @@
                                             class="px-4 py-2 transition-all duration-300 rounded-md text-slate-100 font-bold {{ $fishspot->status == 'disetujui' ? 'bg-green-500 hover:bg-green-600' : ($fishspot->status == 'ditunda' ? 'bg-yellow-500 hover:bg-yellow-600' : 'bg-red-500 hover:bg-red-600') }}">{{ ucwords($fishspot->status) }}</span>
                                     </td>
                                     <td class="flex gap-2 py-3">
-                                        <a href="{{ route('preview.data', $fishspot) }}"
+                                        <a href="{{ route('data-anda.show', $fishspot) }}"
                                             class="p-2 px-3 transition-all duration-300 rounded-md cursor-pointer bg-sky-500 text-slate-100 hover:bg-sky-600"><i
                                                 class=" fa-solid fa-magnifying-glass"></i></a>
-                                        <a href="{{ route('fish.showEdit', $fishspot) }}"
+                                        <a href="{{ route('data-anda.showEdit', $fishspot) }}"
                                             class="p-2 px-3 transition-all duration-300 bg-yellow-500 rounded-md cursor-pointer text-slate-100 hover:bg-yellow-600"><i
                                                 class="fa-solid fa-pen-to-square"></i></a>
-                                        <form method="POST" class="inline delete-spotikan" action="{{ route('fish.delete', $fishspot->id) }}">
+                                        <form method="POST" class="inline delete-spotikan" action="{{ route('data-anda.delete', $fishspot->id) }}">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit"
