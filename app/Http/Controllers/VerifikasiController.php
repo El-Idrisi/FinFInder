@@ -54,7 +54,7 @@ class VerifikasiController extends Controller
                 break;
         }
 
-        $spots = $query->orderBy('updated_at', $sort)->paginate($count);
+        $spots = $query->orderBy('created_at', $sort)->paginate($count);
 
         $fishTypes = FishType::all();
 
@@ -80,6 +80,6 @@ class VerifikasiController extends Controller
 
         $spotIkan->save();
 
-        return redirect()->route('verifikasi.index')->with('success', 'Titik Lokasi Berhasil'. ucwords($request->status));
+        return redirect()->route('verifikasi.index')->with('success', 'Titik Lokasi Berhasil '. ucwords($request->status));
     }
 }

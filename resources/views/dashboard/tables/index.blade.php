@@ -13,39 +13,26 @@
             </div>
             <div class="relative px-4 py-4">
                 <div class="relative p-3 overflow-x-auto sm:rounded-lg">
-                    <table id="fishTable" class="w-full text-sm text-left row-border order-column stripe"
-                        style="width: 100%">
+                    <table id="fishTable" class="w-full text-sm text-left row-border order-column stripe" style="width: 100%">
                         <thead class="rounded-md bg-sky-300">
                             <tr class="">
-                                <th class="py-3 rounded-tl-md">
-                                    No
-                                </th>
-                                <th class="py-3 cursor-pointer sort-header" data-sort="fish_type">
-                                    Jenis Ikan
-                                </th>
-                                <th class="py-3">
-                                    Dibuat Pada Tanggal
-                                </th>
-                                <th class="py-3">
-                                    Koordinat
-                                </th>
-                                <th class="py-3">
-                                    Status
-                                </th>
-                                <th class="py-3 rounded-tr-md">
-                                    Aksi
-                                </th>
+                                <th class="py-3 rounded-tl-md">No</th>
+                                <th class="py-3 cursor-pointer sort-header" data-sort="fish_type">Jenis Ikan</th>
+                                <th class="py-3">Dibuat Pada Tanggal</th>
+                                <th class="py-3">Koordinat</th>
+                                <th class="py-3">Status</th>
+                                <th class="py-3 rounded-tr-md">Aksi</th>
                             </tr>
                         </thead>
                         <tbody class="rounded-md" id="table-body">
                             @foreach ($fishdatas as $fishspot)
-                                <tr class="w-full transition-all ">
+                                <tr class="w-full transition-all">
                                     <td class="py-3">{{ $loop->iteration }}</td>
-                                    <td class="py-3 ">
-                                        <div class="flex flex-wrap gap-2 lg:min-w-[300px] lg:max-w-[400px]">
+                                    {{-- Jenis Ikan Cell --}}
+                                    <td class="py-3">
+                                        <div class="flex flex-wrap gap-2 lg:w-[300px]"> {{-- Tetapkan lebar tetap --}}
                                             @foreach ($fishspot->getFishTypes(5) as $ikan)
-                                                <span
-                                                    class="px-3 py-1 text-sm transition-all duration-300 border rounded-md border-sky-500 hover:bg-sky-100">
+                                                <span class="px-3 py-1 text-sm transition-all duration-300 border rounded-md border-sky-500 hover:bg-sky-100">
                                                     {{ $ikan->nama }}
                                                 </span>
                                             @endforeach
@@ -53,25 +40,38 @@
                                     </td>
                                     <td class="py-3">{{ $fishspot->created_at->translatedFormat('d F Y') }}</td>
                                     <td class="py-3">{{ $fishspot->latitude . ' , ' . $fishspot->longitude }}</td>
+                                    {{-- Status Cell --}}
                                     <td class="py-3">
-                                        <span
-                                            class="px-4 py-2 transition-all duration-300 rounded-md text-slate-100 font-bold {{ $fishspot->status == 'disetujui' ? 'bg-green-500 hover:bg-green-600' : ($fishspot->status == 'ditunda' ? 'bg-yellow-500 hover:bg-yellow-600' : 'bg-red-500 hover:bg-red-600') }}">{{ ucwords($fishspot->status) }}</span>
+                                        <div class="flex items-center"> {{-- Tambahkan flex container --}}
+                                            <span class="px-4 py-2 transition-all duration-300 rounded-md text-slate-100 font-bold
+                                                {{ $fishspot->status == 'disetujui' ? 'bg-green-500 hover:bg-green-600' :
+                                                   ($fishspot->status == 'ditunda' ? 'bg-yellow-500 hover:bg-yellow-600' :
+                                                    'bg-red-500 hover:bg-red-600') }}">
+                                                {{ ucwords($fishspot->status) }}
+                                            </span>
+                                        </div>
                                     </td>
-                                    <td class="flex gap-2 py-3">
-                                        <a href="{{ route('data-anda.show', $fishspot) }}"
-                                            class="p-2 px-3 transition-all duration-300 rounded-md cursor-pointer bg-sky-500 text-slate-100 hover:bg-sky-600"><i
-                                                class=" fa-solid fa-magnifying-glass"></i></a>
-                                        <a href="{{ route('data-anda.showEdit', $fishspot) }}"
-                                            class="p-2 px-3 transition-all duration-300 bg-yellow-500 rounded-md cursor-pointer text-slate-100 hover:bg-yellow-600"><i
-                                                class="fa-solid fa-pen-to-square"></i></a>
-                                        <form method="POST" class="inline delete-spotikan" action="{{ route('data-anda.delete', $fishspot->id) }}">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit"
-                                                class="p-2 px-3 transition-all duration-300 bg-red-500 rounded-md cursor-pointer text-slate-100 hover:bg-red-600">
-                                                <i class="fa-solid fa-trash"></i>
-                                            </button>
-                                        </form>
+                                    {{-- Action Cell --}}
+                                    <td class="py-3">
+                                        <div class="flex items-center gap-2"> {{-- Tambahkan flex container dengan items-center --}}
+                                            <a href="{{ route('data-anda.show', $fishspot) }}"
+                                                class="p-2 px-3 transition-all duration-300 rounded-md cursor-pointer bg-sky-500 text-slate-100 hover:bg-sky-600">
+                                                <i class="fa-solid fa-magnifying-glass"></i>
+                                            </a>
+                                            <a href="{{ route('data-anda.showEdit', $fishspot) }}"
+                                                class="p-2 px-3 transition-all duration-300 bg-yellow-500 rounded-md cursor-pointer text-slate-100 hover:bg-yellow-600">
+                                                <i class="fa-solid fa-pen-to-square"></i>
+                                            </a>
+                                            <form method="POST" class="inline delete-spotikan"
+                                                  action="{{ route('data-anda.delete', $fishspot->id) }}">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit"
+                                                    class="p-2 px-3 transition-all duration-300 bg-red-500 rounded-md cursor-pointer text-slate-100 hover:bg-red-600">
+                                                    <i class="fa-solid fa-trash"></i>
+                                                </button>
+                                            </form>
+                                        </div>
                                     </td>
                                 </tr>
                             @endforeach
