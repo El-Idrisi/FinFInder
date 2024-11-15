@@ -46,17 +46,27 @@
             </a>
 
             <div class="flex gap-2">
-                <button
-                    class="flex-1 px-4 py-2 text-white transition-all duration-300 bg-green-500 rounded-md approve-btn hover:bg-green-600 hover:scale-105 group">
-                    <i class="mr-2 transition-all fas fa-check group-hover:rotate-12"></i>
-                    <span class="transition-all group-hover:font-bold">Setuju</span>
-                </button>
+                <form class="inline w-full" action="{{ route('verifikasi.update-status', $idMap) }}" method="POST">
+                    @csrf
+                    @method('PATCH')
+                    <input type="hidden" name="status" value="disetujui">
+                    <button
+                        class="flex-1 w-full px-4 py-2 text-white transition-all duration-300 bg-green-500 rounded-md approve-btn hover:bg-green-600 hover:scale-105 group">
+                        <i class="mr-2 transition-all fas fa-check group-hover:rotate-12"></i>
+                        <span class="transition-all group-hover:font-bold">Setuju</span>
+                    </button>
+                </form>
 
-                <button
-                    class="flex-1 px-4 py-2 text-white transition-all duration-300 bg-red-500 rounded-md reject-btn hover:bg-red-600 hover:scale-105 group">
-                    <i class="mr-2 transition-all fas fa-times group-hover:rotate-12"></i>
-                    <span class="transition-all group-hover:font-bold">Tolak</span>
-                </button>
+                <form class="inline w-full" action="{{ route('verifikasi.update-status', $idMap) }}" method="POST">
+                    @csrf
+                    @method('PATCH')
+                    <input type="hidden" name="status" value="ditolak">
+                    <button
+                        class="flex-1 w-full px-4 py-2 text-white transition-all duration-300 bg-red-500 rounded-md reject-btn hover:bg-red-600 hover:scale-105 group">
+                        <i class="mr-2 transition-all fas fa-times group-hover:rotate-12"></i>
+                        <span class="transition-all group-hover:font-bold">Tolak</span>
+                    </button>
+                </form>
             </div>
         </div>
     </div>

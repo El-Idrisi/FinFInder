@@ -68,6 +68,10 @@
         #filterForm {
             margin-bottom: 0 !important;
         }
+
+        [role="button"] {
+            cursor: default !important;
+        }
     </style>
 @endpush
 

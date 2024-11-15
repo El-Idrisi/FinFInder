@@ -67,12 +67,12 @@ Route::middleware('auth')->group(function () {
 
     Route::controller(FishSpotController::class)->prefix('data-ikan')->name('data-ikan.')->group(function () {
         Route::get('/', 'index')->name('index');
-        Route::get('show/{spotIkan}', 'show')->name('show');
+        Route::get('/show/{spotIkan}', 'show')->name('show');
     });
 
     Route::controller(DataAndaController::class)->prefix('data-anda')->name('data-anda.')->group(function () {
         Route::get('/', 'index')->name('index');
-        Route::get('/show{spotIkan}', 'show')->name('show');
+        Route::get('/show/{spotIkan}', 'show')->name('show');
         Route::get('/create', 'showCreate')->name('showCreate');
         Route::post('/submit', 'create')->name('create');
         Route::get('/edit/{spotIkan}', 'showEdit')->name('showEdit');
@@ -94,7 +94,8 @@ Route::middleware('auth')->group(function () {
 
         Route::controller(VerifikasiController::class)->prefix('verifikasi')->name('verifikasi.')->group(function () {
             Route::get('/', 'index')->name('index');
-            Route::get('show/{spotIkan}', 'show')->name('show');
+            Route::get('/show/{spotIkan}', 'show')->name('show');
+            Route::patch('/update/{spotIkan}', 'updateStatus')->name('update-status');
         });
     });
 });

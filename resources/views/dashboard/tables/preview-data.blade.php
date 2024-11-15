@@ -27,12 +27,24 @@
         <div class="">
 
             <div class="px-4 py-6">
-                <div class="mb-4">
-                    <h2 class="mb-4 text-xl font-bold">Diinput Oleh</h2>
-                    <div
-                        class="inline px-4 py-2 transition-all duration-300 border-2 rounded-md border-sky-300 hover:bg-sky-300">
-                        <i class="fa-solid fa-user"></i> {{ $spotIkan->creator->username }}
+                <div class="flex gap-8 mb-4">
+                    <div class="mb-4">
+                        <h2 class="mb-4 text-xl font-bold">Diinput Oleh</h2>
+                        <div
+                            class="inline px-4 py-2 transition-all duration-300 border-2 rounded-md border-sky-300 hover:bg-sky-300">
+                            <i class="fa-solid fa-user"></i> {{ $spotIkan->creator->username }}
+                        </div>
                     </div>
+                    @if (($spotIkan->status == 'disetujui' || $spotIkan->status == 'ditolak') && !$spotIkan->creator->isAdmin())
+                    <div class="mb-4">
+                        <h2 class="mb-4 text-xl font-bold ">{{ ucwords($spotIkan->status) }} Oleh</h2>
+                        <div
+                            class="inline px-4 py-2 transition-all duration-300 border-2 rounded-md border-sky-300 hover:bg-sky-300">
+                            <i class="fa-solid fa-user"></i> {{ $spotIkan->verifier->username }}
+                        </div>
+                    </div>
+                    @endif
+
                 </div>
                 <div class="mb-4">
                     <h2 class="mb-4 text-xl font-bold">Diinput Pada Tanggal</h2>

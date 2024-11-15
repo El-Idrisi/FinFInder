@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\FishType;
 use App\Models\SpotIkan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class VerifikasiController extends Controller
 {
@@ -20,7 +21,7 @@ class VerifikasiController extends Controller
                 // Cek untuk format dengan petik dua ["1","2"]
                 $q->whereJsonContains('tipe_ikan', $fishTypeId)
                     // Cek untuk format tanpa petik dua [1,2]
-                ->orWhereRaw('JSON_CONTAINS(tipe_ikan, ?)', [$fishTypeId]);
+                    ->orWhereRaw('JSON_CONTAINS(tipe_ikan, ?)', [$fishTypeId]);
             });
         }
 
@@ -53,7 +54,7 @@ class VerifikasiController extends Controller
                 break;
         }
 
-        $spots = $query->orderBy('created_at', $sort)->paginate($count);
+        $spots = $query->orderBy('updated_at', $sort)->paginate($count);
 
         $fishTypes = FishType::all();
 
@@ -64,8 +65,21 @@ class VerifikasiController extends Controller
         ]);
     }
 
-    public function show($id) {
+    public function show($id)
+    {
         $spotIkan = SpotIkan::find($id);
         return view('dashboard.tables.preview-data', ['title' => 'FinFinder | Show Data', 'spotIkan' => $spotIkan]);
+    }
+
+    public function updateStatus(SpotIkan $spotIkan, Request $request)
+    {
+        // dd($request->all(), $request->status);
+        $spotIkan->status = $request->status;
+        $spotIkan->diverifikasi_oleh = Auth::id();
+        $spotIkan->tanggal_verifikasi = date('Y-m-d');
+
+        $spotIkan->save();
+
+        return redirect()->route('verifikasi.index')->with('success', 'Titik Lokasi Berhasil'. ucwords($request->status));
     }
 }
