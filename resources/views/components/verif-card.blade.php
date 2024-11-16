@@ -2,7 +2,7 @@
     {{-- Card Header dengan Map --}}
     <div class="relative h-48">
         <div id="map-{{ $idMap }}" class="w-full h-full"></div>
-        <span class="absolute px-3 py-1 text-sm text-white bg-yellow-500 rounded-full z-[999] top-2 right-2">
+        <span class="absolute px-3 py-1 text-sm text-white bg-yellow-500 rounded-full z-[999] top-2 right-2 animate-shadow-pulse">
             Belum Diverifikasi
         </span>
     </div>

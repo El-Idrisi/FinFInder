@@ -13,7 +13,8 @@
             </div>
             <div class="relative px-4 py-4">
                 <div class="relative p-3 overflow-x-auto sm:rounded-lg">
-                    <table id="fishTable" class="w-full text-sm text-left row-border order-column stripe" style="width: 100%">
+                    <table id="fishTable" class="w-full text-sm text-left row-border order-column stripe"
+                        style="width: 100%">
                         <thead class="rounded-md bg-sky-300">
                             <tr class="">
                                 <th class="py-3 rounded-tl-md">No</th>
@@ -32,7 +33,8 @@
                                     <td class="py-3">
                                         <div class="flex flex-wrap gap-2 lg:w-[300px]"> {{-- Tetapkan lebar tetap --}}
                                             @foreach ($fishspot->getFishTypes(5) as $ikan)
-                                                <span class="px-3 py-1 text-sm transition-all duration-300 border rounded-md border-sky-500 hover:bg-sky-100">
+                                                <span
+                                                    class="px-3 py-1 text-sm transition-all duration-300 border rounded-md border-sky-500 hover:bg-sky-100">
                                                     {{ $ikan->nama }}
                                                 </span>
                                             @endforeach
@@ -43,10 +45,13 @@
                                     {{-- Status Cell --}}
                                     <td class="py-3">
                                         <div class="flex items-center"> {{-- Tambahkan flex container --}}
-                                            <span class="px-4 py-2 transition-all duration-300 rounded-md text-slate-100 font-bold
-                                                {{ $fishspot->status == 'disetujui' ? 'bg-green-500 hover:bg-green-600' :
-                                                   ($fishspot->status == 'ditunda' ? 'bg-yellow-500 hover:bg-yellow-600' :
-                                                    'bg-red-500 hover:bg-red-600') }}">
+                                            <span
+                                                class="px-4 py-2 transition-all duration-300 rounded-md text-slate-100 font-bold
+                                                {{ $fishspot->status == 'disetujui'
+                                                    ? 'bg-green-500 hover:bg-green-600'
+                                                    : ($fishspot->status == 'ditunda'
+                                                        ? 'bg-yellow-500 hover:bg-yellow-600'
+                                                        : 'bg-red-500 hover:bg-red-600') }}">
                                                 {{ ucwords($fishspot->status) }}
                                             </span>
                                         </div>
@@ -63,7 +68,7 @@
                                                 <i class="fa-solid fa-pen-to-square"></i>
                                             </a>
                                             <form method="POST" class="inline delete-spotikan"
-                                                  action="{{ route('data-anda.delete', $fishspot->id) }}">
+                                                action="{{ route('data-anda.delete', $fishspot->id) }}">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit"
@@ -88,7 +93,7 @@
     <script>
         $(document).ready(function() {
 
-            $('.delete-spotikan').submit(function(e){
+            $('.delete-spotikan').submit(function(e) {
                 e.preventDefault();
                 Swal.fire({
                     title: "Are you sure?",

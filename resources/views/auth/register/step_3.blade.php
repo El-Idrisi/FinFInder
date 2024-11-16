@@ -15,7 +15,7 @@
                         <label for="username" class="mb-1 text-lg font-bold ">Username</label>
                         <input type="text" name="username" id="username" placeholder="username"
                             class="px-4 py-3 rounded-full bg-[#e9e9e9] focus:outline outline-none focus:outline-sky-500"
-                            autocomplete="off">
+                            autocomplete="off" value="{{ old('username') }}">
                     </div>
                     @error('username')
                         <p class="text-red-500">{{ $message }}</p>

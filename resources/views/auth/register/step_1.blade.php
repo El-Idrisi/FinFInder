@@ -13,7 +13,7 @@
                         <label for="email" class="mb-1 text-lg font-bold ">Email</label>
                         <input type="email" name="email" id="email" placeholder="email"
                             class="px-4 py-3 rounded-full bg-[#e9e9e9] focus:outline outline-none focus:outline-sky-500"
-                            autocomplete="off">
+                            autocomplete="off" value="{{ old('email') }}">
                     </div>
                     @error('email')
                         <p class="text-red-500">{{ $message }}</p>
