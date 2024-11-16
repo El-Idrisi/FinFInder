@@ -35,7 +35,7 @@ export default {
                 'size-200': '200% 200%',
             },
             colors: {
-                'white-100' : '#fafafa',
+                'white-100' : '#fefefe',
             },
         },
         listStyleType: {

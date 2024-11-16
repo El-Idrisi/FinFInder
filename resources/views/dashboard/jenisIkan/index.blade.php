@@ -16,7 +16,7 @@
         </div>
 
         <div class="">
-            <table class="w-full bg-white">
+            {{-- <table class="w-full bg-white">
                 <thead>
                     <tr class="flex bg-sky-300">
                         <th class="w-full px-4 py-2 text-left border-b-2 border-slate-300">No</th>
@@ -53,8 +53,53 @@
                         </tr>
                     @endforeach
                 </tbody>
-            </table>
+            </table> --}}
+            <div class="container mx-auto mb-8">
+                <div class="rounded-lg shadow-md bg-white-100">
+                    @foreach ($fishTypes as $fish)
+                        <div
+                            class="flex items-center justify-between p-4 transition-all duration-300 border-b hover:bg-gray-50">
+                            <div class="flex items-center gap-4">
+                                <div
+                                    class="flex items-center justify-center w-10 h-10 rounded-full bg-sky-100 text-sky-500">
+                                    <i class="fas fa-fish"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-semibold">{{ $fish->nama }}</h3>
+                                    <div class="text-sm text-gray-600">
+                                        {{ $fish->hitungSpotIkan() ?? 0 }} Lokasi •
+                                        {{ $fish->hitungSpotIkanTerverifikasi() ?? 0 }} Terverifikasi
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="flex gap-2">
+                                <a href="{{ route('list-ikan.sort', $fish->id) }}"
+                                    class="flex items-center justify-center p-2 transition-all duration-300 rounded-md bg-sky-500 text-slate-100 w-fit hover:bg-sky-600 h-fit">
+                                    <i class="fas fa-search"></i>
+                                </a>
+                                <a href="#"
+                                    class="flex items-center justify-center p-2 transition-all duration-300 bg-yellow-500 rounded-md h-fit w-fit btn-edit text-slate-100 hover:bg-yellow-600"
+                                    data-namaIkan="{{ $fish->nama }}" data-idIkan="{{ $fish->id }}">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <form action="{{ route('list-ikan.delete', $fish->id) }}" method="GET"
+                                    class="inline delete-ikan">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit"
+                                        class="flex items-center justify-center p-2 transition-all duration-300 bg-red-500 rounded-md text-slate-100 w-fit hover:bg-red-600">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
         </div>
+
+        {{ $fishTypes->links() }}
     </div>
 
     <x-modal title="Tambah Jenis Ikan" idModal="modal-add-type" idForm="form-add-type">

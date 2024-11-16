@@ -10,7 +10,7 @@ class ListIkanController extends Controller
 {
     public function index()
     {
-        $fishTypes = FishType::all();
+        $fishTypes = FishType::paginate(10);
         return view('dashboard.jenisIkan.index', ['title' => 'FinFinder | List Ikan'], compact('fishTypes'));
     }
 
