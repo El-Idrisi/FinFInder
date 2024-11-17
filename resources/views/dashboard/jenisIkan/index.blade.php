@@ -274,19 +274,23 @@
                     },
                     error: function(xhr) {
                         let errorMessage = 'Terjadi kesalahan';
-                        if (xhr.responseJSON && xhr.responseJSON.message) {
+
+                        if (xhr.status === 422) {
+                            // Error validasi
+                            errorMessage = xhr.responseJSON.message;
+                            $('#error').text(errorMessage);
+                        } else if (xhr.responseJSON && xhr.responseJSON.message) {
+                            // Error lainnya
                             errorMessage = xhr.responseJSON.message;
                         }
+
+                        // Tampilkan error dengan SweetAlert
                         Swal.fire({
-                            title: "Error!",
-                            text: xhr.responseJSON?.message || 'Terjadi kesalahan',
-                            icon: "error",
-                            confirmButtonText: "OK",
-                            confirmButtonColor: "#0EA5E9"
-
-                        })
-
-                    }
+                            icon: 'error',
+                            title: 'Gagal!',
+                            text: errorMessage
+                        });
+                    },
                 });
             });
 

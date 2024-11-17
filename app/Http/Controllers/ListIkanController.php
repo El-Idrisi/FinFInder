@@ -71,7 +71,7 @@ class ListIkanController extends Controller
 
     public function delete($id)
     {
-        $fishType = FishType::where('id', $id)->first()->delete();
+        FishType::where('id', $id)->first()->delete();
         return back()->with('success', "Berhasil Menghapus Jenis Ikan");
     }
 
@@ -106,25 +106,16 @@ class ListIkanController extends Controller
         ]);
     }
 
-    // public function update(Request $request, $id)
-    // {
-
-    //     $request->validate([
-    //         'fish_type' => 'required|string|max:255'
-    //     ]);
-    //     $fishType = FishType::find($id);
-    //     $fishType->nama = $request->fish_type;
-    //     $fishType->save();
-
-    //     // dd("berhasil", $request->all());
-    //     return redirect()->route('list-ikan.index')->with('success', 'Berhasil Mengubah Jenis Ikan');
-    // }
-
     public function update(Request $request, $id)
     {
         try {
+
             $request->validate([
-                'fish_type' => 'required|string|max:255'
+                'fish_type' => 'required|string|max:255|unique:fish_type,nama,' . $id
+            ], [
+                'fish_type.required' => 'Nama ikan harus diisi',
+                'fish_type.unique' => 'Jenis ikan sudah ada',
+                'fish_type.max' => 'Nama ikan maksimal 255 karakter'
             ]);
 
             $fishType = FishType::find($id);
@@ -135,6 +126,13 @@ class ListIkanController extends Controller
                 'status' => 'success',
                 'message' => 'Berhasil mengubah jenis ikan'
             ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            // Error validasi
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->errors()['fish_type'][0]
+            ], 422);
+
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 'error',
