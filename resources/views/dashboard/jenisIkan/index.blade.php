@@ -15,45 +15,54 @@
             </button>
         </div>
 
+        <div class="my-6 space-y-4">
+            <form method="GET" id="filterForm">
+                <div
+                    class="flex flex-col px-4 py-2 border rounded-md shadow bg-white-100 border-slate-300 md:flex-row md:items-center md:justify-between md:gap-4">
+                    <div class="w-full mb-3 md:mb-0 md:w-auto">
+                        <label for="count"
+                            class="block mb-1 text-sm font-medium text-gray-700 md:inline md:mr-2">Tampilkan</label>
+                        <select name="count" id="count"
+                            class="w-full h-[38px] px-2 pr-6 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 md:w-20">
+                            <option value="10" {{ request('count') == '10' ? 'selected' : '' }}>10</option>
+                            <option value="25" {{ request('count') == '25' ? 'selected' : '' }}>25</option>
+                            <option value="50" {{ request('count') == '50' ? 'selected' : '' }}>50</option>
+                            <option value="100" {{ request('count') == '100' ? 'selected' : '' }}>100</option>
+                        </select>
+                    </div>
+
+                    <div class="flex flex-col gap-3 md:flex-row md:items-center md:gap-4">
+                        <div class="px-4 py-2 border rounded-md border-slate-400">
+                            <label for="search" class="mr-2"><i
+                                    class="fa-solid fa-magnifying-glass text-slate-400"></i></label>
+                            <input type="search" name="search" id="search" value="{{ request('search') }}"
+                                class="outline-0" placeholder="Cari Jenis Ikan..." autofocus>
+                        </div>
+
+                        <div class="flex items-center gap-2">
+                            <select name="sort" id="sort"
+                                class="flex-1 h-[38px] px-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 md:flex-none">
+                                <option value="terbaru" {{ request('sort') == 'terbaru' ? 'selected' : '' }}>Terbaru
+                                </option>
+                                <option value="terlama" {{ request('sort') == 'terlama' ? 'selected' : '' }}>Terlama
+                                </option>
+                                <option value="A-Z" {{ request('sort') == 'A-Z' ? 'selected' : '' }}>A-Z
+                                </option>
+                                <option value="Z-A" {{ request('sort') == 'Z-A' ? 'selected' : '' }}>Z-A
+                                </option>
+                            </select>
+
+                            <a href="{{ route('list-ikan.index') }}"
+                                class="h-[38px] px-4 py-2 text-sm text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200">
+                                Reset
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
         <div class="">
-            {{-- <table class="w-full bg-white">
-                <thead>
-                    <tr class="flex bg-sky-300">
-                        <th class="w-full px-4 py-2 text-left border-b-2 border-slate-300">No</th>
-                        <th class="w-full px-4 py-2 text-left border-b-2 border-slate-300">Jenis Ikan</th>
-                        <th class="w-full px-4 py-2 text-left border-b-2 border-slate-300">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody class="w-full">
-                    @foreach ($fishTypes as $fish)
-                        <tr class="flex items-center w-full duration-300 ransition-all">
-                            <td class="w-full  px-4 py-2 text-left  !rounded-none ">{{ $loop->iteration }}
-                            </td>
-                            <td class="w-full py-2 text-left tpx-4 ">{{ $fish->nama }}</td>
-                            <td class="flex w-full  px-4 py-2 text-left gap-4  !rounded-none ">
-                                <a href="{{ route('list-ikan.sort', $fish->id) }}"
-                                    class="flex items-center justify-center p-2 transition-all duration-300 rounded-md bg-sky-500 text-slate-100 w-fit hover:bg-sky-600 h-fit">
-                                    <i class="fas fa-search"></i>
-                                </a>
-                                <a href="#"
-                                    class="flex items-center justify-center p-2 transition-all duration-300 bg-yellow-500 rounded-md h-fit w-fit btn-edit text-slate-100 hover:bg-yellow-600"
-                                    data-namaIkan="{{ $fish->nama }}" data-idIkan="{{ $fish->id }}">
-                                    <i class="fas fa-edit"></i>
-                                </a>
-                                <form action="{{ route('list-ikan.delete', $fish->id) }}" method="GET"
-                                    class="inline delete-ikan">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit"
-                                        class="flex items-center justify-center p-2 transition-all duration-300 bg-red-500 rounded-md text-slate-100 w-fit hover:bg-red-600">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </form>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table> --}}
             <div class="container mx-auto mb-8">
                 <div class="rounded-lg shadow-md bg-white-100">
                     @foreach ($fishTypes as $fish)
@@ -99,7 +108,7 @@
             </div>
         </div>
 
-        {{ $fishTypes->links() }}
+        {{ $fishTypes->withQueryString()->links() }}
     </div>
 
     <x-modal title="Tambah Jenis Ikan" idModal="modal-add-type" idForm="form-add-type">
@@ -133,6 +142,32 @@
 @endpush
 
 @push('script')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const filterForm = document.getElementById('filterForm');
+            const searchInput = document.getElementById('search');
+            const countSelect = document.getElementById('count');
+            const sortSelect = document.getElementById('sort');
+
+            // Fungsi untuk menerapkan filter dengan delay
+            let timeoutId;
+
+            function applyFilters() {
+                clearTimeout(timeoutId);
+                timeoutId = setTimeout(() => {
+                    filterForm.submit();
+                }, 300); // Delay 500ms
+            }
+
+            // Event listener untuk search dengan debounce
+            searchInput.addEventListener('input', applyFilters);
+
+            // Event listener untuk select
+            countSelect.addEventListener('change', () => filterForm.submit());
+            sortSelect.addEventListener('change', () => filterForm.submit());
+        });
+    </script>
+
     <script>
         $(document).ready(function() {
             $('.delete-ikan').submit(function(e) {
