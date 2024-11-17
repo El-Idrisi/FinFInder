@@ -74,7 +74,7 @@
                                     <i class="fas fa-fish"></i>
                                 </div>
                                 <div>
-                                    <h3 class="font-semibold">{{ $fish->nama }}</h3>
+                                    <h3 class="font-semibold fish-name">{{ $fish->nama }}</h3>
                                     <div class="text-sm text-gray-600">
                                         {{ $fish->hitungSpotIkan() ?? 0 }} Lokasi •
                                         {{ $fish->hitungSpotIkanTerverifikasi() ?? 0 }} Terverifikasi
@@ -203,17 +203,91 @@
                 e.stopPropagation();
             });
 
-            $('.btn-edit').click(function() {
-                var IdIkan = $(this).attr('data-idIkan');
+            // $('.btn-edit').click(function() {
+            //     var IdIkan = $(this).attr('data-idIkan');
 
-                console.log($(this).attr('data-namaIkan'), $(this).attr('data-idIkan'))
+            //     console.log($(this).attr('data-namaIkan'), $(this).attr('data-idIkan'))
+
+            //     $('#modal-edit-type').removeClass('hidden');
+            //     console.log($('#edit-fish_type'));
+            //     $('#edit-fish_type').val($(this).attr('data-namaIkan'))
+
+            //     $('#form-edit-type').attr('method', 'POST');
+            //     $('#form-edit-type').attr('action', `/list-ikan/update/${IdIkan}`);
+            // });
+
+            $('.btn-edit').click(function() {
+                const idIkan = $(this).attr('data-idIkan');
+                const namaIkan = $(this).attr('data-namaIkan');
 
                 $('#modal-edit-type').removeClass('hidden');
-                console.log($('#edit-fish_type'));
-                $('#edit-fish_type').val($(this).attr('data-namaIkan'))
+                $('#edit-fish_type').val(namaIkan);
+                $('#form-edit-type').data('id', idIkan); // Simpan ID untuk digunakan saat submit
+            });
 
-                $('#form-edit-type').attr('method', 'POST');
-                $('#form-edit-type').attr('action', `/list-ikan/update/${IdIkan}`);
+            // Handle form submit
+            $('#form-edit-type').submit(function(e) {
+                e.preventDefault();
+
+                const idIkan = $(this).data('id');
+                const fishType = $('#edit-fish_type').val();
+
+                // Reset error
+                $('#error').text('');
+
+                // Validasi
+                if (!fishType) {
+                    $('#error').text('Jenis ikan harus diisi');
+                    return;
+                }
+
+                // Disable button and show loading
+                const submitBtn = $(this).find('button[type="submit"]');
+                submitBtn.prop('disabled', true);
+                const originalText = submitBtn.html();
+                submitBtn.html('<i class="fas fa-spinner fa-spin"></i> Menyimpan...');
+
+                $.ajax({
+                    url: `/list-ikan/update/${idIkan}`,
+                    type: 'PUT',
+                    data: {
+                        _token: $('meta[name="csrf-token"]').attr('content'),
+                        fish_type: fishType
+                    },
+                    success: function(response) {
+                        if (response.status === 'success') {
+                            // Tampilkan pesan sukses
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Berhasil!',
+                                text: response.message,
+                                showConfirmButton: false,
+                                timer: 1500
+                            }).then(() => {
+                                location.reload(); // Reload setelah sweetalert hilang
+                            });
+
+                            // Tutup modal
+                            $('#modal-edit-type').addClass('hidden');
+                            $('#form-edit-type')[0].reset();
+                        }
+                    },
+                    error: function(xhr) {
+                        let errorMessage = 'Terjadi kesalahan';
+                        if (xhr.responseJSON && xhr.responseJSON.message) {
+                            errorMessage = xhr.responseJSON.message;
+                        }
+                        Swal.fire({
+                            title: "Error!",
+                            text: xhr.responseJSON?.message || 'Terjadi kesalahan',
+                            icon: "error",
+                            confirmButtonText: "OK",
+                            confirmButtonColor: "#0EA5E9"
+
+                        })
+
+                    }
+                });
             });
 
             $('#add-type').click(function() {

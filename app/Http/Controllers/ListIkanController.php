@@ -11,7 +11,7 @@ class ListIkanController extends Controller
     public function index(Request $request)
     {
         $count = 10;
-        $sortBy= 'created_at';
+        $sortBy = 'created_at';
         $sort = "desc";
         // $query = null;
 
@@ -61,7 +61,7 @@ class ListIkanController extends Controller
 
         $query = FishType::orderBy($sortBy, $sort);
 
-        if($request->has('search')) {
+        if ($request->has('search')) {
             $query = $query->where('nama', 'LIKE', "%{$request->search}%");
         }
 
@@ -106,18 +106,41 @@ class ListIkanController extends Controller
         ]);
     }
 
+    // public function update(Request $request, $id)
+    // {
+
+    //     $request->validate([
+    //         'fish_type' => 'required|string|max:255'
+    //     ]);
+    //     $fishType = FishType::find($id);
+    //     $fishType->nama = $request->fish_type;
+    //     $fishType->save();
+
+    //     // dd("berhasil", $request->all());
+    //     return redirect()->route('list-ikan.index')->with('success', 'Berhasil Mengubah Jenis Ikan');
+    // }
+
     public function update(Request $request, $id)
     {
+        try {
+            $request->validate([
+                'fish_type' => 'required|string|max:255'
+            ]);
 
-        $request->validate([
-            'fish_type' => 'required|string|max:255'
-        ]);
-        $fishType = FishType::find($id);
-        $fishType->nama = $request->fish_type;
-        $fishType->save();
+            $fishType = FishType::find($id);
+            $fishType->nama = $request->fish_type;
+            $fishType->save();
 
-        // dd("berhasil", $request->all());
-        return redirect()->route('list-ikan.index')->with('success', 'Berhasil Mengubah Jenis Ikan');
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Berhasil mengubah jenis ikan'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Gagal mengubah jenis ikan'
+            ], 500);
+        }
     }
 
     public function show($id)
