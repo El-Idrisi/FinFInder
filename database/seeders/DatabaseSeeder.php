@@ -31,6 +31,8 @@ class DatabaseSeeder extends Seeder
             'role' => 'nelayan',
         ]);
 
+        User::factory()->count(5)->create();
+
         $this->call([
             TypefishSeeder::class,
         ]);

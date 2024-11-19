@@ -32,7 +32,7 @@
             </x-card-info>
         </div>
 
-        <div class="mt-8 bg-white rounded-lg shadow-md">
+        <div class="mt-8 rounded-md shadow-md bg-white-100">
             <div class="px-4 py-2 border-b border-slate-300">
                 <h2 class="text-base font-semibold md:text-lg">
                     Kontribusi User Bulanan
@@ -42,133 +42,160 @@
                 <canvas id="contributionChart"></canvas>
             </div>
         </div>
-    </div>
-@endsection
 
-@push('script')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <div class="grid grid-cols-1 gap-8 lg:grid-cols-3">
+            <div class="mt-8 rounded-md shadow-md lg:col-span-2 bg-white-100">
+                <h1>hello</h1>
+            </div>
+            <div class="mt-8 rounded-md shadow-md bg-white-100">
+                <div class="px-4 py-2 border-b-2 border-slate-300">
+                    <h1 class="text-lg">Top Contributor</h1>
+                </div>
+                {{-- <hr class="w-full border border-slate-300"> --}}
+                <div class="flex flex-col">
+                    @foreach ($topGlobals as $user)
+                    <div class="flex items-center w-full gap-2 px-4 py-3 transition-all duration-300 hover:bg-slate-100">
+                        <div class="px-4 py-2 rounded-full p bg-slate-200">
+                            <i class="text-lg fa-solid fa-user text-slate-600"></i>
+                        </div>
+                        <div class="">
+                            <h3 class="-mb-2 font-bold">{{ $user->username }}</h3>
+                            <small class="text-slate-600">Titik Lokasi: {{ $user->owner_count }} • Terverifikasi : {{ $user->countVerif() }}</small>
+                        </div>
+                    </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const ctx = document.getElementById('contributionChart').getContext('2d');
+                        {{-- {{ $user }} --}}
+                    @endforeach
+                </div>
+            </div>
 
-            new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: @json($labels),
-                    datasets: [{
-                        label: 'Jumlah Kontribusi',
-                        data: @json($data),
-                        fill: {
-                            target: 'origin',
-                            above: 'rgba(14, 165, 233, 0.1)',
-                        },
-                        borderColor: 'rgb(14, 165, 233)',
-                        borderWidth: 2,
-                        tension: 0.3,
-                        pointRadius: window.innerWidth < 768 ? 3 : 5,
-                        pointBackgroundColor: 'rgb(14, 165, 233)',
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false, // Penting untuk responsivitas
-                    plugins: {
-                        legend: {
-                            display: true,
-                            position: 'bottom',
-                            labels: {
-                                boxWidth: 12,
-                                padding: window.innerWidth < 768 ? 10 : 20
-                            }
-                        },
-                        tooltip: {
-                            mode: 'index',
-                            intersect: false,
-                            backgroundColor: 'rgba(255, 255, 255, 0.9)',
-                            titleColor: '#000',
-                            bodyColor: '#000',
-                            borderColor: 'rgba(0, 0, 0, 0.1)',
-                            borderWidth: 1,
-                            padding: 10,
-                            bodyFont: {
-                                size: window.innerWidth < 768 ? 12 : 14
+        </div>
+    @endsection
+
+    @push('script')
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const ctx = document.getElementById('contributionChart').getContext('2d');
+
+                new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: @json($labels),
+                        datasets: [{
+                            label: 'Jumlah Kontribusi',
+                            data: @json($data),
+                            fill: {
+                                target: 'origin',
+                                above: 'rgba(14, 165, 233, 0.1)',
                             },
-                            titleFont: {
-                                size: window.innerWidth < 768 ? 12 : 14
-                            }
-                        }
+                            borderColor: 'rgb(14, 165, 233)',
+                            borderWidth: 2,
+                            tension: 0.3,
+                            pointRadius: window.innerWidth < 768 ? 3 : 5,
+                            pointBackgroundColor: 'rgb(14, 165, 233)',
+                        }]
                     },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            grid: {
-                                color: 'rgba(0, 0, 0, 0.05)',
-                                drawBorder: true
-                            },
-                            ticks: {
-                                font: {
-                                    size: window.innerWidth < 768 ? 10 : 12
-                                },
-                                maxTicksLimit: 6, // Batasi jumlah label Y
-                                padding: window.innerWidth < 768 ? 5 : 8
-                            }
-                        },
-                        x: {
-                            grid: {
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false, // Penting untuk responsivitas
+                        plugins: {
+                            legend: {
                                 display: true,
+                                position: 'bottom',
+                                labels: {
+                                    boxWidth: 12,
+                                    padding: window.innerWidth < 768 ? 10 : 20
+                                }
                             },
-                            ticks: {
-                                font: {
-                                    size: window.innerWidth < 768 ? 10 : 12
+                            tooltip: {
+                                mode: 'index',
+                                intersect: false,
+                                backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                                titleColor: '#000',
+                                bodyColor: '#000',
+                                borderColor: 'rgba(0, 0, 0, 0.1)',
+                                borderWidth: 1,
+                                padding: 10,
+                                bodyFont: {
+                                    size: window.innerWidth < 768 ? 12 : 14
                                 },
-                                maxRotation: 0, // Mencegah rotasi label
-                                padding: window.innerWidth < 768 ? 5 : 8
+                                titleFont: {
+                                    size: window.innerWidth < 768 ? 12 : 14
+                                }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                grid: {
+                                    color: 'rgba(0, 0, 0, 0.05)',
+                                    drawBorder: true
+                                },
+                                ticks: {
+                                    font: {
+                                        size: window.innerWidth < 768 ? 10 : 12
+                                    },
+                                    maxTicksLimit: 6, // Batasi jumlah label Y
+                                    padding: window.innerWidth < 768 ? 5 : 8
+                                }
+                            },
+                            x: {
+                                grid: {
+                                    display: true,
+                                },
+                                ticks: {
+                                    font: {
+                                        size: window.innerWidth < 768 ? 10 : 12
+                                    },
+                                    maxRotation: 0, // Mencegah rotasi label
+                                    padding: window.innerWidth < 768 ? 5 : 8
+                                }
+                            }
+                        },
+                        layout: {
+                            padding: {
+                                left: window.innerWidth < 768 ? 5 : 10,
+                                right: window.innerWidth < 768 ? 5 : 10,
+                                top: window.innerWidth < 768 ? 5 : 10,
+                                bottom: window.innerWidth < 768 ? 5 : 10
                             }
                         }
-                    },
-                    layout: {
-                        padding: {
-                            left: window.innerWidth < 768 ? 5 : 10,
-                            right: window.innerWidth < 768 ? 5 : 10,
-                            top: window.innerWidth < 768 ? 5 : 10,
-                            bottom: window.innerWidth < 768 ? 5 : 10
-                        }
-                    }
-                }
-            });
-        });
-
-        // Handle resize
-        window.addEventListener('resize', function() {
-            const chart = Chart.getChart('contributionChart');
-            if (chart) {
-                chart.resize();
-            }
-        });
-    </script>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Ambil semua elemen dengan class 'counter'
-            const counters = document.querySelectorAll('.counter');
-
-            // Buat array untuk menyimpan target value dari setiap counter
-            const animations = Array.from(counters).map(counter => {
-                const targetValue = parseInt(counter.getAttribute('data-target'));
-
-                return anime({
-                    targets: counter,
-                    innerHTML: [0, targetValue],
-                    round: 1, // Membulatkan angka
-                    easing: 'easeInOutExpo', // Efek easing yang smooth
-                    duration: 2000, // Durasi 2 detik
-                    update: function(anim) {
-                        counter.innerHTML = parseInt(counter.innerHTML).toLocaleString();
                     }
                 });
             });
-        });
-    </script>
-@endpush
+
+            // Handle resize
+            window.addEventListener('resize', function() {
+                const chart = Chart.getChart('contributionChart');
+                if (chart) {
+                    chart.resize();
+                }
+            });
+        </script>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                // Ambil semua elemen dengan class 'counter'
+                const counters = document.querySelectorAll('.counter');
+
+                // Buat array untuk menyimpan target value dari setiap counter
+                const animations = Array.from(counters).map(counter => {
+                    const targetValue = parseInt(counter.getAttribute('data-target'));
+
+                    return anime({
+                        targets: counter,
+                        innerHTML: [0, targetValue],
+                        round: 1, // Membulatkan angka
+                        easing: 'easeInOutExpo', // Efek easing yang smooth
+                        duration: 2000, // Durasi 2 detik
+                        update: function(anim) {
+                            counter.innerHTML = parseInt(counter.innerHTML).toLocaleString();
+                        }
+                    });
+                });
+            });
+        </script>
+    @endpush
