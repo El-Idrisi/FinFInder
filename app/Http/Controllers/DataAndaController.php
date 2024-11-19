@@ -12,7 +12,10 @@ class DataAndaController extends Controller
     public function index()
     {
         $userId = Auth::id();
-        $fishdatas = SpotIkan::where('dibuat_oleh', $userId)->get();
+        $fishdatas = SpotIkan::where('dibuat_oleh', $userId)
+        ->orderBy('status', 'asc')
+        ->orderBy('created_at', 'desc')
+        ->get();
         return view('dashboard.tables.index', ['title' => 'FinFinder | Show Data', 'fishdatas' => $fishdatas]);
     }
 

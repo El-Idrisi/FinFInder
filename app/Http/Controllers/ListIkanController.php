@@ -145,6 +145,8 @@ class ListIkanController extends Controller
     {
         $fishdatas = SpotIkan::whereJsonContains('tipe_ikan', $id)
             ->orWhereRaw('JSON_CONTAINS(tipe_ikan, ?)', [$id])
+            ->orderBy('status', 'asc')
+            ->orderBy('created_at', 'desc')
             ->get();
         // dd($fishdatas);
 

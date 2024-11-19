@@ -3,9 +3,17 @@
 @section('content')
     <div class="mb-8">
         <h2 class="mb-2 text-3xl font-bold">Data Ikan</h2>
+        @if (request()->routeIs('list-ikan.*'))
+        <a href="/dashboard"
+            class="after:content-['>'] transition-all duration-300 after:text-black after:px-2 hover:text-slate-500">Dashboard</a>
+        <a href="/list-ikan"
+            class="after:content-['>'] transition-all duration-300 after:text-black after:px-2 hover:text-slate-500">List Ikan</a>
+        <p class="inline text-slate-500">Data Ikan</p>
+        @else
         <a href="/dashboard"
             class="after:content-['>'] transition-all duration-300 after:text-black after:px-2 hover:text-slate-500">Dashboard</a>
         <p class="inline text-slate-500">Data Ikan</p>
+        @endif
 
         <div class="relative mt-4 shadow-md bg-white-100">
             <div class="px-4 py-2 border-b-2 border-slate-200">

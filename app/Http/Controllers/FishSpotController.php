@@ -11,7 +11,10 @@ use Illuminate\Support\Facades\Auth;
 class FishSpotController extends Controller
 {
     public function index() {
-        $fishdatas = SpotIkan::where('status', 'disetujui')->get();
+        $fishdatas = SpotIkan::where('status', 'disetujui')
+        ->orderBy('status', 'asc')
+        ->orderBy('created_at', 'desc')
+        ->get();
 
         return view('dashboard.tables.data-ikan', ['title' => 'FinFinder | All Fish Spots', 'fishdatas' => $fishdatas]);
     }
