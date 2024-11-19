@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 
 @section('content')
-    <div class="container p-6 mx-auto">
+    <div class="container mx-auto">
         <div class="flex flex-wrap items-center justify-between mb-6">
             <div class="mb-4 lg:mb-0">
                 <h1 class="mb-2 text-2xl font-bold text-gray-800">Daftar Jenis Ikan</h1>
@@ -32,11 +32,11 @@
                     </div>
 
                     <div class="flex flex-col gap-3 md:flex-row md:items-center md:gap-4">
-                        <div class="px-4 py-2 border rounded-md border-slate-400">
+                        <div class="flex px-4 py-2 border rounded-md border-slate-400">
                             <label for="search" class="mr-2"><i
                                     class="fa-solid fa-magnifying-glass text-slate-400"></i></label>
                             <input type="search" name="search" id="search" value="{{ request('search') }}"
-                                class="outline-0" placeholder="Cari Jenis Ikan..." autofocus>
+                                class="w-full bg-transparent outline-0" placeholder="Cari Jenis Ikan..." autofocus autocomplete="off">
                         </div>
 
                         <div class="flex items-center gap-2">
@@ -76,7 +76,8 @@
                                 <div>
                                     <h3 class="font-semibold fish-name">{{ $fish->nama }}</h3>
                                     <div class="text-sm text-gray-600">
-                                        {{ $fish->hitungSpotIkan() ?? 0 }} Lokasi •
+                                        {{ $fish->hitungSpotIkan() ?? 0 }} Lokasi
+                                        <span>•</span>
                                         {{ $fish->hitungSpotIkanTerverifikasi() ?? 0 }} Terverifikasi
                                     </div>
                                 </div>

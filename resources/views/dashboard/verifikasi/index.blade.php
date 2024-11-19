@@ -153,7 +153,7 @@
 
 
         <div class="mt-6">
-            {{ $spots->onEachSide(1)->withQueryString()->links() }}
+            {{ $spots->onEachSide(0)->withQueryString()->links() }}
         </div>
     </div>
 @endsection
