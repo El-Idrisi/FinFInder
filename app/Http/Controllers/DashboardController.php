@@ -26,8 +26,10 @@ class DashboardController extends Controller
             ->limit(5)
             ->get();
 
-        // Ambil tanggal sekarang
-        $now = now();
+        $activities = SpotIkan::where('status', 'disetujui')
+            ->orderBy('created_at', 'desc')
+            ->limit(5)
+            ->get();
 
         // Ambil data 6 bulan terakhir
         $monthlyContributions = SpotIkan::select(
@@ -35,8 +37,8 @@ class DashboardController extends Controller
             DB::raw('DATE_FORMAT(created_at, "%Y-%m") as month'),
             DB::raw('DATE_FORMAT(created_at, "%b") as month_name')
         )
-            ->where('created_at', '>=', $now->copy()->subMonths(5)->startOfMonth())
-            ->where('created_at', '<=', $now->endOfMonth())
+            ->where('created_at', '>=', now()->copy()->subMonths(5)->startOfMonth())
+            ->where('created_at', '<=', now()->endOfMonth())
             ->groupBy('month', 'month_name')
             ->orderBy('month')
             ->get();
@@ -47,7 +49,7 @@ class DashboardController extends Controller
 
         // Generate 6 bulan terakhir
         for ($i = 5; $i >= 0; $i--) {
-            $monthDate = $now->copy()->subMonths($i);
+            $monthDate = now()->copy()->subMonths($i);
             $monthKey = $monthDate->format('Y-m');
             $monthName = $monthDate->translatedFormat('M'); // Jan, Feb, etc
 
@@ -59,6 +61,6 @@ class DashboardController extends Controller
         }
 
 
-        return view('dashboard.index', ['title' => 'FinFinder | Dashboard',], compact('allUsers', 'allSpots', 'allVerif', 'kontribusi', 'allVerified', 'topGlobals', 'labels', 'data'));
+        return view('dashboard.index', ['title' => 'FinFinder | Dashboard',], compact('allUsers', 'allSpots', 'allVerif', 'kontribusi', 'allVerified', 'topGlobals', 'labels', 'data', 'activities'));
     }
 }
