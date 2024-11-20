@@ -30,7 +30,7 @@
     <div class="lg:ml-[240px]" id="content">
         <x-navbar-dashboard></x-navbar-dashboard>
 
-        <div class="px-8 pb-8 pt-28">
+        <div class="px-4 pb-8 lg:px-8 pt-28">
             @yield('content')
         </div>
     </div>

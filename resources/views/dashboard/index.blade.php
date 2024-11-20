@@ -59,7 +59,7 @@
                     <!-- Activity List -->
                     <div class="divide-y divide-gray-100">
                         @foreach ($activities as $activity)
-                            <div class="py-3">
+                            <div class="py-3 transition-all duration-300 hover:bg-gray-50">
                                 <!-- Main Content -->
                                 <div class="flex items-start justify-between gap-4">
                                     <!-- Left Side: Fish Types -->

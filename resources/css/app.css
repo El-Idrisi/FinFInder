@@ -364,6 +364,11 @@ table.dataTable.no-footer+.dataTables_paginate .paginate_button:hover,
     animation: shadow-pulse 1.5s infinite ease;
 }
 
+.coord-display.leaflet-control
+{
+    @apply lg:hidden
+}
+
 /* KeyFrame */
 @keyframes moveZigzag {
     from {
