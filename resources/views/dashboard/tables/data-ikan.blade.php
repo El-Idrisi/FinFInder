@@ -62,7 +62,7 @@
                                     <td class="py-3">{{ $fishspot->latitude . ' , ' . $fishspot->longitude }}</td>
                                     <td class="py-3">
                                         <span
-                                            class="px-4 py-2 font-bold transition-all duration-300 rounded-md text-slate-100 {{ $fishspot->status == 'disetujui' ? 'bg-green-500 hover:bg-green-600' : ($fishspot->status == 'ditunda' ? 'bg-yellow-500 hover:bg-yellow-600' : 'bg-red-500 hover:bg-red-600') }}">{{ ucwords($fishspot->status) }}</span>
+                                            class="px-4 py-2 font-bold transition-all duration-300 rounded-md text-slate-100 {{ $fishspot->getStatusColor() }}">{{ ucwords($fishspot->status) }}</span>
                                     </td>
                                     <td class="py-3">
                                         <a href="{{ route('data-ikan.show', $fishspot) }}"

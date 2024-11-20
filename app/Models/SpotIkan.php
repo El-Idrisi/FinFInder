@@ -41,4 +41,10 @@ class SpotIkan extends Model
         }
         return FishType::whereIn('id', $fishTypeIds)->paginate($number);
     }
+
+    public function getStatusColor() {
+        if ($this->status == 'ditunda') return 'bg-yellow-500 hover:bg-yellow-600';
+        if ($this->status == 'disetujui') return'bg-green-500 hover:bg-green-600';
+        return 'bg-red-500 hover:bg-red-600';
+    }
 }

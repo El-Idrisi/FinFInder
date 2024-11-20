@@ -46,12 +46,7 @@
                                     <td class="py-3">
                                         <div class="flex items-center"> {{-- Tambahkan flex container --}}
                                             <span
-                                                class="px-4 py-2 transition-all duration-300 rounded-md text-slate-100 font-bold
-                                                {{ $fishspot->status == 'disetujui'
-                                                    ? 'bg-green-500 hover:bg-green-600'
-                                                    : ($fishspot->status == 'ditunda'
-                                                        ? 'bg-yellow-500 hover:bg-yellow-600'
-                                                        : 'bg-red-500 hover:bg-red-600') }}">
+                                                class="px-4 py-2 transition-all duration-300 rounded-md text-slate-100 font-bold {{ $fishspot->getStatusColor() }}">
                                                 {{ ucwords($fishspot->status) }}
                                             </span>
                                         </div>

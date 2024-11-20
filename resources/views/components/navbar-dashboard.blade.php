@@ -1,6 +1,6 @@
-<header id="navbar" class="flex fixed justify-between w-full lg:w-[calc(100vw-240px)] gap-12 px-8 text-lg bg-white-100 shadow-lg h-fit transition-all duration-300 " style="z-index: 2">
+<header id="navbar" class="flex fixed justify-between w-full lg:w-[calc(100vw-240px)] gap-12 px-8 text-lg bg-white-100 shadow-lg h-fit transition-all duration-300 z-[9999]" >
     <div class="py-6">
-        <a href="#" id="hambuger" class=""><i class="fa-solid fa-bars"></i></a>
+        <button id="hambuger" class=""><i class="fa-solid fa-bars"></i></button>
     </div>
     <div class="relative flex">
         <button

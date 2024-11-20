@@ -1,5 +1,5 @@
 <aside id="sidebar"
-    class="-translate-x-full lg:translate-x-0 h-full w-[240px] bg-white-100 transition-all duration-300 fixed top-0 bottom-0 shadow-lg z-[99999]">
+    class="-translate-x-full lg:translate-x-0 h-full w-[240px] bg-white-100 transition-all duration-300 fixed top-0 bottom-0 shadow-lg z-[999999]">
     <div class="px-12 py-4">
         <img src="{{ asset('img/finfinder.png') }}" alt="logo finfinder">
     </div>
@@ -34,7 +34,7 @@
         </div>
     </div>
 
-    @if (Auth::user()->role == 'admin')
+    @if (Auth::user()->isAdmin())
         <div class="px-4 mt-8 font-bold text-gray-400">
             <h4 class="text-sm">Verifikasi</h4>
             <div class="flex flex-col gap-6 mt-4 ml-4">
@@ -65,5 +65,5 @@
 
 </aside>
 
-<div class="fixed top-0 bottom-0 w-full bg-black z-[9999]  scale-0 transition-all duration-100 bg-opacity-0"
+<div class="fixed top-0 bottom-0 w-full bg-black z-[99999]  scale-0 transition-all duration-100 bg-opacity-0"
     id="bg-cover"></div>
