@@ -57,6 +57,16 @@
                                     <span class="font-medium">{{ $spotIkan->verifier->username }}</span>
                                 </div>
                             </div>
+
+                            <div class="space-y-2">
+                                <label class="text-sm font-medium text-gray-600">{{ ucfirst($spotIkan->status) }}
+                                    Oleh</label>
+                                <div
+                                    class="flex items-center gap-2 p-3 transition-all duration-300 rounded-lg bg-gray-50 hover:bg-gray-100">
+                                    <i class="text-sky-500 fas fa-user"></i>
+                                    <span class="font-medium">{{ $spotIkan->tanggal_verifikasi->translatedFormat('d F Y') }}</span>
+                                </div>
+                            </div>
                         @endif
 
                         <!-- Tanggal Input -->

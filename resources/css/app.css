@@ -289,12 +289,8 @@ tbody tr:nth-child(even):hover {
     @apply !bg-white
 }
 
-.dataTables_info {
-    @apply hidden
-}
-
 .dataTables_paginate {
-    @apply flex justify-end items-center mt-4
+    @apply flex justify-end items-center
 }
 
 .dataTables_paginate.paging_simple_numbers span{

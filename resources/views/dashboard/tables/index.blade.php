@@ -17,12 +17,13 @@
                         style="width: 100%">
                         <thead class="rounded-md bg-sky-300">
                             <tr class="">
-                                <th class="py-3 rounded-tl-md">No</th>
-                                <th class="py-3 cursor-pointer sort-header" data-sort="fish_type">Jenis Ikan</th>
-                                <th class="py-3">Dibuat Pada Tanggal</th>
-                                <th class="py-3">Koordinat</th>
-                                <th class="py-3">Status</th>
-                                <th class="py-3 rounded-tr-md">Aksi</th>
+                                <th title="tahan shift untuk multiple sort" class="py-3 rounded-tl-md">No</th>
+                                <th title="tahan shift untuk multiple sort" class="py-3" data-sort="fish_type">Jenis Ikan
+                                </th>
+                                <th title="tahan shift untuk multiple sort" class="py-3">Dibuat Pada Tanggal</th>
+                                <th title="tahan shift untuk multiple sort" class="py-3">Koordinat</th>
+                                <th title="tahan shift untuk multiple sort" class="py-3">Status</th>
+                                <th title="tahan shift untuk multiple sort" class="py-3 rounded-tr-md">Aksi</th>
                             </tr>
                         </thead>
                         <tbody class="rounded-md" id="table-body">
@@ -40,7 +41,8 @@
                                             @endforeach
                                         </div>
                                     </td>
-                                    <td class="py-3">{{ $fishspot->created_at->translatedFormat('d F Y') }}</td>
+                                    <td class="py-3" data-sort="{{ $fishspot->created_at }}">
+                                        {{ $fishspot->created_at->translatedFormat('d F Y') }}</td>
                                     <td class="py-3">{{ $fishspot->latitude . ' , ' . $fishspot->longitude }}</td>
                                     {{-- Status Cell --}}
                                     <td class="py-3">
@@ -118,8 +120,10 @@
                     paginate: {
                         next: '<i class="fas fa-chevron-right"></i>',
                         previous: '<i class="fas fa-chevron-left"></i>',
-                    }
+                    },
                 },
+                order: [], // Kosongkan default order
+                orderMulti: true, // Aktifkan multi sort
                 columnDefs: [{
                     targets: [5], // kolom aksi
                     orderable: false

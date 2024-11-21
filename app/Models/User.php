@@ -70,9 +70,4 @@ class User extends Authenticatable
     {
         return $this->role === 'admin';
     }
-
-    public function countVerif()
-    {
-        return $this->owner()->where('status', 'disetujui')->count();
-    }
 }

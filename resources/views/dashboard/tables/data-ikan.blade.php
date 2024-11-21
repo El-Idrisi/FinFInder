@@ -89,6 +89,7 @@
 
             const table = $('#fishTable').DataTable({
                 responsive: true,
+
                 language: {
                     url: '{{ asset('js/datatables-id.json') }}',
                     search: `<i class="fas fa-search"></i>`,
@@ -105,6 +106,8 @@
                     responsivePriority: 1,
                     targets: [0, 1, 5]
                 }, ],
+                order: [], // Kosongkan default order
+                orderMulti: true, // Aktifkan multi sort
                 dom: '<"flex justify-between flex-wrap items-center mb-4"lf>rt<"flex justify-end items-center mt-4"p>',
                 initComplete: function() {
                     $('.dataTables_filter input').attr('placeholder', 'Cari data...');

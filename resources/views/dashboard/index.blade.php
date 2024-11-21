@@ -33,7 +33,7 @@
         </div>
 
         <div class="mt-8 rounded-md shadow-md bg-white-100">
-            <div class="px-4 py-2 border-b border-slate-300">
+            <div class="px-4 pt-4 pb-2">
                 <h2 class="text-base font-semibold md:text-xl">
                     <i class="text-xl fa-solid fa-chart-simple text-sky-500"></i> Kontribusi User Bulanan
                 </h2>
@@ -51,7 +51,7 @@
                     <div class="flex items-center justify-between mb-4">
                         <div class="flex items-center gap-2">
                             <i class="text-sky-500 fas fa-history"></i>
-                            <h2 class="text-xl font-bold">Last Activity</h2>
+                            <h2 class="text-xl font-bold">Aktivitas Terakhir</h2>
                         </div>
                         <a href="/data-ikan" class="text-sm text-sky-500 hover:underline">View all</a>
                     </div>
@@ -120,6 +120,7 @@
 
                     <div class="space-y-4">
                         @foreach ($topGlobals as $index => $user)
+
                             <div
                                 class="flex items-center gap-4 p-4 transition-all duration-300 border rounded-lg hover:bg-gray-50">
                                 <!-- Rank & Avatar -->
@@ -143,7 +144,7 @@
                                         </span>
                                         <span class="flex items-center gap-1">
                                             <i class="text-sky-500 fas fa-check"></i>
-                                            {{ $user->countVerif() }} Verifikasi
+                                            {{ $user->verified_count }} Verifikasi
                                         </span>
                                     </div>
                                 </div>

@@ -1,4 +1,6 @@
 {
+    "infoMultiSort": "Tahan tombol Shift untuk mengurutkan beberapa kolom",
+    "multiSortKey": "shiftKey",
     "emptyTable": "Tidak ada data yang tersedia pada tabel ini",
     "info": "Menampilkan _START_ sampai _END_ dari _TOTAL_ entri",
     "infoEmpty": "Menampilkan 0 sampai 0 dari 0 entri",

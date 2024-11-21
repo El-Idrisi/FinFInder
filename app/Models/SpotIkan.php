@@ -23,6 +23,10 @@ class SpotIkan extends Model
         'tanggal_verifikasi',
     ];
 
+    protected $casts = [
+        'tanggal_verifikasi' => 'datetime'
+    ];
+
     public function creator()
     {
         return $this->belongsTo(User::class, 'dibuat_oleh');
@@ -47,4 +51,6 @@ class SpotIkan extends Model
         if ($this->status == 'disetujui') return'bg-green-500 hover:bg-green-600';
         return 'bg-red-500 hover:bg-red-600';
     }
+
+    
 }

@@ -21,8 +21,21 @@ class DashboardController extends Controller
             ->where('diverifikasi_oleh', Auth::id())
             ->count();
 
-        $topGlobals = User::withCount('owner')
-            ->orderBy('owner_count', 'desc')
+        $currentMonth = now()->startOfMonth();
+
+        $topGlobals = User::withCount([
+            'owner' => function ($query) {
+                $query->whereMonth('created_at', now()->month)
+                    ->whereYear('created_at', now()->year);
+            },
+            'owner as verified_count' => function ($query) {
+                $query->where('status', 'disetujui')
+                    ->whereMonth('created_at', now()->month)
+                    ->whereYear('created_at', now()->year);
+            }
+        ])
+            ->orderByDesc('verified_count')
+            ->orderByDesc('owner_count')
             ->limit(5)
             ->get();
 
