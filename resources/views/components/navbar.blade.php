@@ -23,7 +23,7 @@
                 </a>
             </li>
             <li class="list-none">
-                <a href="#"
+                <a href="/peta-interaktif"
                     class="flex flex-col items-center justify-center transition-all duration-300 hover:text-sky-500 group">
                     Peta Interaktif
                     <hr class="w-0 transition-all duration-500 group-hover:border-sky-500 group-hover:w-full">

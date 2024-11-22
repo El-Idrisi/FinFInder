@@ -52,5 +52,22 @@ class SpotIkan extends Model
         return 'bg-red-500 hover:bg-red-600';
     }
 
-    
+    public function getSpotDetail()
+    {
+        $fishes = [];
+        foreach ($this->getFishTypes() as $fish) {
+            $fishes[] = $fish->nama;
+        }
+        return [
+            'id' => $this->id,
+            'nama_spot' => $this->nama_spot,
+            'latitude' => $this->latitude,
+            'longitude' => $this->longitude,
+            'deskripsi' => $this->deskripsi,
+            'dibuat_oleh' => $this->dibuat_oleh,
+            'created_at' => $this->created_at->translatedFormat('d F Y'),
+            'owner' => $this->creator->username,
+            'fishes' => $fishes,
+        ];
+    }
 }

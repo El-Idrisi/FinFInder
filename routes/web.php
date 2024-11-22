@@ -7,6 +7,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DataAndaController;
 use App\Http\Controllers\FishSpotController;
 use App\Http\Controllers\ListIkanController;
+use App\Http\Controllers\PetaInteraktifController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\VerifikasiController;
@@ -17,6 +18,8 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 Route::get('/', function () {
     return view('index', array('title' => 'FinFinder | Home'));
 })->name('beranda');
+
+Route::get('/peta-interaktif', [PetaInteraktifController::class, 'index']);
 
 Route::get('/profil', function () {
     return view('profil', array('title' => 'FinFinder | Profil'));
