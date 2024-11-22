@@ -79,7 +79,7 @@
                     class="my-2 transition-all duration-300 hover:text-sky-500 {{ request()->routeIs('beranda') ? 'text-sky-500 font-bold' : '' }}">Beranda</a>
                 <a href="/profil"
                     class="my-2 transition-all duration-300 hover:text-sky-500 {{ request()->routeIs('profil') ? 'text-sky-500 font-bold' : '' }}">Profil</a>
-                <a href="#" class="my-2 transition-all duration-300 hover:text-sky-500">Peta Interaktif</a>
+                <a href="/peta-interaktif" class="my-2 transition-all duration-300 hover:text-sky-500">Peta Interaktif</a>
                 <a href="/contact-us"
                     class="my-2 transition-all duration-300 hover:text-sky-500 {{ request()->routeIs('contact') ? 'text-sky-500 font-bold' : '' }}">Kontak
                     Kami</a>

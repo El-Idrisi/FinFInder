@@ -19,7 +19,7 @@ Route::get('/', function () {
     return view('index', array('title' => 'FinFinder | Home'));
 })->name('beranda');
 
-Route::get('/peta-interaktif', [PetaInteraktifController::class, 'index']);
+Route::get('/peta-interaktif', [PetaInteraktifController::class, 'index'])->name('peta-interaktif');
 
 Route::get('/profil', function () {
     return view('profil', array('title' => 'FinFinder | Profil'));
