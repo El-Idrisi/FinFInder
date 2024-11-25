@@ -47,53 +47,95 @@
         .leaflet-layer.dark,
         .leaflet-control-zoom-in.dark,
         .leaflet-control-zoom-out.dark,
-        .leaflet-control-attribution.dark {
+        .leaflet-control-attribution.dark,
+        .leaflet-control.leaflet-ruler.dark {
             filter: invert(100%) hue-rotate(180deg) brightness(95%) contrast(90%);
+        }
+
+        .leaflet-layer,
+        .leaflet-control-zoom-in,
+        .leaflet-control-zoom-out,
+        .leaflet-control-attribution,
+        .leaflet-control.leaflet-ruler {
+            transition: all 0.3s;
+        }
+
+        /* Style untuk popup Leaflet */
+        .leaflet-popup.dark .leaflet-popup-content-wrapper {
+            background-color: #1f2937;
+            /* Warna background dark */
+            color: white;
+        }
+
+        .leaflet-popup.dark .leaflet-popup-tip {
+            background-color: #1f2937;
+            /* Warna tip/arrow dark */
+        }
+
+        /* Optional: Style untuk link dalam popup */
+        .leaflet-popup.dark .leaflet-popup-content a {
+            color: #60a5fa;
+            /* Warna link saat dark mode */
+        }
+
+        /* Optional: Hover state untuk close button */
+        .leaflet-popup.dark .leaflet-popup-close-button {
+            color: white;
+        }
+
+        .leaflet-popup.dark .leaflet-popup-close-button:hover {
+            background-color: rgba(255, 255, 255, 0.1);
         }
     </style>
 </head>
 
 <body class="font-inter">
 
-    <header class="w-full px-8 py-2 shadow-lg">
+    <header class="w-full px-8 py-2 transition-all duration-300 shadow-lg dark:bg-slate-900">
         <div class="flex items-center justify-between">
             <img src="{{ asset('img/finfinder.png') }}" alt="logo" class="w-32">
             <ul class="hidden gap-8 lg:flex">
                 <li class="list-none">
                     <a href="{{ route('beranda') }}"
-                        class="!flex flex-col items-center justify-center transition-all duration-300 hover:text-sky-500 group">
+                        class="!flex flex-col items-center justify-center transition-all duration-300 hover:text-sky-500 group dark:text-slate-100">
                         Beranda
                         <hr class="w-0 duration-500 group-hover:border-sky-500 group-hover:w-full group-hover:border">
                     </a>
                 </li>
                 <li class="list-none">
                     <a href="{{ route('profil') }}"
-                        class="!flex flex-col items-center justify-center transition-all duration-300 hover:text-sky-500 group">
+                        class="!flex flex-col items-center justify-center transition-all duration-300 hover:text-sky-500 group dark:text-slate-100">
                         Profil
                         <hr class="w-0 duration-500 group-hover:border-sky-500 group-hover:w-full group-hover:border">
                     </a>
                 </li>
                 <li class="list-none">
                     <a href="{{ route('peta-interaktif') }}"
-                        class="!flex flex-col text-sky-500 font-bold    items-center justify-center transition-all duration-300 hover:text-black group">
+                        class="!flex flex-col text-sky-500 font-bold    items-center justify-center transition-all duration-300 hover:text-black group dark:hover:text-slate-100">
                         Peta Interaktif
-                        <hr class="w-0 duration-500 group-hover:border-black group-hover:w-full group-hover:border">
+                        <hr
+                            class="w-0 duration-500 group-hover:border-black group-hover:w-full group-hover:border dark:group-hover:border-slate-100">
                     </a>
                 </li>
                 <li class="list-none">
                     <a href="{{ route('contact') }}"
-                        class="!flex flex-col items-center justify-center transition-all duration-300 hover:text-sky-500 group">
+                        class="!flex flex-col items-center justify-center transition-all duration-300 hover:text-sky-500 group dark:text-slate-100">
                         Kontak Kami
                         <hr class="w-0 duration-500 group-hover:border-sky-500 group-hover:w-full group-hover:border">
                     </a>
                 </li>
             </ul>
             <div class="flex gap-4">
-                <i class="text-2xl fa-solid fa-moon "></i>
-                <a href="#" class="text-2xl group"><i
-                        class="transition-all duration-300 fa-solid fa-list group-hover:text-sky-500"></i></a>
-                <a href="#" class="text-2xl group"><i
-                        class="transition-all duration-300 fa-solid fa-layer-group group-hover:text-sky-500"></i></a>
+                <button id="dark-btn" class="dark:text-slate-100">
+                    <i class="text-2xl transition-all duration-300 fa-solid fa-moon hover:text-sky-500"></i>
+                    <i class="hidden text-2xl transition-all duration-300 fa-solid fa-sun hover:text-sky-500"></i>
+                </button>
+                <button id="dark-btn" class="dark:text-slate-100">
+                    <a href="#" class="text-2xl group "><i
+                            class="transition-all duration-300 fa-solid fa-list group-hover:text-sky-500"></i></a>
+                    <button id="dark-btn" class="dark:text-slate-100">
+                        <a href="#" class="text-2xl group "><i
+                                class="transition-all duration-300 fa-solid fa-layer-group group-hover:text-sky-500"></i></a>
             </div>
         </div>
     </header>
@@ -108,14 +150,28 @@
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         }).addTo(map);
 
+        map.on('popupopen', function(e) {
+            if (document.body.classList.contains('dark')) {
+                e.popup.getElement().classList.add('dark');
+            } else {
+                e.popup.getElement().classList.remove('dark');
+            }
+        });
+
         var options = {
             position: 'topleft',
-            lengthUnit: { // You can use custom length units. Default unit is kilometers.
-                display: 'km', // This is the display value will be shown on the screen. Example: 'meters'
-                decimal: 2, // Distance result will be fixed to this value.
-                factor: null, // This value will be used to convert from kilometers. Example: 1000 (from kilometers to meters)
+            lengthUnit: {
+                display: 'km',
+                decimal: 2,
+                factor: null,
                 label: 'Jarak:'
             },
+            angleUnit: {
+                display: '&deg;',
+                decimal: 2, 
+                factor: null,
+                label: 'Bearing:'
+            }
         };
 
         L.control.ruler(options).addTo(map);
@@ -125,13 +181,6 @@
 
         spots.forEach(function(spot) {
             let fishArray = spot.fishes;
-            if (typeof spot.fishes === 'string') {
-                try {
-                    fishArray = JSON.parse(spot.fishes);
-                } catch (e) {
-                    fishArray = [spot.fishes];
-                }
-            }
 
             const fishesHTML = Array.isArray(fishArray) ?
                 fishArray.map(fish => {
@@ -160,6 +209,36 @@
                 `);
         });
     </script>
+
+    <script>
+        const darkBtn = document.getElementById('dark-btn');
+        darkBtn.addEventListener('click', function() {
+            document.body.classList.toggle('dark');
+
+            // Toggle dark mode untuk elemen Leaflet
+            const openPopup = document.querySelector('.leaflet-popup');
+            console.log(openPopup);
+            if (openPopup) {
+                openPopup.classList.toggle('dark');
+            }
+            document.querySelectorAll([
+                '.leaflet-layer',
+                '.leaflet-control-zoom-in',
+                '.leaflet-control-zoom-out',
+                '.leaflet-control-attribution',
+                '.leaflet-control.leaflet-ruler',
+                '.leaflet-popup-content-wrapper',
+                '.leaflet-popup-tip',
+            ].join(',')).forEach(el => {
+                el.classList.toggle('dark');
+            });
+
+            // Toggle icon
+            document.querySelector('.fa-moon').classList.toggle('hidden');
+            document.querySelector('.fa-sun').classList.toggle('hidden');
+        });
+    </script>
 </body>
+
 
 </html>
