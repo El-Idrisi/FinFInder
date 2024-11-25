@@ -16,6 +16,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/gokertanrisever/leaflet-ruler@master/src/leaflet-ruler.css"
         integrity="sha384-P9DABSdtEY/XDbEInD3q+PlL+BjqPCXGcF8EkhtKSfSTr/dS5PBKa9+/PMkW2xsY" crossorigin="anonymous" />
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.css">
+
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
@@ -23,6 +25,8 @@
     <script src="https://cdn.jsdelivr.net/gh/gokertanrisever/leaflet-ruler@master/src/leaflet-ruler.js"
         integrity="sha384-8SqKZR7V8uOetpjjbcNJHvwuHpb074WS0UXjCLhzfJUqYn3B/uWx1WVv5mwRp1mV" crossorigin="anonymous">
     </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.js"></script>
 
     <script src="https://kit.fontawesome.com/bd2b93a447.js" crossorigin="anonymous"></script>
     <link rel="shortcut icon" href="{{ asset('icon/favicon.ico') }}" type="image/x-icon">
@@ -140,15 +144,20 @@
         </div>
     </header>
 
-    <div id="map" class="h-[calc(100vh-58px)] w-100 bg-slate-200"></div>
+    <div id="map" class="h-[calc(100vh-58px)]  w-100 bg-slate-200"></div>
 
     <script>
         var map = L.map('map').setView([1.3848069459548475, 102.18214794585786], 10);
 
-        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        var osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         }).addTo(map);
+
+        var googleSat = L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
+            maxZoom: 20,
+            subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+        });
 
         map.on('popupopen', function(e) {
             if (document.body.classList.contains('dark')) {
@@ -168,13 +177,25 @@
             },
             angleUnit: {
                 display: '&deg;',
-                decimal: 2, 
+                decimal: 2,
                 factor: null,
                 label: 'Bearing:'
             }
         };
 
         L.control.ruler(options).addTo(map);
+
+        L.easyButton('fa-home', function(btn, map) {
+            var home = [1.3848069459548475, 102.18214794585786];
+            map.setView(home, 10);
+        }).addTo(map);
+
+        var baseMaps = {
+            "Open Street Map": osm,
+            "Satelite": googleSat,
+        };
+
+        L.control.layers(baseMaps).addTo(map);
 
         var spots = @json($spots);
         console.log(spots);
