@@ -31,71 +31,13 @@
     <script src="https://kit.fontawesome.com/bd2b93a447.js" crossorigin="anonymous"></script>
     <link rel="shortcut icon" href="{{ asset('icon/favicon.ico') }}" type="image/x-icon">
     @vite('resources/css/app.css')
+    <link rel="stylesheet" href="{{ asset('css/map-interaktif.css') }}">
     <title>FinFinder | Peta Interaktif</title>
-    <style>
-        ul li {
-            list-style: disc;
-            list-style-position: inside;
-        }
-
-        ol li {
-            list-style: decimal;
-            list-style-position: inside;
-        }
-
-        ol li *,
-        ul li * {
-            display: inline !important;
-        }
-
-        .leaflet-layer.dark,
-        .leaflet-control-zoom-in.dark,
-        .leaflet-control-zoom-out.dark,
-        .leaflet-control-attribution.dark,
-        .leaflet-control.leaflet-ruler.dark {
-            filter: invert(100%) hue-rotate(180deg) brightness(95%) contrast(90%);
-        }
-
-        .leaflet-layer,
-        .leaflet-control-zoom-in,
-        .leaflet-control-zoom-out,
-        .leaflet-control-attribution,
-        .leaflet-control.leaflet-ruler {
-            transition: all 0.3s;
-        }
-
-        /* Style untuk popup Leaflet */
-        .leaflet-popup.dark .leaflet-popup-content-wrapper {
-            background-color: #1f2937;
-            /* Warna background dark */
-            color: white;
-        }
-
-        .leaflet-popup.dark .leaflet-popup-tip {
-            background-color: #1f2937;
-            /* Warna tip/arrow dark */
-        }
-
-        /* Optional: Style untuk link dalam popup */
-        .leaflet-popup.dark .leaflet-popup-content a {
-            color: #60a5fa;
-            /* Warna link saat dark mode */
-        }
-
-        /* Optional: Hover state untuk close button */
-        .leaflet-popup.dark .leaflet-popup-close-button {
-            color: white;
-        }
-
-        .leaflet-popup.dark .leaflet-popup-close-button:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-        }
-    </style>
 </head>
 
 <body class="font-inter">
 
-    <header class="w-full px-8 py-2 transition-all duration-300 shadow-lg dark:bg-slate-900">
+    <header class="w-full px-12 py-2 transition-all duration-300 shadow-lg dark:bg-slate-900">
         <div class="flex items-center justify-between">
             <img src="{{ asset('img/finfinder.png') }}" alt="logo" class="w-32">
             <ul class="hidden gap-8 lg:flex">
@@ -137,27 +79,44 @@
                 <button id="dark-btn" class="dark:text-slate-100">
                     <a href="#" class="text-2xl group "><i
                             class="transition-all duration-300 fa-solid fa-list group-hover:text-sky-500"></i></a>
-                    <button id="dark-btn" class="dark:text-slate-100">
-                        <a href="#" class="text-2xl group "><i
-                                class="transition-all duration-300 fa-solid fa-layer-group group-hover:text-sky-500"></i></a>
+                </button>
+                <button id="dark-btn" class="dark:text-slate-100">
+                    <a href="#" class="text-2xl group "><i
+                            class="transition-all duration-300 fa-solid fa-layer-group group-hover:text-sky-500"></i></a>
+                </button>
             </div>
         </div>
     </header>
 
-    <div id="map" class="h-[calc(100vh-58px)]  w-100 bg-slate-200"></div>
+    <div id="map" class=" h-[calc(100vh-58px)]  w-100">
+        <div id="basemapGallery"
+            class="hidden rounded-lg border-2 border-slate-300 absolute p-4 bg-white-100 top-16 left-14 z-[999] dark:bg-slate-900 dark:border-slate-700 dark:text-white-100">
+            <div id="basemapGalleryHeader" class="flex justify-between">
+                <h4 class="text-base font-bold">BaseMap Gallery</h4>
+                <button id="close-btn"><i class="fa-solid fa-x"></i></button>
+            </div>
+            <div class="grid grid-cols-2 gap-2 mt-4">
+                <div class="text-center cursor-pointer ">
+                    <a href="#" class="basemap-btn" data-basemap="osm">
+                        <img src="{{ asset('img/basemap/osm.png') }}" alt=""
+                            class="w-32 h-20 border-[3px] border-dashed rounded-lg border-slate-500 hover:opacity-80  transition-all duration-300">
+                        <p class="mt-2 font-semibold text-black dark:text-white-100">Open Street Map</p>
+                    </a>
+                </div>
+                <div class="text-center cursor-pointer ">
+                    <a href="#" class="basemap-btn" data-basemap="satelite">
+                        <img src="{{ asset('img/basemap/satelit.png') }}" alt=""
+                            class="w-32 h-20 border-[3px] border-dashed rounded-lg border-slate-500 hover:opacity-80  transition-all duration-300">
+                        <p class="mt-2 font-semibold text-black dark:text-white-100">Satelit</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    {{-- Leaflet JS --}}
     <script>
         var map = L.map('map').setView([1.3848069459548475, 102.18214794585786], 10);
-
-        var osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 19,
-            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-        }).addTo(map);
-
-        var googleSat = L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
-            maxZoom: 20,
-            subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
-        });
 
         map.on('popupopen', function(e) {
             if (document.body.classList.contains('dark')) {
@@ -183,19 +142,64 @@
             }
         };
 
-        L.control.ruler(options).addTo(map);
+        // Buat container untuk control sebelah kiri (zoom dan ruler)
+        const leftControlContainer = L.DomUtil.create('div', 'left-control-group leaflet-control');
 
-        L.easyButton('fa-home', function(btn, map) {
-            var home = [1.3848069459548475, 102.18214794585786];
-            map.setView(home, 10);
+        // Buat container untuk control kanan (home dan layers)
+        const rightControlContainer = L.DomUtil.create('div', 'right-control-group leaflet-control');
+
+        // Ruler control
+        var ruler = L.control.ruler(options).addTo(map);
+
+        // Home button
+        // var homeBtn = L.easyButton('fa-home', function(btn, map) {
+        //     var home = [1.3848069459548475, 102.18214794585786];
+        //     map.setView(home, 10);
+        // }, {
+        //     position: 'topleft'
+        // }).addTo(map);
+
+        var homeBtn = L.easyButton({
+            states: [{
+                stateName: 'home', // name the state
+                icon: 'fa-home', // and define its properties
+                title: 'home', // like its title
+                onClick: function(btn, map) { // and its callback
+                    map.setView([1.3848069459548475, 102.18214794585786], 10);
+                    btn.state('home'); // change state on click!
+                }
+            }]
         }).addTo(map);
 
-        var baseMaps = {
-            "Open Street Map": osm,
-            "Satelite": googleSat,
-        };
 
-        L.control.layers(baseMaps).addTo(map);
+        // Base maps control
+        var layerControl = L.easyButton({
+            states: [{
+                stateName: 'basemap', // name the state
+                icon: 'fa-map', // and define its properties
+                title: 'basemap', // like its title
+                onClick: function() { // and its callback
+                    document.querySelector('#basemapGallery').classList.toggle('hidden');
+                }
+            }]
+        }).addTo(map);
+
+        // Pindahkan zoom control ke left container
+        const zoomControl = map.zoomControl.getContainer();
+        leftControlContainer.appendChild(zoomControl);
+
+        // Pindahkan ruler ke left container
+        const rulerControl = ruler.getContainer();
+        leftControlContainer.appendChild(rulerControl);
+
+        // Pindahkan home dan layers ke right container
+        rightControlContainer.appendChild(homeBtn.getContainer());
+        rightControlContainer.appendChild(layerControl.getContainer());
+
+        // Tambahkan kedua container ke map
+        const topLeftControls = map.getContainer().querySelector('.leaflet-top.leaflet-left');
+        topLeftControls.appendChild(leftControlContainer);
+        topLeftControls.appendChild(rightControlContainer);
 
         var spots = @json($spots);
         console.log(spots);
@@ -230,7 +234,71 @@
                 `);
         });
     </script>
+    {{-- Leaflet JS --}}
 
+    {{-- Basemap Setting --}}
+    <script>
+        // Definisi basemap dan URL nya
+        const basemapUrls = {
+            osm: {
+                url: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                options: {
+                    maxZoom: 19,
+                    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                }
+            },
+            satelite: {
+                url: 'http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}',
+                options: {
+                    maxZoom: 20,
+                    subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+                }
+            },
+            transport: {
+                url: 'https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png',
+                options: {
+                    maxZoom: 19,
+                    attribution: '&copy; OpenStreetMap contributors'
+                }
+            }
+        };
+        // Buat layer untuk peta utama
+        var baseMaps = {
+            osm: L.tileLayer(basemapUrls.osm.url, basemapUrls.osm.options),
+            satelite: L.tileLayer(basemapUrls.satelite.url, basemapUrls.satelite.options),
+            transport: L.tileLayer(basemapUrls.transport.url, basemapUrls.transport.options)
+        };
+
+        baseMaps['osm'].addTo(map);
+
+        document.querySelectorAll('.basemap-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+
+                const basemapType = this.dataset.basemap;
+
+                // Remove all current layers
+                Object.values(baseMaps).forEach(layer => {
+                    map.removeLayer(layer);
+                });
+
+                // Add selected layer
+                baseMaps[basemapType].addTo(map);
+
+            })
+        });
+
+        document.addEventListener('click', function(e) {
+            console.log(!(e.target.id === 'basemapGallery'));
+
+            if (!(e.target.id == 'basemapGallery') && !(e.target.id == 'basemapGalleryHeader')) {
+                document.querySelector('#basemapGallery').classList.add('hidden');
+            }
+        })
+    </script>
+    {{-- Basemap Setting --}}
+
+    {{-- Darkmode Setting --}}
     <script>
         const darkBtn = document.getElementById('dark-btn');
         darkBtn.addEventListener('click', function() {
@@ -250,6 +318,7 @@
                 '.leaflet-control.leaflet-ruler',
                 '.leaflet-popup-content-wrapper',
                 '.leaflet-popup-tip',
+                '.easy-button-container',
             ].join(',')).forEach(el => {
                 el.classList.toggle('dark');
             });
@@ -259,6 +328,8 @@
             document.querySelector('.fa-sun').classList.toggle('hidden');
         });
     </script>
+    {{-- Darkmode Setting --}}
+
 </body>
 
 
