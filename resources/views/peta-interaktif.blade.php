@@ -280,6 +280,10 @@
                 // Add selected layer
                 baseMaps[basemapType].addTo(map);
 
+                if (document.body.classList.contains('dark') && basemapType == 'osm') {
+
+                    document.querySelector('.leaflet-layer').classList.add('dark');
+                }
             })
         });
 
@@ -296,28 +300,73 @@
     {{-- Darkmode Setting --}}
     <script>
         const darkBtn = document.getElementById('dark-btn');
-        darkBtn.addEventListener('click', function() {
-            document.body.classList.toggle('dark');
+        const baseElements = [
+            '.leaflet-control-zoom-in',
+            '.leaflet-control-zoom-out',
+            '.leaflet-control-attribution',
+            '.leaflet-control.leaflet-ruler',
+            '.leaflet-popup-content-wrapper',
+            '.leaflet-popup-tip',
+            '.easy-button-container',
+            '.leaflet-bar a',
+            '.easy-button-button'
+        ].join(',');
 
-            // Toggle dark mode untuk elemen Leaflet
-            document.querySelectorAll([
-                '.leaflet-layer',
-                '.leaflet-control-zoom-in',
-                '.leaflet-control-zoom-out',
-                '.leaflet-control-attribution',
-                '.leaflet-control.leaflet-ruler',
-                '.leaflet-popup-content-wrapper',
-                '.leaflet-popup-tip',
-                '.easy-button-container',
-                '.leaflet-bar a', // Tambahkan ini
-                '.easy-button-button' // Tambahkan ini
-            ].join(',')).forEach(el => {
+        darkBtn.addEventListener('click', function() {
+            // Cek basemap yang aktif
+            let currentBasemap = '';
+            map.eachLayer((layer) => {
+                if (layer instanceof L.TileLayer) {
+                    // Cek URL layer untuk menentukan tipe basemap
+                    if (layer._url.includes('google.com')) {
+                        currentBasemap = 'satelite';
+                    } else if (layer._url.includes('openstreetmap.org')) {
+                        currentBasemap = 'osm';
+                    }
+                }
+            });
+
+
+            // Toggle dark mode untuk elements dasar
+            document.querySelectorAll(baseElements).forEach(el => {
                 el.classList.toggle('dark');
             });
+
+            // Toggle dark mode untuk map layer hanya jika bukan satelit
+            if (currentBasemap !== 'satelite') {
+                document.querySelectorAll('.leaflet-layer').forEach(el => {
+                    el.classList.toggle('dark');
+                });
+            }
+
+            // Toggle body class
+            document.body.classList.toggle('dark');
+
+            const openPopup = document.querySelector('.leaflet-popup');
+            console.log(openPopup);
+            if (openPopup) {
+                openPopup.classList.toggle('dark');
+            }
 
             // Toggle icon
             document.querySelector('.fa-moon').classList.toggle('hidden');
             document.querySelector('.fa-sun').classList.toggle('hidden');
+        });
+
+        // Tambahkan listener untuk perubahan basemap
+        map.on('baselayerchange', function(e) {
+            if (document.body.classList.contains('dark')) {
+                const isSatelite = e.layer._url.includes('google.com');
+
+                // Toggle dark mode untuk map layer
+                document.querySelectorAll('.leaflet-layer').forEach(el => {
+                    if (isSatelite) {
+                        el.classList.remove('dark');
+                    } else {
+                        el.classList.add('dark');
+                    }
+                });
+            }
         });
     </script>
     {{-- Darkmode Setting --}}
