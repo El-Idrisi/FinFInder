@@ -18,25 +18,23 @@ ul li * {
 .leaflet-control-zoom-out.dark,
 .leaflet-control-attribution.dark,
 .leaflet-control.leaflet-ruler.dark,
-.right-control-group.leaflet-control.dark {
+.right-control-group.leaflet-control.dark,
+.easy-button-container.leaflet-control.dark {
     filter: invert(100%) hue-rotate(180deg) brightness(95%) contrast(90%) !important;
 }
 
-div.leaflet-bar.easy-button-container.leaflet-control {
-    background-color: red;
-    /* Warna background dark */
-}
 
 .leaflet-layer,
 .leaflet-control-zoom-in,
 .leaflet-control-zoom-out,
 .leaflet-control-attribution,
-.leaflet-control.leaflet-ruler {
+.leaflet-control.leaflet-ruler,
+.easy-button-container.leaflet-control{
     transition: all 0.3s;
 }
 
 /* Style untuk popup Leaflet */
-.leaflet-popup.dark .leaflet-popup-content-wrapper{
+.leaflet-popup.dark .leaflet-popup-content-wrapper {
     background-color: #1f2937;
     /* Warna background dark */
     color: white;
@@ -74,10 +72,12 @@ div.leaflet-bar.easy-button-container.leaflet-control {
     display: flex;
     flex-direction: column;
 }
+
 .right-control-group {
     display: flex;
     gap: 4px;
 }
+
 /* Hapus margin default */
 .leaflet-left .leaflet-control {
     margin-left: 0;
@@ -87,4 +87,3 @@ div.leaflet-bar.easy-button-container.leaflet-control {
 .leaflet-bar.leaflet-ruler {
     width: 100%;
 }
-

@@ -151,14 +151,6 @@
         // Ruler control
         var ruler = L.control.ruler(options).addTo(map);
 
-        // Home button
-        // var homeBtn = L.easyButton('fa-home', function(btn, map) {
-        //     var home = [1.3848069459548475, 102.18214794585786];
-        //     map.setView(home, 10);
-        // }, {
-        //     position: 'topleft'
-        // }).addTo(map);
-
         var homeBtn = L.easyButton({
             states: [{
                 stateName: 'home', // name the state
@@ -183,6 +175,9 @@
                 }
             }]
         }).addTo(map);
+
+        homeBtn.button.classList.add('custom-control-button');
+        layerControl.button.classList.add('custom-control-button');
 
         // Pindahkan zoom control ke left container
         const zoomControl = map.zoomControl.getContainer();
@@ -305,11 +300,6 @@
             document.body.classList.toggle('dark');
 
             // Toggle dark mode untuk elemen Leaflet
-            const openPopup = document.querySelector('.leaflet-popup');
-            console.log(openPopup);
-            if (openPopup) {
-                openPopup.classList.toggle('dark');
-            }
             document.querySelectorAll([
                 '.leaflet-layer',
                 '.leaflet-control-zoom-in',
@@ -319,6 +309,8 @@
                 '.leaflet-popup-content-wrapper',
                 '.leaflet-popup-tip',
                 '.easy-button-container',
+                '.leaflet-bar a', // Tambahkan ini
+                '.easy-button-button' // Tambahkan ini
             ].join(',')).forEach(el => {
                 el.classList.toggle('dark');
             });
