@@ -19,9 +19,6 @@ function findNearestPoints(searchLocation) {
     // Ambil 5 titik terdekat
     const nearestPoints = distances.slice(0);
 
-    console.log(nearestPoints);
-
-
     // Tampilkan hasil
     showNearestPoints(searchLocation, nearestPoints);
     return nearestPoints;

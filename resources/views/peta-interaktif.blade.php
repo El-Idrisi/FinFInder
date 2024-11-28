@@ -184,7 +184,8 @@
         // Base maps control
         let isEditable = false;
         let currentMarker = null;
-        let mapClickHandler = null; // Simpan referensi ke event handler
+        let mapClickHandler = null;
+        let currentLine = null; // Tambahkan variabel untuk menyimpan referensi line
 
         var pointControl = L.easyButton({
             states: [{
@@ -195,14 +196,16 @@
                     isEditable = !isEditable;
 
                     if (isEditable) {
-                        // Aktifkan mode penambahan titik
                         mapClickHandler = function(e) {
                             const lat = e.latlng.lat;
                             const lng = e.latlng.lng;
 
-                            // Hapus marker sebelumnya jika ada
+                            // Hapus marker dan line sebelumnya jika ada
                             if (currentMarker) {
                                 map.removeLayer(currentMarker);
+                            }
+                            if (currentLine) {
+                                map.removeLayer(currentLine);
                             }
 
                             // Tambah marker baru
@@ -213,35 +216,50 @@
                                 "Latitude: " + lat.toFixed(6) +
                                 "<br>Longitude: " + lng.toFixed(6)
                             ).openPopup();
-                            const searchLocation = currentMarker._latlng
 
-                            const nearestPoints = findNearestPoints(searchLocation)
+                            const searchLocation = currentMarker._latlng;
+                            // Cari titik terdekat dan gambar line
+                            const nearestPoints = findNearestPoints(searchLocation);
 
+                            // Simpan referensi line yang baru dibuat
+                            if (nearestPoints && nearestPoints.length > 0) {
+                                const nearestPoint = nearestPoints[0];
+                                currentLine = L.polyline([
+                                    searchLocation,
+                                    [nearestPoint.spot.latitude, nearestPoint.spot
+                                        .longitude]
+                                ], {
+                                    color: '#2563eb',
+                                    weight: 3,
+                                    opacity: 0.8,
+                                    dashArray: '10, 10'
+                                }).addTo(map);
+                            }
                         };
 
-                        // Tambahkan event listener
                         map.on('click', mapClickHandler);
-
-                        // Visual feedback bahwa mode aktif
                         pointControl.button.style.backgroundColor = '#93c5fd';
 
-                        // console.log(searchLocation);
-
-
                     } else {
-                        // Nonaktifkan mode penambahan titik
+                        // Nonaktifkan mode dan bersihkan peta
                         if (mapClickHandler) {
                             map.off('click', mapClickHandler);
                             mapClickHandler = null;
                         }
+                        if (currentMarker) {
+                            map.removeLayer(currentMarker);
+                            currentMarker = null;
+                        }
+                        if (currentLine) {
+                            map.removeLayer(currentLine);
+                            currentLine = null;
+                        }
 
-                        // Reset visual feedback
                         pointControl.button.style.backgroundColor = '';
                     }
                 }
             }]
         }).addTo(map);
-
 
         homeBtn.button.classList.add('custom-control-button');
         layerControl.button.classList.add('custom-control-button');
