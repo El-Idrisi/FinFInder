@@ -20,7 +20,7 @@ function findNearestPoints(searchLocation) {
     const nearestPoints = distances.slice(0);
 
     // Tampilkan hasil
-    showNearestPoints(searchLocation, nearestPoints);
+    // showNearestPoints(searchLocation, nearestPoints);
     return nearestPoints;
 }
 
@@ -60,6 +60,6 @@ function showNearestPoints(searchLocation, nearestPoints) {
         searchLocation,
         [nearestPoint.spot.latitude, nearestPoint.spot.longitude]
     ]);
-    // map.fitBounds(bounds, { padding: [50, 50] });
+    map.fitBounds(bounds, { padding: [50, 50] });
 
 }

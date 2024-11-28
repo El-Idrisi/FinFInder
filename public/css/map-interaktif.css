@@ -19,7 +19,8 @@ ul li * {
 .leaflet-control-attribution.dark,
 .leaflet-control.leaflet-ruler.dark,
 .right-control-group.leaflet-control.dark,
-.easy-button-container.leaflet-control.dark {
+.easy-button-container.leaflet-control.dark,
+.leaflet-control-geocoder.dark {
     filter: invert(100%) hue-rotate(180deg) brightness(95%) contrast(90%) !important;
 }
 
@@ -29,7 +30,8 @@ ul li * {
 .leaflet-control-zoom-out,
 .leaflet-control-attribution,
 .leaflet-control.leaflet-ruler,
-.easy-button-container.leaflet-control{
+.easy-button-container.leaflet-control,
+.leaflet-control-geocoder.dark {
     transition: all 0.3s;
 }
 

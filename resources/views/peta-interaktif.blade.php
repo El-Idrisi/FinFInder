@@ -10,29 +10,50 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
         rel="stylesheet">
+
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
         integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/gokertanrisever/leaflet-ruler@master/src/leaflet-ruler.css"
         integrity="sha384-P9DABSdtEY/XDbEInD3q+PlL+BjqPCXGcF8EkhtKSfSTr/dS5PBKa9+/PMkW2xsY" crossorigin="anonymous" />
-
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-
-
     <script src="https://cdn.jsdelivr.net/gh/gokertanrisever/leaflet-ruler@master/src/leaflet-ruler.js"
         integrity="sha384-8SqKZR7V8uOetpjjbcNJHvwuHpb074WS0UXjCLhzfJUqYn3B/uWx1WVv5mwRp1mV" crossorigin="anonymous">
     </script>
-
     <script src="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.js"></script>
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
 
     <script src="https://kit.fontawesome.com/bd2b93a447.js" crossorigin="anonymous"></script>
     <link rel="shortcut icon" href="{{ asset('icon/favicon.ico') }}" type="image/x-icon">
     @vite('resources/css/app.css')
     <link rel="stylesheet" href="{{ asset('css/map-interaktif.css') }}">
     <title>FinFinder | Peta Interaktif</title>
+    <style>
+        .leaflet-layer.dark,
+        .leaflet-control-zoom-in.dark,
+        .leaflet-control-zoom-out.dark,
+        .leaflet-control-attribution.dark,
+        .leaflet-control.leaflet-ruler.dark,
+        .right-control-group.leaflet-control.dark,
+        .easy-button-container.leaflet-control.dark,
+        .leaflet-control-geocoder.dark {
+            filter: invert(100%) hue-rotate(180deg) brightness(95%) contrast(90%) !important;
+        }
+
+
+        .leaflet-layer,
+        .leaflet-control-zoom-in,
+        .leaflet-control-zoom-out,
+        .leaflet-control-attribution,
+        .leaflet-control.leaflet-ruler,
+        .easy-button-container.leaflet-control,
+        .leaflet-control-geocoder {
+            transition: all 0.3s;
+        }
+    </style>
 </head>
 
 <body class="font-inter">
@@ -117,7 +138,7 @@
     {{-- Leaflet JS --}}
     <script src="{{ asset('js/func.js') }}"></script>
     <script>
-        var map = L.map('map').setView([1.3848069459548475, 102.18214794585786], 10);
+        var map = L.map('map').setView([1.169060, 102.432404], 10);
         map.on('popupopen', function(e) {
             if (document.body.classList.contains('dark')) {
                 e.popup.getElement().classList.add('dark');
@@ -162,7 +183,7 @@
                 icon: 'fa-home', // and define its properties
                 title: 'home', // like its title
                 onClick: function(btn, map) { // and its callback
-                    map.setView([1.3848069459548475, 102.18214794585786], 10);
+                    map.setView([1.169060, 102.432404], 10);
                     btn.state('home'); // change state on click!
                 }
             }]
@@ -194,6 +215,7 @@
                 title: 'Toggle Point Selection',
                 onClick: function() {
                     isEditable = !isEditable;
+                    console.log(currentMarker);
 
                     if (isEditable) {
                         mapClickHandler = function(e) {
@@ -227,13 +249,22 @@
                                 currentLine = L.polyline([
                                     searchLocation,
                                     [nearestPoint.spot.latitude, nearestPoint.spot
-                                        .longitude]
+                                        .longitude
+                                    ]
                                 ], {
                                     color: '#2563eb',
                                     weight: 3,
                                     opacity: 0.8,
                                     dashArray: '10, 10'
                                 }).addTo(map);
+
+                                // Tambahkan popup dengan informasi jarak
+                                currentLine.bindPopup(`
+                                    <div class="text-center">
+                                        <p class="font-bold">Jarak Terdekat: ${nearestPoint.distance.toFixed(2)} km</p>
+                                        <p>Ke lokasi: ${nearestPoint.spot.description || 'Titik Terdekat'}</p>
+                                    </div>
+                                `).openPopup();
                             }
                         };
 
@@ -261,6 +292,68 @@
             }]
         }).addTo(map);
 
+        var geocoder = L.Control.geocoder({
+            defaultMarkGeocode: false // Jangan tambahkan marker otomatis
+        }).addTo(map);
+
+        // Handle ketika lokasi ditemukan
+        geocoder.on('markgeocode', function(e) {
+            const searchLocation = e.geocode.center; // Koordinat hasil pencarian
+
+            // Hapus marker dan line sebelumnya jika ada
+            if (currentMarker) {
+                map.removeLayer(currentMarker);
+            }
+            if (currentLine) {
+                map.removeLayer(currentLine);
+            }
+            // Tambahkan marker untuk lokasi yang dicari
+            currentMarker = L.marker(searchLocation, {
+                    icon: userIcon
+                })
+                .addTo(map)
+                .bindPopup('Lokasi yang dicari')
+                .openPopup();
+
+            // Hitung jarak ke semua titik
+            const nearestPoints = findNearestPoints(searchLocation);
+
+
+            // Simpan referensi line yang baru dibuat
+            if (nearestPoints && nearestPoints.length > 0) {
+                const nearestPoint = nearestPoints[0];
+                currentLine = L.polyline([
+                    searchLocation,
+                    [nearestPoint.spot.latitude, nearestPoint.spot
+                        .longitude
+                    ]
+                ], {
+                    color: '#2563eb',
+                    weight: 3,
+                    opacity: 0.8,
+                    dashArray: '10, 10'
+                }).addTo(map);
+
+                // Tambahkan popup dengan informasi jarak
+                currentLine.bindPopup(`
+                    <div class="text-center">
+                        <p class="font-bold">Jarak Terdekat: ${nearestPoint.distance.toFixed(2)} km</p>
+                        <p>Ke lokasi: ${nearestPoint.spot.description || 'Titik Terdekat'}</p>
+                    </div>
+                `).openPopup();
+
+                const bounds = L.latLngBounds([
+                    searchLocation,
+                    [nearestPoint.spot.latitude, nearestPoint.spot.longitude]
+                ]);
+                map.fitBounds(bounds, {
+                    padding: [50, 50]
+                });
+            }
+        });
+
+
+
         homeBtn.button.classList.add('custom-control-button');
         layerControl.button.classList.add('custom-control-button');
 
@@ -276,6 +369,7 @@
         rightControlContainer.appendChild(homeBtn.getContainer());
         rightControlContainer.appendChild(layerControl.getContainer());
         rightControlContainer.appendChild(pointControl.getContainer());
+        rightControlContainer.appendChild(geocoder.getContainer());
 
         // Tambahkan kedua container ke map
         const topLeftControls = map.getContainer().querySelector('.leaflet-top.leaflet-left');
@@ -398,8 +492,6 @@
     </script>
     {{-- Basemap Setting --}}
 
-    <script></script>
-
     {{-- Darkmode Setting --}}
     <script>
         const darkBtn = document.getElementById('dark-btn');
@@ -412,7 +504,8 @@
             '.leaflet-popup-tip',
             '.easy-button-container',
             '.leaflet-bar a',
-            '.easy-button-button'
+            '.easy-button-button',
+            '.leaflet-control-geocoder'
         ].join(',');
 
         darkBtn.addEventListener('click', function() {
