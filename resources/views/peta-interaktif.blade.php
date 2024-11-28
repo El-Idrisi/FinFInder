@@ -115,9 +115,9 @@
     </div>
 
     {{-- Leaflet JS --}}
+    <script src="{{ asset('js/func.js') }}"></script>
     <script>
         var map = L.map('map').setView([1.3848069459548475, 102.18214794585786], 10);
-
         map.on('popupopen', function(e) {
             if (document.body.classList.contains('dark')) {
                 e.popup.getElement().classList.add('dark');
@@ -125,7 +125,11 @@
                 e.popup.getElement().classList.remove('dark');
             }
         });
+    </script>
+    {{-- Leaflet JS --}}
 
+
+    <script>
         var options = {
             position: 'topleft',
             lengthUnit: {
@@ -142,14 +146,15 @@
             }
         };
 
+        // Ruler control
+        const ruler = L.control.ruler(options).addTo(map);
+
         // Buat container untuk control sebelah kiri (zoom dan ruler)
         const leftControlContainer = L.DomUtil.create('div', 'left-control-group leaflet-control');
 
         // Buat container untuk control kanan (home dan layers)
         const rightControlContainer = L.DomUtil.create('div', 'right-control-group leaflet-control');
 
-        // Ruler control
-        var ruler = L.control.ruler(options).addTo(map);
 
         var homeBtn = L.easyButton({
             states: [{
@@ -176,6 +181,68 @@
             }]
         }).addTo(map);
 
+        // Base maps control
+        let isEditable = false;
+        let currentMarker = null;
+        let mapClickHandler = null; // Simpan referensi ke event handler
+
+        var pointControl = L.easyButton({
+            states: [{
+                stateName: 'point-control',
+                icon: 'fa-location-dot',
+                title: 'Toggle Point Selection',
+                onClick: function() {
+                    isEditable = !isEditable;
+
+                    if (isEditable) {
+                        // Aktifkan mode penambahan titik
+                        mapClickHandler = function(e) {
+                            const lat = e.latlng.lat;
+                            const lng = e.latlng.lng;
+
+                            // Hapus marker sebelumnya jika ada
+                            if (currentMarker) {
+                                map.removeLayer(currentMarker);
+                            }
+
+                            // Tambah marker baru
+                            currentMarker = L.marker([lat, lng], {
+                                icon: userIcon
+                            }).addTo(map);
+                            currentMarker.bindPopup(
+                                "Latitude: " + lat.toFixed(6) +
+                                "<br>Longitude: " + lng.toFixed(6)
+                            ).openPopup();
+                            const searchLocation = currentMarker._latlng
+
+                            const nearestPoints = findNearestPoints(searchLocation)
+
+                        };
+
+                        // Tambahkan event listener
+                        map.on('click', mapClickHandler);
+
+                        // Visual feedback bahwa mode aktif
+                        pointControl.button.style.backgroundColor = '#93c5fd';
+
+                        // console.log(searchLocation);
+
+
+                    } else {
+                        // Nonaktifkan mode penambahan titik
+                        if (mapClickHandler) {
+                            map.off('click', mapClickHandler);
+                            mapClickHandler = null;
+                        }
+
+                        // Reset visual feedback
+                        pointControl.button.style.backgroundColor = '';
+                    }
+                }
+            }]
+        }).addTo(map);
+
+
         homeBtn.button.classList.add('custom-control-button');
         layerControl.button.classList.add('custom-control-button');
 
@@ -190,6 +257,7 @@
         // Pindahkan home dan layers ke right container
         rightControlContainer.appendChild(homeBtn.getContainer());
         rightControlContainer.appendChild(layerControl.getContainer());
+        rightControlContainer.appendChild(pointControl.getContainer());
 
         // Tambahkan kedua container ke map
         const topLeftControls = map.getContainer().querySelector('.leaflet-top.leaflet-left');
@@ -198,17 +266,18 @@
 
         var spots = @json($spots);
         console.log(spots);
+
         var fishIcon = L.icon({
             iconUrl: 'https://api.geoapify.com/v1/icon/?type=material&color=%230ea5e9&icon=fish&iconType=awesome&apiKey=380779a6b2b24a899c67e7b3d7df04dc',
             iconSize: [30, 47], // size of the icon
-            iconAnchor:   [15, 42],
-            popupAnchor:  [0, -40],
+            iconAnchor: [15, 42],
+            popupAnchor: [0, -40],
         });
         var userIcon = L.icon({
             iconUrl: 'https://api.geoapify.com/v1/icon/?type=material&color=%23ef4444&icon=user&iconType=awesome&apiKey=380779a6b2b24a899c67e7b3d7df04dc',
             iconSize: [30, 47], // size of the icon
-            iconAnchor:   [15, 42],
-            popupAnchor:  [0, -40],
+            iconAnchor: [15, 42],
+            popupAnchor: [0, -40],
         });
 
         spots.forEach(function(spot) {
@@ -224,7 +293,9 @@
                 }).join('') :
                 '';
 
-                L.marker([spot.latitude, spot.longitude], {icon:fishIcon}).addTo(map)
+            L.marker([spot.latitude, spot.longitude], {
+                    icon: fishIcon
+                }).addTo(map)
                 .bindPopup(`
                 <div class="mb-4">
                     <h4 class="font-bold text-md">Detail Data</h4>
@@ -240,9 +311,8 @@
                     </div>
                 `);
 
-            });
-            </script>
-    {{-- Leaflet JS --}}
+        });
+    </script>
 
     {{-- Basemap Setting --}}
     <script>
@@ -301,7 +371,7 @@
         });
 
         document.addEventListener('click', function(e) {
-            console.log(!(e.target.id === 'basemapGallery'));
+            // console.log(!(e.target.id === 'basemapGallery'));
 
             if (!(e.target.id == 'basemapGallery') && !(e.target.id == 'basemapGalleryHeader')) {
                 document.querySelector('#basemapGallery').classList.add('hidden');
@@ -309,6 +379,8 @@
         })
     </script>
     {{-- Basemap Setting --}}
+
+    <script></script>
 
     {{-- Darkmode Setting --}}
     <script>
@@ -356,7 +428,7 @@
             document.body.classList.toggle('dark');
 
             const openPopup = document.querySelector('.leaflet-popup');
-            console.log(openPopup);
+            // console.log(openPopup);
             if (openPopup) {
                 openPopup.classList.toggle('dark');
             }
