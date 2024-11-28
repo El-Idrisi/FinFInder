@@ -198,6 +198,18 @@
 
         var spots = @json($spots);
         console.log(spots);
+        var fishIcon = L.icon({
+            iconUrl: 'https://api.geoapify.com/v1/icon/?type=material&color=%230ea5e9&icon=fish&iconType=awesome&apiKey=380779a6b2b24a899c67e7b3d7df04dc',
+            iconSize: [30, 47], // size of the icon
+            iconAnchor:   [15, 42],
+            popupAnchor:  [0, -40],
+        });
+        var userIcon = L.icon({
+            iconUrl: 'https://api.geoapify.com/v1/icon/?type=material&color=%23ef4444&icon=user&iconType=awesome&apiKey=380779a6b2b24a899c67e7b3d7df04dc',
+            iconSize: [30, 47], // size of the icon
+            iconAnchor:   [15, 42],
+            popupAnchor:  [0, -40],
+        });
 
         spots.forEach(function(spot) {
             let fishArray = spot.fishes;
@@ -212,23 +224,24 @@
                 }).join('') :
                 '';
 
-            L.marker([spot.latitude, spot.longitude]).addTo(map)
+                L.marker([spot.latitude, spot.longitude], {icon:fishIcon}).addTo(map)
                 .bindPopup(`
-                    <div class="mb-4">
-                        <h4 class="font-bold text-md">Detail Data</h4>
+                <div class="mb-4">
+                    <h4 class="font-bold text-md">Detail Data</h4>
                     </div>
                     <div class="flex flex-wrap gap-1 mb-4">
                         ${fishesHTML}
-                    </div>
-                    <div class="mb-4">
+                        </div>
+                        <div class="mb-4">
                         ${spot.deskripsi}
-                    </div>
-                    <div class="border-t border-slate-200">
-                        <p class="italic text-gray-400">Created by <span class="not-italic font-bold">${spot.owner}</span></p>
+                        </div>
+                        <div class="border-t border-slate-200">
+                            <p class="italic text-gray-400">Created by <span class="not-italic font-bold">${spot.owner}</span></p>
                     </div>
                 `);
-        });
-    </script>
+
+            });
+            </script>
     {{-- Leaflet JS --}}
 
     {{-- Basemap Setting --}}
