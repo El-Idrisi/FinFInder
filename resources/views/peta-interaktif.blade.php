@@ -153,9 +153,11 @@
         </div>
     </div>
 
-    {{-- Leaflet JS --}}
     <script src="{{ asset('js/func.js') }}"></script>
     <script src="{{ asset('js/icon.js') }}"></script>
+    <script src="{{ asset('js/basemap.js') }}"></script>
+
+    {{-- Leaflet JS --}}
     <script>
         var map = L.map('map').setView([1.169060, 102.432404], 10);
         map.on('popupopen', function(e) {
@@ -165,11 +167,21 @@
                 e.popup.getElement().classList.remove('dark');
             }
         });
+
+        // default base map
+        baseMaps['osm'].addTo(map);
     </script>
     {{-- Leaflet JS --}}
 
-
+    {{-- Button Control --}}
     <script>
+        // Buat container untuk control sebelah kiri (zoom dan ruler)
+        const leftControlContainer = L.DomUtil.create('div', 'left-control-group leaflet-control');
+
+        // Buat container untuk control kanan .
+        const rightControlContainer = L.DomUtil.create('div', 'right-control-group leaflet-control');
+
+        // options ruler control
         var options = {
             position: 'topleft',
             lengthUnit: {
@@ -186,21 +198,16 @@
             }
         };
 
-        // Ruler control
-        const ruler = L.control.ruler(options).addTo(map);
-
-        // Buat container untuk control sebelah kiri (zoom dan ruler)
-        const leftControlContainer = L.DomUtil.create('div', 'left-control-group leaflet-control');
-
-        // Buat container untuk control kanan (home dan layers)
-        const rightControlContainer = L.DomUtil.create('div', 'right-control-group leaflet-control');
-
         // Base maps control
         let isEditable = false;
         let currentMarker = null;
         let mapClickHandler = null;
         let currentLine = null; // Tambahkan variabel untuk menyimpan referensi line
 
+        // Ruler control
+        const ruler = L.control.ruler(options).addTo(map);
+
+        // Home control
         var homeBtn = L.easyButton({
             states: [{
                 stateName: 'home', // name the state
@@ -226,6 +233,7 @@
             }]
         }).addTo(map);
 
+        // Point control
         var pointControl = L.easyButton({
             states: [{
                 stateName: 'point-control',
@@ -310,6 +318,7 @@
             }]
         }).addTo(map);
 
+        // Search Control
         var geocoder = L.Control.geocoder({
             defaultMarkGeocode: false // Jangan tambahkan marker otomatis
         }).addTo(map);
@@ -394,9 +403,11 @@
         topLeftControls.appendChild(leftControlContainer);
         topLeftControls.appendChild(rightControlContainer);
 
+        // FishSpot
         var spots = @json($spots);
         console.log(spots);
 
+        // Tampilkan FishSpot
         spots.forEach(function(spot) {
             let fishArray = spot.fishes;
 
@@ -414,77 +425,39 @@
                     icon: fishIcon
                 }).addTo(map)
                 .bindPopup(`
-                <div class="mb-4">
-                    <h4 class="font-bold text-md">Detail Data</h4>
+                    <div class="mb-4">
+                        <h4 class="font-bold text-md">Detail Data</h4>
                     </div>
                     <div class="flex flex-wrap gap-1 mb-4">
                         ${fishesHTML}
-                        </div>
-                        <div class="mb-4">
+                    </div>
+                    <div class="mb-4">
                         ${spot.deskripsi}
-                        </div>
-                        <div class="border-t border-slate-200">
-                            <p class="italic text-gray-400">Created by <span class="not-italic font-bold">${spot.owner}</span></p>
+                    </div>
+                    <div class="border-t border-slate-200">
+                        <p class="italic text-gray-400">Created by <span class="not-italic font-bold">${spot.owner}</span></p>
                     </div>
                 `);
 
         });
     </script>
+    {{-- Button Control --}}
 
     {{-- Basemap Setting --}}
     <script>
-        // Definisi basemap dan URL nya
-        const basemapUrls = {
-            osm: {
-                url: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                options: {
-                    maxZoom: 19,
-                    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-                }
-            },
-            satelite: {
-                url: 'http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}',
-                options: {
-                    maxZoom: 20,
-                    subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
-                }
-            },
-            ocean: {
-                url: 'https://server.arcgisonline.com/ArcGIS/rest/services/Ocean/World_Ocean_Base/MapServer/tile/{z}/{y}/{x}',
-                options: {
-                    attribution: 'Tiles &copy; Esri &mdash; Sources: GEBCO, NOAA, CHS, OSU, UNH, CSUMB, National Geographic, DeLorme, NAVTEQ, and Esri'
-                }
-            },
-            voyager: {
-                url: 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png',
-                options: {
-                    maxZoom: 19,
-                    attribution: '© CartoDB'
-                }
-            }
-        };
-        // Buat layer untuk peta utama
-        var baseMaps = {
-            osm: L.tileLayer(basemapUrls.osm.url, basemapUrls.osm.options),
-            satelite: L.tileLayer(basemapUrls.satelite.url, basemapUrls.satelite.options),
-            ocean: L.tileLayer(basemapUrls.ocean.url, basemapUrls.ocean.options),
-            voyager: L.tileLayer(basemapUrls.voyager.url, basemapUrls.voyager.options)
-        };
-
-        baseMaps['osm'].addTo(map);
-
+        // Event untuk mengganti basemap
         document.querySelectorAll('.basemap-btn').forEach(btn => {
             btn.addEventListener('click', function(e) {
                 e.preventDefault();
 
                 const basemapType = this.dataset.basemap;
 
-                // Remove all current layers
+                // Hapus Base Map yang di tampilkna
                 Object.values(baseMaps).forEach(layer => {
                     map.removeLayer(layer);
                 });
 
-                // Add selected layer
+                // Menambahkan Base Map yang Dipilih
                 baseMaps[basemapType].addTo(map);
 
                 if (document.body.classList.contains('dark') && basemapType !== 'satelite') {
@@ -495,12 +468,10 @@
         });
 
         document.addEventListener('click', function(e) {
-            // console.log(!(e.target.id === 'basemapGallery'));
-
             if (!(e.target.id == 'basemapGallery') && !(e.target.id == 'basemapGalleryHeader')) {
                 document.querySelector('#basemapGallery').classList.add('hidden');
             }
-        })
+        });
     </script>
     {{-- Basemap Setting --}}
 
@@ -528,8 +499,8 @@
                     // Cek URL layer untuk menentukan tipe basemap
                     if (layer._url.includes('google.com')) {
                         currentBasemap = 'satelite';
-                    } else if (layer._url.includes('openstreetmap.org')) {
-                        currentBasemap = 'osm';
+                    } else {
+                        currentBasemap = 'other';
                     }
                 }
             });
@@ -551,7 +522,8 @@
             document.body.classList.toggle('dark');
 
             const openPopup = document.querySelector('.leaflet-popup');
-            // console.log(openPopup);
+
+            // Check pop up leaflet ada atau tidak ada
             if (openPopup) {
                 openPopup.classList.toggle('dark');
             }
