@@ -53,6 +53,10 @@
         .leaflet-control-geocoder {
             transition: all 0.3s;
         }
+
+        .button-state .fa {
+            transform: scale(1.2);
+        }
     </style>
 </head>
 
@@ -131,12 +135,27 @@
                         <p class="mt-2 font-semibold text-black dark:text-white-100">Satelit</p>
                     </a>
                 </div>
+                <div class="text-center cursor-pointer ">
+                    <a href="#" class="basemap-btn" data-basemap="ocean">
+                        <img src="{{ asset('img/basemap/ocean.png') }}" alt=""
+                            class="w-32 h-20 border-[3px] border-dashed rounded-lg border-slate-500 hover:opacity-80  transition-all duration-300">
+                        <p class="mt-2 font-semibold text-black dark:text-white-100">ESRI Ocean </p>
+                    </a>
+                </div>
+                <div class="text-center cursor-pointer ">
+                    <a href="#" class="basemap-btn" data-basemap="voyager">
+                        <img src="{{ asset('img/basemap/voyager.png') }}" alt=""
+                            class="w-32 h-20 border-[3px] border-dashed rounded-lg border-slate-500 hover:opacity-80  transition-all duration-300">
+                        <p class="mt-2 font-semibold text-black dark:text-white-100">CartoDB Voyager</p>
+                    </a>
+                </div>
             </div>
         </div>
     </div>
 
     {{-- Leaflet JS --}}
     <script src="{{ asset('js/func.js') }}"></script>
+    <script src="{{ asset('js/icon.js') }}"></script>
     <script>
         var map = L.map('map').setView([1.169060, 102.432404], 10);
         map.on('popupopen', function(e) {
@@ -176,6 +195,11 @@
         // Buat container untuk control kanan (home dan layers)
         const rightControlContainer = L.DomUtil.create('div', 'right-control-group leaflet-control');
 
+        // Base maps control
+        let isEditable = false;
+        let currentMarker = null;
+        let mapClickHandler = null;
+        let currentLine = null; // Tambahkan variabel untuk menyimpan referensi line
 
         var homeBtn = L.easyButton({
             states: [{
@@ -201,12 +225,6 @@
                 }
             }]
         }).addTo(map);
-
-        // Base maps control
-        let isEditable = false;
-        let currentMarker = null;
-        let mapClickHandler = null;
-        let currentLine = null; // Tambahkan variabel untuk menyimpan referensi line
 
         var pointControl = L.easyButton({
             states: [{
@@ -379,19 +397,6 @@
         var spots = @json($spots);
         console.log(spots);
 
-        var fishIcon = L.icon({
-            iconUrl: 'https://api.geoapify.com/v1/icon/?type=material&color=%230ea5e9&icon=fish&iconType=awesome&apiKey=380779a6b2b24a899c67e7b3d7df04dc',
-            iconSize: [30, 47], // size of the icon
-            iconAnchor: [15, 42],
-            popupAnchor: [0, -40],
-        });
-        var userIcon = L.icon({
-            iconUrl: 'https://api.geoapify.com/v1/icon/?type=material&color=%23ef4444&icon=user&iconType=awesome&apiKey=380779a6b2b24a899c67e7b3d7df04dc',
-            iconSize: [30, 47], // size of the icon
-            iconAnchor: [15, 42],
-            popupAnchor: [0, -40],
-        });
-
         spots.forEach(function(spot) {
             let fishArray = spot.fishes;
 
@@ -444,11 +449,17 @@
                     subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
                 }
             },
-            transport: {
-                url: 'https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png',
+            ocean: {
+                url: 'https://server.arcgisonline.com/ArcGIS/rest/services/Ocean/World_Ocean_Base/MapServer/tile/{z}/{y}/{x}',
+                options: {
+                    attribution: 'Tiles &copy; Esri &mdash; Sources: GEBCO, NOAA, CHS, OSU, UNH, CSUMB, National Geographic, DeLorme, NAVTEQ, and Esri'
+                }
+            },
+            voyager: {
+                url: 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png',
                 options: {
                     maxZoom: 19,
-                    attribution: '&copy; OpenStreetMap contributors'
+                    attribution: '© CartoDB'
                 }
             }
         };
@@ -456,7 +467,8 @@
         var baseMaps = {
             osm: L.tileLayer(basemapUrls.osm.url, basemapUrls.osm.options),
             satelite: L.tileLayer(basemapUrls.satelite.url, basemapUrls.satelite.options),
-            transport: L.tileLayer(basemapUrls.transport.url, basemapUrls.transport.options)
+            ocean: L.tileLayer(basemapUrls.ocean.url, basemapUrls.ocean.options),
+            voyager: L.tileLayer(basemapUrls.voyager.url, basemapUrls.voyager.options)
         };
 
         baseMaps['osm'].addTo(map);
@@ -475,7 +487,7 @@
                 // Add selected layer
                 baseMaps[basemapType].addTo(map);
 
-                if (document.body.classList.contains('dark') && basemapType == 'osm') {
+                if (document.body.classList.contains('dark') && basemapType !== 'satelite') {
 
                     document.querySelector('.leaflet-layer').classList.add('dark');
                 }
