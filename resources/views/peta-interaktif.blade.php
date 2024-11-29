@@ -28,8 +28,8 @@
 
     <script src="https://kit.fontawesome.com/bd2b93a447.js" crossorigin="anonymous"></script>
     <link rel="shortcut icon" href="{{ asset('icon/favicon.ico') }}" type="image/x-icon">
-    @vite('resources/css/app.css')
     <link rel="stylesheet" href="{{ asset('css/map-interaktif.css') }}">
+    @vite('resources/css/app.css')
     <title>FinFinder | Peta Interaktif</title>
     <style>
         .leaflet-layer.dark,
@@ -54,6 +54,62 @@
             transition: all 0.3s;
         }
 
+        /* Style untuk popup Leaflet */
+        .leaflet-popup.dark .leaflet-popup-content-wrapper {
+            background-color: #1f2937;
+            /* Warna background dark */
+            color: white;
+        }
+
+        .leaflet-popup.dark .leaflet-popup-tip {
+            background-color: #1f2937;
+            /* Warna tip/arrow dark */
+        }
+
+        /* Optional: Style untuk link dalam popup */
+        .leaflet-popup.dark .leaflet-popup-content a {
+            color: #60a5fa;
+            /* Warna link saat dark mode */
+        }
+
+        /* Optional: Hover state untuk close button */
+        .leaflet-popup.dark .leaflet-popup-close-button {
+            color: white;
+        }
+
+        .leaflet-popup.dark .leaflet-popup-close-button:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Atur container control */
+        .leaflet-control-container .leaflet-top.leaflet-left {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            margin-left: 12px
+        }
+
+        .left-control-group,
+        .right-control-group {
+            display: flex;
+            flex-direction: column;
+        }
+        .right2-control-group {
+            display: flex;
+            gap: 4px;
+        }
+        .right2-control-group .leaflet-bar {
+            margin:0px;
+        }
+        /* Hapus margin default */
+        .leaflet-left .leaflet-control {
+            margin-left: 0;
+            clear: none !important;
+        }
+
+        .leaflet-bar.leaflet-ruler {
+            width: 100%;
+        }
         .button-state .fa {
             transform: scale(1.2);
         }
@@ -180,6 +236,9 @@
 
         // Buat container untuk control kanan .
         const rightControlContainer = L.DomUtil.create('div', 'right-control-group leaflet-control');
+
+        const right1ControlContainer = L.DomUtil.create('div', 'right1-control-group');
+        const right2ControlContainer = L.DomUtil.create('div', 'right2-control-group');
 
         // options ruler control
         var options = {
@@ -393,10 +452,13 @@
         leftControlContainer.appendChild(rulerControl);
 
         // Pindahkan home dan layers ke right container
-        rightControlContainer.appendChild(homeBtn.getContainer());
-        rightControlContainer.appendChild(layerControl.getContainer());
-        rightControlContainer.appendChild(pointControl.getContainer());
-        rightControlContainer.appendChild(geocoder.getContainer());
+        rightControlContainer.appendChild(right1ControlContainer);
+        rightControlContainer.appendChild(right2ControlContainer);
+
+        right2ControlContainer.appendChild(homeBtn.getContainer());
+        right2ControlContainer.appendChild(layerControl.getContainer());
+        right2ControlContainer.appendChild(pointControl.getContainer());
+        right1ControlContainer.appendChild(geocoder.getContainer());
 
         // Tambahkan kedua container ke map
         const topLeftControls = map.getContainer().querySelector('.leaflet-top.leaflet-left');

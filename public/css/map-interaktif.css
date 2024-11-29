@@ -70,13 +70,13 @@ ul li * {
     margin-left: 12px
 }
 
-.left-control-group {
+.left-control-group, .right-control-group {
     display: flex;
     flex-direction: column;
 }
 
 .right-control-group {
-    display: flex;
+display: flex;
     gap: 4px;
 }
 
