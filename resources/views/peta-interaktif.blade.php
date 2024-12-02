@@ -17,6 +17,8 @@
         integrity="sha384-P9DABSdtEY/XDbEInD3q+PlL+BjqPCXGcF8EkhtKSfSTr/dS5PBKa9+/PMkW2xsY" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+    <link rel="stylesheet"
+        href="https://unpkg.com/@geoapify/leaflet-address-search-plugin@^1/dist/L.Control.GeoapifyAddressSearch.min.css" />
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
@@ -25,6 +27,8 @@
     </script>
     <script src="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.js"></script>
     <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+    <script src="https://unpkg.com/@geoapify/leaflet-address-search-plugin@^1/dist/L.Control.GeoapifyAddressSearch.min.js">
+    </script>
 
     <script src="https://kit.fontawesome.com/bd2b93a447.js" crossorigin="anonymous"></script>
     <link rel="shortcut icon" href="{{ asset('icon/favicon.ico') }}" type="image/x-icon">
@@ -39,7 +43,7 @@
         .leaflet-control.leaflet-ruler.dark,
         .right-control-group.leaflet-control.dark,
         .easy-button-container.leaflet-control.dark,
-        .leaflet-control-geocoder.dark {
+        .search-location.dark {
             filter: invert(100%) hue-rotate(180deg) brightness(95%) contrast(90%) !important;
         }
 
@@ -50,7 +54,7 @@
         .leaflet-control-attribution,
         .leaflet-control.leaflet-ruler,
         .easy-button-container.leaflet-control,
-        .leaflet-control-geocoder {
+        .search-location {
             transition: all 0.3s;
         }
 
@@ -94,13 +98,16 @@
             display: flex;
             flex-direction: column;
         }
+
         .right2-control-group {
             display: flex;
             gap: 4px;
         }
+
         .right2-control-group .leaflet-bar {
-            margin:0px;
+            margin: 0px;
         }
+
         /* Hapus margin default */
         .leaflet-left .leaflet-control {
             margin-left: 0;
@@ -110,8 +117,14 @@
         .leaflet-bar.leaflet-ruler {
             width: 100%;
         }
+
         .button-state .fa {
             transform: scale(1.2);
+        }
+
+        .search-location {
+            /* min-width: 100%; */
+            min-width: 200px;
         }
     </style>
 </head>
@@ -171,7 +184,7 @@
 
     <div id="map" class=" h-[calc(100vh-58px)]  w-100">
         <div id="basemapGallery"
-            class="hidden rounded-lg border-2 border-slate-300 absolute p-4 bg-white-100 top-16 left-14 z-[999] dark:bg-slate-900 dark:border-slate-700 dark:text-white-100">
+            class="hidden rounded-lg border-2 border-slate-300 absolute p-4 bg-white-100 top-24 left-[5.7rem] z-[999] dark:bg-slate-900 dark:border-slate-700 dark:text-white-100">
             <div id="basemapGalleryHeader" class="flex justify-between">
                 <h4 class="text-base font-bold">BaseMap Gallery</h4>
                 <button id="close-btn"><i class="fa-solid fa-x"></i></button>
@@ -297,7 +310,7 @@
             states: [{
                 stateName: 'point-control',
                 icon: 'fa-location-dot',
-                title: 'Toggle Point Selection',
+                title: 'point-control',
                 onClick: function() {
                     isEditable = !isEditable;
                     console.log(currentMarker);
@@ -377,69 +390,87 @@
             }]
         }).addTo(map);
 
-        // Search Control
-        var geocoder = L.Control.geocoder({
-            defaultMarkGeocode: false // Jangan tambahkan marker otomatis
-        }).addTo(map);
+        var myAPIKey = '380779a6b2b24a899c67e7b3d7df04dc';
+        const geocoder = L.control.addressSearch(myAPIKey, {
+            position: 'topleft',
+            className: 'search-location',
+            placeholder: "Cari Lokasi ... ",
+            resultCallback: (address) => {
+                if (currentMarker) {
+                    currentMarker.remove();
+                }
 
-        // Handle ketika lokasi ditemukan
-        geocoder.on('markgeocode', function(e) {
-            const searchLocation = e.geocode.center; // Koordinat hasil pencarian
+                if (currentLine) {
+                    map.removeLayer(currentLine);
+                }
 
-            // Hapus marker dan line sebelumnya jika ada
-            if (currentMarker) {
-                map.removeLayer(currentMarker);
-            }
-            if (currentLine) {
-                map.removeLayer(currentLine);
-            }
-            // Tambahkan marker untuk lokasi yang dicari
-            currentMarker = L.marker(searchLocation, {
-                    icon: userIcon
-                })
-                .addTo(map)
-                .bindPopup('Lokasi yang dicari')
-                .openPopup();
+                if (!address) {
+                    return;
+                }
 
-            // Hitung jarak ke semua titik
-            const nearestPoints = findNearestPoints(searchLocation);
+                var searchLocation = {
+                    lat: address.lat,
+                    lng: address.lon
+                }
+                console.log(searchLocation);
 
+                currentMarker = L.marker([address.lat, address.lon], {
+                        icon: userIcon
+                    }).addTo(map).bindPopup('Lokasi yang dicari')
+                    .openPopup();
 
-            // Simpan referensi line yang baru dibuat
-            if (nearestPoints && nearestPoints.length > 0) {
-                const nearestPoint = nearestPoints[0];
-                currentLine = L.polyline([
-                    searchLocation,
-                    [nearestPoint.spot.latitude, nearestPoint.spot
-                        .longitude
-                    ]
-                ], {
-                    color: '#2563eb',
-                    weight: 3,
-                    opacity: 0.8,
-                    dashArray: '10, 10'
-                }).addTo(map);
+                if (address.bbox && address.bbox.lat1 !== address.bbox.lat2 && address.bbox.lon1 !== address
+                    .bbox.lon2) {
+                    map.fitBounds([
+                        [address.bbox.lat1, address.bbox.lon1],
+                        [address.bbox.lat2, address.bbox.lon2]
+                    ], {
+                        padding: [100, 100]
+                    })
+                } else {
+                    map.setView([address.lat, address.lon], 12);
+                }
 
-                // Tambahkan popup dengan informasi jarak
-                currentLine.bindPopup(`
-                    <div class="text-center">
-                        <p class="font-bold">Jarak Terdekat: ${nearestPoint.distance.toFixed(2)} km</p>
-                        <p>Ke lokasi: ${nearestPoint.spot.description || 'Titik Terdekat'}</p>
-                    </div>
-                `).openPopup();
+                // Hitung jarak ke semua titik
+                const nearestPoints = findNearestPoints(searchLocation);
+                console.log(nearestPoints);
 
-                const bounds = L.latLngBounds([
-                    searchLocation,
-                    [nearestPoint.spot.latitude, nearestPoint.spot.longitude]
-                ]);
-                map.fitBounds(bounds, {
-                    padding: [50, 50]
-                });
+                if (nearestPoints && nearestPoints.length > 0) {
+                    const nearestPoint = nearestPoints[0];
+                    currentLine = L.polyline([
+                        searchLocation,
+                        [nearestPoint.spot.latitude, nearestPoint.spot
+                            .longitude
+                        ]
+                    ], {
+                        color: '#2563eb',
+                        weight: 3,
+                        opacity: 0.8,
+                        dashArray: '10, 10'
+                    }).addTo(map);
+
+                    // Tambahkan popup dengan informasi jarak
+                    currentLine.bindPopup(`
+                        <div class="text-center">
+                            <p class="font-bold">Jarak Terdekat: ${nearestPoint.distance.toFixed(2)} km</p>
+                            <p>Ke lokasi: ${nearestPoint.spot.description || 'Titik Terdekat'}</p>
+                        </div>
+                    `).openPopup();
+
+                    const bounds = L.latLngBounds([
+                        searchLocation,
+                        [nearestPoint.spot.latitude, nearestPoint.spot.longitude]
+                    ]);
+                    map.fitBounds(bounds, {
+                        padding: [50, 50]
+                    });
+                }
+            },
+            suggestionsCallback: (suggestions) => {
+                console.log(suggestions);
             }
         });
-
-
-
+        map.addControl(geocoder)
         homeBtn.button.classList.add('custom-control-button');
         layerControl.button.classList.add('custom-control-button');
 
@@ -550,7 +581,7 @@
             '.easy-button-container',
             '.leaflet-bar a',
             '.easy-button-button',
-            '.leaflet-control-geocoder'
+            '.search-location'
         ].join(',');
 
         darkBtn.addEventListener('click', function() {
