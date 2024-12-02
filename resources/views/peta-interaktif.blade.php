@@ -129,7 +129,7 @@
     </style>
 </head>
 
-<body class="font-inter">
+<body class="overflow-x-hidden font-inter">
 
     <header class="w-full px-12 py-2 transition-all duration-300 shadow-lg dark:bg-slate-900">
         <div class="flex items-center justify-between">
@@ -170,19 +170,17 @@
                     <i class="text-2xl transition-all duration-300 fa-solid fa-moon hover:text-sky-500"></i>
                     <i class="hidden text-2xl transition-all duration-300 fa-solid fa-sun hover:text-sky-500"></i>
                 </button>
-                <button id="dark-btn" class="dark:text-slate-100">
-                    <a href="#" class="text-2xl group "><i
-                            class="transition-all duration-300 fa-solid fa-list group-hover:text-sky-500"></i></a>
+                <button id="legenda-btn" class="text-2xl dark:text-slate-100 group">
+                    <i class="transition-all duration-300 fa-solid fa-list group-hover:text-sky-500"></i>
                 </button>
-                <button id="dark-btn" class="dark:text-slate-100">
-                    <a href="#" class="text-2xl group "><i
-                            class="transition-all duration-300 fa-solid fa-layer-group group-hover:text-sky-500"></i></a>
+                <button id="layer-btn" class="text-2xl dark:text-slate-100 group">
+                    <i class="transition-all duration-300 fa-solid fa-layer-group group-hover:text-sky-500"></i>
                 </button>
             </div>
         </div>
     </header>
 
-    <div id="map" class=" h-[calc(100vh-58px)]  w-100">
+    <div id="map" class=" h-[calc(100vh-58px)] w-100">
         <div id="basemapGallery"
             class="hidden rounded-lg border-2 border-slate-300 absolute p-4 bg-white-100 top-24 left-[5.7rem] z-[999] dark:bg-slate-900 dark:border-slate-700 dark:text-white-100">
             <div id="basemapGalleryHeader" class="flex justify-between">
@@ -222,6 +220,26 @@
         </div>
     </div>
 
+    <div id="legenda-modal"
+        class="w-[300px] transition-all duration-300 absolute top-16 right-2 border-2 border-slate-200 rounded-md z-[999999] h-[calc(100vh-70px)] bg-white-100 shadow-lg translate-x-[110%]">
+        <div class="flex items-center justify-between px-4 py-2 font-bold rounded-t-md bg-sky-900 text-slate-100">
+            <h4>Legenda</h4>
+            <button class="transition-all duration-300 close-modal-legenda hover:text-slate-300">
+                <i class="fa-solid fa-x"></i>
+            </button>
+        </div>
+        <div class="flex flex-col gap-4 p-4 content-legenda">
+            <div class="flex items-center gap-4 marker-ikan">
+                <img src="{{ asset('img/marker-icon/ikan.png') }}" alt="marker ikan" class="w-6">
+                <h4>Spot Ikan</h4>
+            </div>
+            <div class="flex items-center hidden gap-4 marker-user">
+                <img src="{{ asset('img/marker-icon/user.png') }}" alt="marker user" class="w-6">
+                <h4>Titik Lokasi</h4>
+            </div>
+        </div>
+    </div>
+
     <script src="{{ asset('js/func.js') }}"></script>
     <script src="{{ asset('js/icon.js') }}"></script>
     <script src="{{ asset('js/basemap.js') }}"></script>
@@ -241,6 +259,21 @@
         baseMaps['osm'].addTo(map);
     </script>
     {{-- Leaflet JS --}}
+
+
+    {{-- Legenda --}}
+    <script>
+        const legendaBtn = document.querySelector('#legenda-btn');
+
+        legendaBtn.addEventListener('click', function() {
+            document.querySelector('#legenda-modal').classList.toggle('translate-x-[110%]');
+        });
+
+        document.querySelector('.close-modal-legenda').addEventListener('click', function() {
+            document.querySelector('#legenda-modal').classList.add('translate-x-[110%]');
+        })
+    </script>
+    {{-- Legenda --}}
 
     {{-- Button Control --}}
     <script>
@@ -292,7 +325,6 @@
             }]
         }).addTo(map);
 
-
         // Base maps control
         var layerControl = L.easyButton({
             states: [{
@@ -315,9 +347,12 @@
                     isEditable = !isEditable;
                     console.log(currentMarker);
 
+
+
                     if (isEditable) {
                         mapClickHandler = function(e) {
-                            const lat = e.latlng.lat;
+
+                        const lat = e.latlng.lat;
                             const lng = e.latlng.lng;
 
                             // Hapus marker dan line sebelumnya jika ada
@@ -327,6 +362,8 @@
                             if (currentLine) {
                                 map.removeLayer(currentLine);
                             }
+
+
 
                             // Tambah marker baru
                             currentMarker = L.marker([lat, lng], {
@@ -364,6 +401,10 @@
                                     </div>
                                 `).openPopup();
                             }
+
+                            if (currentMarker) {
+                                document.querySelector('.marker-user').classList.remove('hidden');
+                            }
                         };
 
                         map.on('click', mapClickHandler);
@@ -378,6 +419,7 @@
                         if (currentMarker) {
                             map.removeLayer(currentMarker);
                             currentMarker = null;
+                            document.querySelector('.marker-user').classList.add('hidden');
                         }
                         if (currentLine) {
                             map.removeLayer(currentLine);
@@ -470,6 +512,7 @@
                 console.log(suggestions);
             }
         });
+
         map.addControl(geocoder)
         homeBtn.button.classList.add('custom-control-button');
         layerControl.button.classList.add('custom-control-button');
