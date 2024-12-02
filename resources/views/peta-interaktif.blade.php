@@ -221,7 +221,7 @@
     </div>
 
     <div id="legenda-modal"
-        class="w-[300px] transition-all duration-300 absolute top-16 right-2 border-2 border-slate-200 rounded-md z-[999999] h-[calc(100vh-70px)] bg-white-100 shadow-lg translate-x-[110%]">
+        class="w-[300px] hidden transition-all duration-300 absolute top-16 right-2 border-2 border-slate-200 rounded-md z-[999999] h-[calc(100vh-70px)] bg-white-100 shadow-lg translate-x-[110%]">
         <div class="flex items-center justify-between px-4 py-2 font-bold rounded-t-md bg-sky-900 text-slate-100">
             <h4>Legenda</h4>
             <button class="transition-all duration-300 close-modal-legenda hover:text-slate-300">
@@ -266,11 +266,13 @@
         const legendaBtn = document.querySelector('#legenda-btn');
 
         legendaBtn.addEventListener('click', function() {
+            document.querySelector('#legenda-modal').classList.toggle('hidden');
             document.querySelector('#legenda-modal').classList.toggle('translate-x-[110%]');
         });
 
         document.querySelector('.close-modal-legenda').addEventListener('click', function() {
             document.querySelector('#legenda-modal').classList.add('translate-x-[110%]');
+            document.querySelector('#legenda-modal').classList.add('hidden');
         })
     </script>
     {{-- Legenda --}}
@@ -352,7 +354,7 @@
                     if (isEditable) {
                         mapClickHandler = function(e) {
 
-                        const lat = e.latlng.lat;
+                            const lat = e.latlng.lat;
                             const lng = e.latlng.lng;
 
                             // Hapus marker dan line sebelumnya jika ada
@@ -438,8 +440,12 @@
             className: 'search-location',
             placeholder: "Cari Lokasi ... ",
             resultCallback: (address) => {
+
+                const markerUserElement = document.querySelector('.marker-user');
+
                 if (currentMarker) {
                     currentMarker.remove();
+                    markerUserElement?.classList.add('hidden');
                 }
 
                 if (currentLine) {
@@ -454,12 +460,14 @@
                     lat: address.lat,
                     lng: address.lon
                 }
-                console.log(searchLocation);
 
                 currentMarker = L.marker([address.lat, address.lon], {
                         icon: userIcon
                     }).addTo(map).bindPopup('Lokasi yang dicari')
                     .openPopup();
+
+                // Hapus class hidden ketika ada marker baru
+                markerUserElement?.classList.remove('hidden');
 
                 if (address.bbox && address.bbox.lat1 !== address.bbox.lat2 && address.bbox.lon1 !== address
                     .bbox.lon2) {
@@ -539,6 +547,23 @@
         topLeftControls.appendChild(leftControlContainer);
         topLeftControls.appendChild(rightControlContainer);
 
+        // Tambahkan fungsi untuk mengecek status marker saat inisialisasi
+        function checkInitialMarkerStatus() {
+            const markerUserElement = document.querySelector('.marker-user');
+            if (!currentMarker) {
+                markerUserElement?.classList.add('hidden');
+            } else {
+                markerUserElement?.classList.remove('hidden');
+            }
+        }
+
+        // Panggil fungsi saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', checkInitialMarkerStatus);
+    </script>
+    {{-- Button Control --}}
+
+    {{-- Fish Spot --}}
+    <script>
         // FishSpot
         var spots = @json($spots);
         console.log(spots);
@@ -577,7 +602,7 @@
 
         });
     </script>
-    {{-- Button Control --}}
+    {{-- Fish Spot --}}
 
     {{-- Basemap Setting --}}
     <script>
