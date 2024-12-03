@@ -221,7 +221,7 @@
     </div>
 
     <div id="legenda-modal"
-        class="w-[300px]  transition-all duration-300 absolute top-16 right-2 border-[3px] border-slate-200 rounded-md z-[999999] h-[calc(100vh-70px)] bg-white-100 shadow-lg dark:bg-slate-900 dark:border-slate-700 ">
+        class="fixed w-full md:w-[300px] transition-all duration-300 md:top-16 md:right-2 border-[3px] border-slate-200 rounded-md z-[999999] h-[370px] md:h-[calc(100vh-70px)] bg-white-100 shadow-lg dark:bg-slate-900 dark:border-slate-700 bottom-0  flex flex-col hidden opacity-0">
         <div
             class="flex items-center justify-between px-4 py-2 font-bold rounded-t bg-sky-900 text-slate-100 dark:bg-sky-950">
             <h4>Legenda</h4>
@@ -229,7 +229,8 @@
                 <i class="fa-solid fa-x"></i>
             </button>
         </div>
-        <div class="flex flex-col gap-4 p-4 transition-all duration-300 content-legenda dark:text-slate-100">
+        <div
+            class="flex flex-col h-full gap-4 px-6 py-4 overflow-y-auto transition-all duration-300 content-legenda dark:text-slate-100">
             <div class="flex items-center gap-4 marker-ikan">
                 <img src="{{ asset('img/marker-icon/ikan.png') }}" alt="marker ikan" class="w-6">
                 <h4>Spot Ikan</h4>
@@ -279,11 +280,11 @@
                 // Buka modal
                 legendaModal.classList.remove('hidden');
                 setTimeout(() => {
-                    legendaModal.classList.remove('translate-x-[110%]');
+                    legendaModal.classList.remove('opacity-0');
                 }, 100);
             } else {
                 // Tutup modal
-                legendaModal.classList.add('translate-x-[110%]');
+                legendaModal.classList.add('opacity-0');
                 setTimeout(() => {
                     legendaModal.classList.add('hidden');
                 }, 300);
@@ -291,7 +292,7 @@
         });
 
         document.querySelector('.close-modal-legenda').addEventListener('click', function() {
-            legendaModal.classList.add('translate-x-[110%]');
+            legendaModal.classList.add('opacity-0');
             setTimeout(() => {
                 legendaModal.classList.add('hidden');
             }, 300);
@@ -455,6 +456,18 @@
             }]
         }).addTo(map);
 
+        // Point control
+        var refreshControl = L.easyButton({
+            states: [{
+                stateName: 'point-control',
+                icon: 'fa-arrows-rotate',
+                title: 'point-control',
+                onClick: function() {
+                    location.reload()
+                }
+            }]
+        }).addTo(map);
+
         var myAPIKey = '380779a6b2b24a899c67e7b3d7df04dc';
         const geocoder = L.control.addressSearch(myAPIKey, {
             position: 'topleft',
@@ -564,6 +577,7 @@
         right2ControlContainer.appendChild(homeBtn.getContainer());
         right2ControlContainer.appendChild(layerControl.getContainer());
         right2ControlContainer.appendChild(pointControl.getContainer());
+        right2ControlContainer.appendChild(refreshControl.getContainer());
         right1ControlContainer.appendChild(geocoder.getContainer());
 
         // Tambahkan kedua container ke map
