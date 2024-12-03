@@ -221,14 +221,15 @@
     </div>
 
     <div id="legenda-modal"
-        class="w-[300px] hidden transition-all duration-300 absolute top-16 right-2 border-2 border-slate-200 rounded-md z-[999999] h-[calc(100vh-70px)] bg-white-100 shadow-lg translate-x-[110%]">
-        <div class="flex items-center justify-between px-4 py-2 font-bold rounded-t-md bg-sky-900 text-slate-100">
+        class="w-[300px]  transition-all duration-300 absolute top-16 right-2 border-[3px] border-slate-200 rounded-md z-[999999] h-[calc(100vh-70px)] bg-white-100 shadow-lg dark:bg-slate-900 dark:border-slate-700 ">
+        <div
+            class="flex items-center justify-between px-4 py-2 font-bold rounded-t bg-sky-900 text-slate-100 dark:bg-sky-950">
             <h4>Legenda</h4>
             <button class="transition-all duration-300 close-modal-legenda hover:text-slate-300">
                 <i class="fa-solid fa-x"></i>
             </button>
         </div>
-        <div class="flex flex-col gap-4 p-4 content-legenda">
+        <div class="flex flex-col gap-4 p-4 transition-all duration-300 content-legenda dark:text-slate-100">
             <div class="flex items-center gap-4 marker-ikan">
                 <img src="{{ asset('img/marker-icon/ikan.png') }}" alt="marker ikan" class="w-6">
                 <h4>Spot Ikan</h4>
@@ -236,6 +237,10 @@
             <div class="flex items-center hidden gap-4 marker-user">
                 <img src="{{ asset('img/marker-icon/user.png') }}" alt="marker user" class="w-6">
                 <h4>Titik Lokasi</h4>
+            </div>
+            <div class="flex items-center hidden gap-4 line">
+                <hr class="w-6 border-4 border-[#5c88eb]">
+                <h4>Jarak Lokasi</h4>
             </div>
         </div>
     </div>
@@ -263,16 +268,33 @@
 
     {{-- Legenda --}}
     <script>
+        function sleep(time) {
+            return new Promise((resolve) => setTimeout(resolve, time));
+        }
         const legendaBtn = document.querySelector('#legenda-btn');
+        const legendaModal = document.querySelector('#legenda-modal');
 
         legendaBtn.addEventListener('click', function() {
-            document.querySelector('#legenda-modal').classList.toggle('hidden');
-            document.querySelector('#legenda-modal').classList.toggle('translate-x-[110%]');
+            if (legendaModal.classList.contains('hidden')) {
+                // Buka modal
+                legendaModal.classList.remove('hidden');
+                setTimeout(() => {
+                    legendaModal.classList.remove('translate-x-[110%]');
+                }, 100);
+            } else {
+                // Tutup modal
+                legendaModal.classList.add('translate-x-[110%]');
+                setTimeout(() => {
+                    legendaModal.classList.add('hidden');
+                }, 300);
+            }
         });
 
         document.querySelector('.close-modal-legenda').addEventListener('click', function() {
-            document.querySelector('#legenda-modal').classList.add('translate-x-[110%]');
-            document.querySelector('#legenda-modal').classList.add('hidden');
+            legendaModal.classList.add('translate-x-[110%]');
+            setTimeout(() => {
+                legendaModal.classList.add('hidden');
+            }, 300);
         })
     </script>
     {{-- Legenda --}}
@@ -350,7 +372,6 @@
                     console.log(currentMarker);
 
 
-
                     if (isEditable) {
                         mapClickHandler = function(e) {
 
@@ -364,8 +385,6 @@
                             if (currentLine) {
                                 map.removeLayer(currentLine);
                             }
-
-
 
                             // Tambah marker baru
                             currentMarker = L.marker([lat, lng], {
@@ -406,6 +425,7 @@
 
                             if (currentMarker) {
                                 document.querySelector('.marker-user').classList.remove('hidden');
+                                document.querySelector('.line').classList.remove('hidden');
                             }
                         };
 
@@ -422,6 +442,7 @@
                             map.removeLayer(currentMarker);
                             currentMarker = null;
                             document.querySelector('.marker-user').classList.add('hidden');
+                            document.querySelector('.line').classList.add('hidden');
                         }
                         if (currentLine) {
                             map.removeLayer(currentLine);
@@ -442,10 +463,12 @@
             resultCallback: (address) => {
 
                 const markerUserElement = document.querySelector('.marker-user');
+                const lineElement = document.querySelector('.line');
 
                 if (currentMarker) {
                     currentMarker.remove();
                     markerUserElement?.classList.add('hidden');
+                    lineElement?.classList.add('hidden');
                 }
 
                 if (currentLine) {
@@ -468,6 +491,7 @@
 
                 // Hapus class hidden ketika ada marker baru
                 markerUserElement?.classList.remove('hidden');
+                lineElement?.classList.remove('hidden');
 
                 if (address.bbox && address.bbox.lat1 !== address.bbox.lat2 && address.bbox.lon1 !== address
                     .bbox.lon2) {
@@ -550,10 +574,15 @@
         // Tambahkan fungsi untuk mengecek status marker saat inisialisasi
         function checkInitialMarkerStatus() {
             const markerUserElement = document.querySelector('.marker-user');
+            const lineElement = document.querySelector('.line');
             if (!currentMarker) {
                 markerUserElement?.classList.add('hidden');
+                lineElement?.classList.add('hidden');
+                // alert('hello')
             } else {
                 markerUserElement?.classList.remove('hidden');
+                lineElement?.classList.remove('hidden');
+                alert('hilang')
             }
         }
 
