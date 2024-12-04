@@ -38,10 +38,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         // Buat 5 spot dengan status ditunda
-        SpotIkan::factory()->count(15)->ditunda()->create();
-
-        // Buat 5 spot dengan status disetujui
-        SpotIkan::factory()->count(5)->disetujui()->create();
+        SpotIkan::factory()->count(25)->ditunda()->create();
 
         // Buat 5 spot dengan status ditolak
         SpotIkan::factory()->count(5)->ditolak()->create();

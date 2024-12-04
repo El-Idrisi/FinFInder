@@ -126,6 +126,10 @@
             /* min-width: 100%; */
             min-width: 200px;
         }
+
+        .checkbox-xl {
+            transform: scale(1.5)
+        }
     </style>
 </head>
 
@@ -246,13 +250,109 @@
         </div>
     </div>
 
+    {{-- layers modal --}}
+    <div id="layers-modal"
+        class="fixed w-full md:w-[300px] transition-all duration-300 md:top-16 md:right-2 border-[3px] border-slate-200 rounded-md z-[999999] h-[370px] md:h-[calc(100vh-70px)] bg-white-100 shadow-lg dark:bg-slate-900 dark:border-slate-700 bottom-0 flex flex-col ">
+        <div
+            class="flex items-center justify-between px-4 py-2 font-bold rounded-t bg-sky-900 text-slate-100 dark:bg-sky-950">
+            <h4>Layers</h4>
+            <button class="transition-all duration-300 close-modal-layers hover:text-slate-300">
+                <i class="fa-solid fa-x"></i>
+            </button>
+        </div>
+        <div
+            class="flex flex-col h-full gap-4 px-4 py-4 overflow-y-auto transition-all duration-300 content-layers dark:text-slate-100">
+
+            <!-- Accordion Item 1 -->
+            <div class="">
+                <button onclick="handleAccordionClick(event, 1)"
+                    class="flex items-center w-full gap-4 p-2 transition-all duration-300 rounded text-slate-800 hover:bg-slate-200">
+                    <i id="icon-1" class="transition-all duration-300 fa-solid fa-caret-right"></i>
+                    <div class="flex items-center gap-2" onclick="event.stopPropagation()">
+                        <input type="checkbox" name="allFish" id="allFish" checked class="checkbox-xl"
+                            onchange="toggleAllFish(this)">
+                        <label for="allFish">Semua Ikan</label>
+                    </div>
+                </button>
+                <div id="content-1" class="overflow-hidden transition-all duration-300 ease-in-out max-h-0">
+                    <div class="flex flex-col pl-2">
+                        @foreach ($fishtypes as $ikan)
+                            <div class="flex items-center justify-between gap-2 p-2 pl-8 rounded hover:bg-slate-100">
+                                <div class="">
+                                    <input type="checkbox" name="ikan-{{ $ikan->nama }}"
+                                        id="ikan-{{ $ikan->nama }}" checked class="checkbox-xl fish-type-checkbox"
+                                        onchange="updateAllFishCheckbox()">
+                                    <label for="ikan-{{ $ikan->nama }}">{{ $ikan->nama }}</label>
+                                </div>
+                                <button onclick="selectOnlyThis('{{ $ikan->nama }}')"
+                                    class="px-2 py-1 text-gray-500 transition-all duration-300 rounded hover:text-gray-900 hover:bg-slate-300">HANYA</button>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
     <script src="{{ asset('js/func.js') }}"></script>
     <script src="{{ asset('js/icon.js') }}"></script>
     <script src="{{ asset('js/basemap.js') }}"></script>
 
+    <script>
+        // Fungsi untuk menangani klik pada accordion
+        function handleAccordionClick(event, index) {
+            // Jika yang diklik adalah checkbox atau labelnya, jangan trigger accordion
+            if (event.target.type === 'checkbox' || event.target.tagName === 'LABEL') {
+                return;
+            }
+
+            toggleAccordion(index);
+        }
+
+        function toggleAccordion(index) {
+            const content = document.getElementById(`content-${index}`);
+            const icon = document.getElementById(`icon-${index}`);
+            console.log(icon);
+
+
+            if (content.style.maxHeight && content.style.maxHeight !== '0px') {
+                content.style.maxHeight = '0';
+                icon.style.transform = 'rotate(0deg)';
+            } else {
+                content.style.maxHeight = content.scrollHeight + 'px';
+                icon.style.transform = 'rotate(90deg)';
+            }
+        }
+
+        // Fungsi untuk toggle semua checkbox ikan
+        function toggleAllFish(checkbox) {
+            const fishCheckboxes = document.querySelectorAll('.fish-type-checkbox');
+            fishCheckboxes.forEach(fishCheckbox => {
+                fishCheckbox.checked = checkbox.checked;
+            });
+        }
+
+        function updateAllFishCheckbox() {
+            const allFishCheckbox = document.getElementById('allFish');
+            const fishCheckboxes = document.querySelectorAll('.fish-type-checkbox');
+            const allChecked = Array.from(fishCheckboxes).every(checkbox => checkbox.checked);
+            allFishCheckbox.checked = allChecked;
+        }
+
+        // Fungsi untuk memilih hanya satu jenis ikan
+        function selectOnlyThis(fishName) {
+            const fishCheckboxes = document.querySelectorAll('.fish-type-checkbox');
+            fishCheckboxes.forEach(checkbox => {
+                checkbox.checked = checkbox.id === `ikan-${fishName}`;
+            });
+            updateAllFishCheckbox();
+        }
+    </script>
+
     {{-- Leaflet JS --}}
     <script>
-        var map = L.map('map').setView([1.169060, 102.432404], 10);
+        var map = L.map('map').setView([1.2769531505264644, 102.97046260053546], 9);
         map.on('popupopen', function(e) {
             if (document.body.classList.contains('dark')) {
                 e.popup.getElement().classList.add('dark');
@@ -342,9 +442,9 @@
             states: [{
                 stateName: 'home', // name the state
                 icon: 'fa-home', // and define its properties
-                title: 'home', // like its title
+                title: 'Home', // like its title
                 onClick: function(btn, map) { // and its callback
-                    map.setView([1.169060, 102.432404], 10);
+                    map.setView([1.2769531505264644, 102.97046260053546], 9);
                     btn.state('home'); // change state on click!
                 }
             }]
@@ -355,7 +455,7 @@
             states: [{
                 stateName: 'basemap', // name the state
                 icon: 'fa-map', // and define its properties
-                title: 'basemap', // like its title
+                title: 'Basemap', // like its title
                 onClick: function() { // and its callback
                     document.querySelector('#basemapGallery').classList.toggle('hidden');
                 }
@@ -367,7 +467,7 @@
             states: [{
                 stateName: 'point-control',
                 icon: 'fa-location-dot',
-                title: 'point-control',
+                title: 'Titik Lokasi',
                 onClick: function() {
                     isEditable = !isEditable;
                     console.log(currentMarker);
@@ -461,7 +561,7 @@
             states: [{
                 stateName: 'point-control',
                 icon: 'fa-arrows-rotate',
-                title: 'point-control',
+                title: 'Refesh Control',
                 onClick: function() {
                     location.reload()
                 }
