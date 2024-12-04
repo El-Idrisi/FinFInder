@@ -63,3 +63,7 @@ function showNearestPoints(searchLocation, nearestPoints) {
     map.fitBounds(bounds, { padding: [50, 50] });
 
 }
+
+function sleep(time) {
+    return new Promise((resolve) => setTimeout(resolve, time));
+}

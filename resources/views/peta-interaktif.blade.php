@@ -177,7 +177,7 @@
                 <button id="legenda-btn" class="text-2xl dark:text-slate-100 group">
                     <i class="transition-all duration-300 fa-solid fa-list group-hover:text-sky-500"></i>
                 </button>
-                <button id="layer-btn" class="text-2xl dark:text-slate-100 group">
+                <button id="layers-btn" class="text-2xl dark:text-slate-100 group">
                     <i class="transition-all duration-300 fa-solid fa-layer-group group-hover:text-sky-500"></i>
                 </button>
             </div>
@@ -252,7 +252,7 @@
 
     {{-- layers modal --}}
     <div id="layers-modal"
-        class="fixed w-full md:w-[300px] transition-all duration-300 md:top-16 md:right-2 border-[3px] border-slate-200 rounded-md z-[999999] h-[370px] md:h-[calc(100vh-70px)] bg-white-100 shadow-lg dark:bg-slate-900 dark:border-slate-700 bottom-0 flex flex-col ">
+        class="fixed w-full md:w-[300px] transition-all duration-300 md:top-16 md:right-2 border-[3px] border-slate-200 rounded-md z-[999999] h-[370px] md:h-[calc(100vh-70px)] bg-white-100 shadow-lg dark:bg-slate-900 dark:border-slate-700 bottom-0 flex flex-col hidden opacity-0">
         <div
             class="flex items-center justify-between px-4 py-2 font-bold rounded-t bg-sky-900 text-slate-100 dark:bg-sky-950">
             <h4>Layers</h4>
@@ -350,38 +350,29 @@
         }
     </script>
 
-    {{-- Leaflet JS --}}
-    <script>
-        var map = L.map('map').setView([1.2769531505264644, 102.97046260053546], 9);
-        map.on('popupopen', function(e) {
-            if (document.body.classList.contains('dark')) {
-                e.popup.getElement().classList.add('dark');
-            } else {
-                e.popup.getElement().classList.remove('dark');
-            }
-        });
 
-        // default base map
-        baseMaps['osm'].addTo(map);
+    <script>
+        const legendaBtn = document.querySelector('#legenda-btn');
+        const legendaModal = document.querySelector('#legenda-modal');
+        const layersBtn = document.querySelector('#layers-btn');
+        const layersModal = document.querySelector('#layers-modal');
     </script>
-    {{-- Leaflet JS --}}
 
 
     {{-- Legenda --}}
     <script>
-        function sleep(time) {
-            return new Promise((resolve) => setTimeout(resolve, time));
-        }
-        const legendaBtn = document.querySelector('#legenda-btn');
-        const legendaModal = document.querySelector('#legenda-modal');
-
         legendaBtn.addEventListener('click', function() {
             if (legendaModal.classList.contains('hidden')) {
                 // Buka modal
+
                 legendaModal.classList.remove('hidden');
+                layersModal.classList.add('opacity-0');
+                setTimeout(() => {
+                    layersModal.classList.add('hidden');
+                }, 100);
                 setTimeout(() => {
                     legendaModal.classList.remove('opacity-0');
-                }, 100);
+                }, 200);
             } else {
                 // Tutup modal
                 legendaModal.classList.add('opacity-0');
@@ -399,6 +390,54 @@
         })
     </script>
     {{-- Legenda --}}
+
+    {{-- Layers --}}
+    <script>
+        layersBtn.addEventListener('click', function() {
+            if (layersModal.classList.contains('hidden')) {
+                // Buka modal
+                layersModal.classList.remove('hidden');
+                legendaModal.classList.add('opacity-0');
+                setTimeout(() => {
+                    legendaModal.classList.add('hidden');
+                }, 100);
+                setTimeout(() => {
+                    layersModal.classList.remove('opacity-0');
+                }, 200);
+            } else {
+                // Tutup modal
+                layersModal.classList.add('opacity-0');
+                setTimeout(() => {
+                    layersModal.classList.add('hidden');
+                }, 300);
+            }
+        });
+
+        document.querySelector('.close-modal-layers').addEventListener('click', function() {
+            layersModal.classList.add('opacity-0');
+            setTimeout(() => {
+                layersModal.classList.add('hidden');
+            }, 300);
+        })
+    </script>
+    {{-- Layers --}}
+
+
+    {{-- Leaflet JS --}}
+    <script>
+        var map = L.map('map').setView([1.2682255942978014, 102.54852677808039], 9);
+        map.on('popupopen', function(e) {
+            if (document.body.classList.contains('dark')) {
+                e.popup.getElement().classList.add('dark');
+            } else {
+                e.popup.getElement().classList.remove('dark');
+            }
+        });
+
+        // default base map
+        baseMaps['osm'].addTo(map);
+    </script>
+    {{-- Leaflet JS --}}
 
     {{-- Button Control --}}
     <script>
@@ -444,7 +483,7 @@
                 icon: 'fa-home', // and define its properties
                 title: 'Home', // like its title
                 onClick: function(btn, map) { // and its callback
-                    map.setView([1.2769531505264644, 102.97046260053546], 9);
+                    map.setView([1.2682255942978014, 102.54852677808039], 9);
                     btn.state('home'); // change state on click!
                 }
             }]
