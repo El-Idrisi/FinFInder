@@ -7,15 +7,15 @@
 }
 
 /* Style Hambuger */
-.hamburger-active>span:nth-child(1) {
+.hamburger-active > span:nth-child(1) {
     @apply origin-top-left rotate-45;
 }
 
-.hamburger-active>span:nth-child(2) {
+.hamburger-active > span:nth-child(2) {
     @apply scale-0;
 }
 
-.hamburger-active>span:nth-child(3) {
+.hamburger-active > span:nth-child(3) {
     @apply origin-bottom-left -rotate-45;
 }
 /* Style Hambuger */
@@ -24,7 +24,6 @@
     @apply fixed z-[9999] bg-white bg-opacity-70 backdrop-blur-sm text-slate-900;
     box-shadow: inset 0 -1px 0 0 rgba(0, 0, 0, 0.2);
 }
-
 
 /* Styles Navbar Ketika Belum Di Scroll */
 header.navbar-home a.group.active {
@@ -42,7 +41,6 @@ header.navbar-home a.group.active:hover {
 header.navbar-home a.group.active:hover hr {
     @apply border-slate-900;
 }
-
 
 header.navbar-home:not(.navbar-fixed) a.group.active {
     @apply font-bold text-slate-900;
@@ -86,7 +84,8 @@ header.navbar-home:not(.navbar-fixed) .group:hover hr {
 }
 
 .shadow-manual {
-    box-shadow: -2px 0px 16px 4px rgba(0, 0, 0, 0.1), 8px 0px 16px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: -2px 0px 16px 4px rgba(0, 0, 0, 0.1),
+        8px 0px 16px 4px rgba(0, 0, 0, 0.1);
 }
 
 .pass:has([data-pass]:focus) {
@@ -101,7 +100,7 @@ header.navbar-home:not(.navbar-fixed) .group:hover hr {
 }
 
 .timeline::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     bottom: 0;
@@ -121,9 +120,8 @@ header.navbar-home:not(.navbar-fixed) .group:hover hr {
 .accor {
     max-height: 100%;
     overflow: hidden;
-    transition: max-height .5s ease-out;
+    transition: max-height 0.5s ease-out;
 }
-
 
 .accor:not(.active) {
     max-height: 0;
@@ -177,7 +175,7 @@ header.navbar-home:not(.navbar-fixed) .group:hover hr {
 }
 
 .tab-active {
-    @apply text-sky-500
+    @apply text-sky-500;
 }
 
 /* Style Select 2 JS */
@@ -193,12 +191,15 @@ header.navbar-home:not(.navbar-fixed) .group:hover hr {
     padding: 2px 8px;
 }
 
-.select2-container--default.select2-container--focus .select2-selection--multiple {
+.select2-container--default.select2-container--focus
+    .select2-selection--multiple {
     border-color: #3b82f6 !important;
     outline: 0;
 }
 
-.select2-container--default .select2-selection--multiple .select2-selection__choice {
+.select2-container--default
+    .select2-selection--multiple
+    .select2-selection__choice {
     background-color: transparent;
     border: 2px solid #0ea5e9;
     border-radius: 4px;
@@ -207,12 +208,17 @@ header.navbar-home:not(.navbar-fixed) .group:hover hr {
     transition: all 0.3s ease;
 }
 
-.select2-container--default .select2-selection--multiple .select2-selection__choice:hover {
+.select2-container--default
+    .select2-selection--multiple
+    .select2-selection__choice:hover {
     background-color: #e0f2fe;
     border: 2px solid #0369a1;
 }
 
-.select2-container--default .select2-selection--multiple .select2-selection__choice:hover .select2-selection__choice__remove {
+.select2-container--default
+    .select2-selection--multiple
+    .select2-selection__choice:hover
+    .select2-selection__choice__remove {
     border-right: 2px solid #0369a1 !important;
 }
 
@@ -224,37 +230,36 @@ header.navbar-home:not(.navbar-fixed) .group:hover hr {
 }
 /* Style Select 2 JS */
 
-
 /* Style For Table */
 tbody tr:nth-child(even) {
-    @apply bg-sky-100
+    @apply bg-sky-100;
 }
 
 tbody tr:nth-child(odd) {
-    @apply bg-white
+    @apply bg-white;
 }
 
 tbody tr:last-child td:first-child {
-    @apply rounded-bl-md
+    @apply rounded-bl-md;
 }
 
 tbody tr:last-child td:last-child {
-    @apply rounded-br-md
+    @apply rounded-br-md;
 }
 
-thead tr th, tbody tr td {
-    @apply px-4
+thead tr th,
+tbody tr td {
+    @apply px-4;
 }
 
 tbody tr:nth-child(odd):hover {
-    @apply bg-slate-100
+    @apply bg-slate-100;
 }
 
 tbody tr:nth-child(even):hover {
-    @apply bg-sky-200
+    @apply bg-sky-200;
 }
 /* Style For Table */
-
 
 /* Style For LeaftLet */
 .leaflet-popup-content {
@@ -266,12 +271,58 @@ tbody tr:nth-child(even):hover {
 }
 /* Style For LeaftLet */
 
-
 /* Style Bg-ZigZag */
 .bg-zigzag {
     background-color: #f0f9ff;
     opacity: 0.8;
-    background-image: linear-gradient(30deg, #0ea5e9 12%, transparent 12.5%, transparent 87%, #0ea5e9 87.5%, #0ea5e9), linear-gradient(150deg, #0ea5e9 12%, transparent 12.5%, transparent 87%, #0ea5e9 87.5%, #0ea5e9), linear-gradient(30deg, #0ea5e9 12%, transparent 12.5%, transparent 87%, #0ea5e9 87.5%, #0ea5e9), linear-gradient(150deg, #0ea5e9 12%, transparent 12.5%, transparent 87%, #0ea5e9 87.5%, #0ea5e9), linear-gradient(60deg, #0ea5e977 25%, transparent 25.5%, transparent 75%, #0ea5e977 75%, #0ea5e977), linear-gradient(60deg, #0ea5e977 25%, transparent 25.5%, transparent 75%, #0ea5e977 75%, #0ea5e977);
+    background-image: linear-gradient(
+            30deg,
+            #0ea5e9 12%,
+            transparent 12.5%,
+            transparent 87%,
+            #0ea5e9 87.5%,
+            #0ea5e9
+        ),
+        linear-gradient(
+            150deg,
+            #0ea5e9 12%,
+            transparent 12.5%,
+            transparent 87%,
+            #0ea5e9 87.5%,
+            #0ea5e9
+        ),
+        linear-gradient(
+            30deg,
+            #0ea5e9 12%,
+            transparent 12.5%,
+            transparent 87%,
+            #0ea5e9 87.5%,
+            #0ea5e9
+        ),
+        linear-gradient(
+            150deg,
+            #0ea5e9 12%,
+            transparent 12.5%,
+            transparent 87%,
+            #0ea5e9 87.5%,
+            #0ea5e9
+        ),
+        linear-gradient(
+            60deg,
+            #0ea5e977 25%,
+            transparent 25.5%,
+            transparent 75%,
+            #0ea5e977 75%,
+            #0ea5e977
+        ),
+        linear-gradient(
+            60deg,
+            #0ea5e977 25%,
+            transparent 25.5%,
+            transparent 75%,
+            #0ea5e977 75%,
+            #0ea5e977
+        );
     background-size: 80px 140px;
     background-position: 0 0, 0 0, 40px 70px, 40px 70px, 0 0, 40px 70px;
 
@@ -279,29 +330,28 @@ tbody tr:nth-child(even):hover {
 }
 /* Style Bg-ZigZag */
 
-
 /* Style DataTable */
 .dataTables_filter {
-    @apply bg-gray-200 pl-2 rounded-md
+    @apply bg-gray-200 pl-2 rounded-md;
 }
 
 .dataTables_filter label input {
-    @apply !bg-white
+    @apply !bg-white;
 }
 
 .dataTables_paginate {
-    @apply flex justify-end items-center
+    @apply flex justify-end items-center;
 }
 
-.dataTables_paginate.paging_simple_numbers span{
-    @apply flex flex-wrap justify-center
+.dataTables_paginate.paging_simple_numbers span {
+    @apply flex flex-wrap justify-center;
 }
 
 .paginate_button {
-    @apply w-10 h-10 !flex justify-center items-center !rounded-none !border !border-slate-200 transition-all !m-0 border-r-0 flex-col
+    @apply w-10 h-10 !flex justify-center items-center !rounded-none !border !border-slate-200 transition-all !m-0 border-r-0 flex-col;
 }
 
-table.dataTable.no-footer+.dataTables_paginate .paginate_button:hover,
+table.dataTable.no-footer + .dataTables_paginate .paginate_button:hover,
 .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
     background: #e2e8f0 !important;
     color: #374151 !important;
@@ -319,11 +369,11 @@ table.dataTable.no-footer+.dataTables_paginate .paginate_button:hover,
     border-color: #0284c7 !important;
 }
 
-.dataTables_filter label{
+.dataTables_filter label {
     @apply flex items-center;
 }
 
-.dataTables_filter label input{
+.dataTables_filter label input {
     @apply w-full;
 }
 /* Style DataTable */
@@ -333,10 +383,10 @@ table.dataTable.no-footer+.dataTables_paginate .paginate_button:hover,
 }
 
 .text-tiny {
-    font-size: .7em;
+    font-size: 0.7em;
 }
 .text-small {
-    font-size: .85em;
+    font-size: 0.85em;
 }
 .text-big {
     font-size: 1.4em;
@@ -346,62 +396,53 @@ table.dataTable.no-footer+.dataTables_paginate .paginate_button:hover,
 }
 
 .ck-content ul li {
-    @apply list-disc list-inside
+    @apply list-disc list-inside;
 }
-.ck-content ol li{
-    @apply list-decimal list-inside
+.ck-content ol li {
+    @apply list-decimal list-inside;
 }
 
-.ck-content ul li *, .ck-content ol li *{
-    @apply !inline
+.ck-content ul li *,
+.ck-content ol li * {
+    @apply !inline;
 }
 
 .animate-shadow-pulse {
     animation: shadow-pulse 1.5s infinite ease;
 }
 
-.coord-display.leaflet-control
-{
-    @apply lg:hidden
+.coord-display.leaflet-control {
+    @apply lg:hidden;
 }
 
-.content-legenda::-webkit-scrollbar, .content-layers::-webkit-scrollbar {
+.content-legenda::-webkit-scrollbar,
+.content-layers::-webkit-scrollbar {
     width: 10px;
 }
 
-.content-legenda::-webkit-scrollbar-thumb, .content-layers::-webkit-scrollbar-thumb {
-    background: #dbdbdb;
+.content-legenda::-webkit-scrollbar-thumb,
+.content-layers::-webkit-scrollbar-thumb {
+    @apply bg-slate-300 dark:bg-slate-600;
     border-radius: 5px;
     transition: all 300ms;
 }
-.content-legenda::-webkit-scrollbar-thumb:hover, .content-layers::-webkit-scrollbar-thumb:hover {
+.content-legenda::-webkit-scrollbar-thumb:hover,
+.content-layers::-webkit-scrollbar-thumb:hover {
     background: #c5c5c5;
 }
 /* KeyFrame */
 @keyframes moveZigzag {
     from {
-        background-position:
-        0 0,
-        0 0,
-        40px 70px,
-        40px 70px,
-        0 0,
-        40px 70px;
+        background-position: 0 0, 0 0, 40px 70px, 40px 70px, 0 0, 40px 70px;
     }
 
     to {
-        background-position:
-        0 -140px,
-        0 -140px,
-        40px -70px,
-        40px -70px,
-        0 -140px,
-        40px -70px;
+        background-position: 0 -140px, 0 -140px, 40px -70px, 40px -70px,
+            0 -140px, 40px -70px;
     }
 }
 
 @keyframes motion {
-
     0%,
     100% {
         transform: translateY(0) rotate(0deg);
@@ -415,7 +456,6 @@ table.dataTable.no-footer+.dataTables_paginate .paginate_button:hover,
         transform: translateY(8px) rotate(-1deg);
     }
 }
-
 
 @keyframes pulse-shadow {
     0% {
@@ -449,7 +489,6 @@ table.dataTable.no-footer+.dataTables_paginate .paginate_button:hover,
 }
 /* KeyFrame */
 
-
 /* Custom Responsive */
 @media (max-width: 1024px) {
     .timeline::before {
@@ -459,7 +498,7 @@ table.dataTable.no-footer+.dataTables_paginate .paginate_button:hover,
 
 @media screen and (max-width: 768px) {
     .img-bullet {
-        left: 10px
+        left: 10px;
     }
 }
 /* Custom Responsive */

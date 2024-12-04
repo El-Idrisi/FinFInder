@@ -266,7 +266,7 @@
             <!-- Accordion Item 1 -->
             <div class="">
                 <button onclick="handleAccordionClick(event, 1)"
-                    class="flex items-center w-full gap-4 p-2 transition-all duration-300 rounded text-slate-800 hover:bg-slate-200">
+                    class="flex items-center w-full gap-4 p-2 transition-all duration-300 rounded hover:bg-slate-200 dark:hover:bg-slate-800">
                     <i id="icon-1" class="transition-all duration-300 fa-solid fa-caret-right"></i>
                     <div class="flex items-center gap-2" onclick="event.stopPropagation()">
                         <input type="checkbox" name="allFish" id="allFish" checked class="checkbox-xl"
@@ -277,7 +277,7 @@
                 <div id="content-1" class="overflow-hidden transition-all duration-300 ease-in-out max-h-0">
                     <div class="flex flex-col pl-2">
                         @foreach ($fishtypes as $ikan)
-                            <div class="flex items-center justify-between gap-2 p-2 pl-8 rounded hover:bg-slate-100">
+                            <div class="flex items-center justify-between gap-2 p-2 pl-8 rounded hover:bg-slate-100 dark:hover:bg-slate-700">
                                 <div class="">
                                     <input type="checkbox" name="ikan-{{ $ikan->nama }}"
                                         id="ikan-{{ $ikan->nama }}" checked class="checkbox-xl fish-type-checkbox"
@@ -285,7 +285,7 @@
                                     <label for="ikan-{{ $ikan->nama }}">{{ $ikan->nama }}</label>
                                 </div>
                                 <button onclick="selectOnlyThis('{{ $ikan->nama }}')"
-                                    class="px-2 py-1 text-gray-500 transition-all duration-300 rounded hover:text-gray-900 hover:bg-slate-300">HANYA</button>
+                                    class="px-2 py-1 text-gray-500 transition-all duration-300 rounded hover:text-gray-900 hover:bg-slate-300 dark:text-slate-300 dark:hover:bg-slate-500">HANYA</button>
                             </div>
                         @endforeach
                     </div>
@@ -372,7 +372,7 @@
                 }, 100);
                 setTimeout(() => {
                     legendaModal.classList.remove('opacity-0');
-                }, 200);
+                }, layersModal.classList.contains('hidden')? 100:200);
             } else {
                 // Tutup modal
                 legendaModal.classList.add('opacity-0');
@@ -403,7 +403,7 @@
                 }, 100);
                 setTimeout(() => {
                     layersModal.classList.remove('opacity-0');
-                }, 200);
+                }, legendaModal.classList.contains('hidden')? 100:200);
             } else {
                 // Tutup modal
                 layersModal.classList.add('opacity-0');
@@ -425,7 +425,7 @@
 
     {{-- Leaflet JS --}}
     <script>
-        var map = L.map('map').setView([1.2682255942978014, 102.54852677808039], 9);
+        var map = L.map('map').setView([1.0325711837093985, 102.62127433486428], 9);
         map.on('popupopen', function(e) {
             if (document.body.classList.contains('dark')) {
                 e.popup.getElement().classList.add('dark');
@@ -483,7 +483,7 @@
                 icon: 'fa-home', // and define its properties
                 title: 'Home', // like its title
                 onClick: function(btn, map) { // and its callback
-                    map.setView([1.2682255942978014, 102.54852677808039], 9);
+                    map.setView([1.0325711837093985, 102.62127433486428], 9);
                     btn.state('home'); // change state on click!
                 }
             }]
@@ -591,18 +591,6 @@
 
                         pointControl.button.style.backgroundColor = '';
                     }
-                }
-            }]
-        }).addTo(map);
-
-        // Point control
-        var refreshControl = L.easyButton({
-            states: [{
-                stateName: 'point-control',
-                icon: 'fa-arrows-rotate',
-                title: 'Refesh Control',
-                onClick: function() {
-                    location.reload()
                 }
             }]
         }).addTo(map);
@@ -716,7 +704,6 @@
         right2ControlContainer.appendChild(homeBtn.getContainer());
         right2ControlContainer.appendChild(layerControl.getContainer());
         right2ControlContainer.appendChild(pointControl.getContainer());
-        right2ControlContainer.appendChild(refreshControl.getContainer());
         right1ControlContainer.appendChild(geocoder.getContainer());
 
         // Tambahkan kedua container ke map
