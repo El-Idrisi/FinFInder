@@ -1,40 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.map')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
-        rel="stylesheet">
-
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/gokertanrisever/leaflet-ruler@master/src/leaflet-ruler.css"
-        integrity="sha384-P9DABSdtEY/XDbEInD3q+PlL+BjqPCXGcF8EkhtKSfSTr/dS5PBKa9+/PMkW2xsY" crossorigin="anonymous" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.css">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
-    <link rel="stylesheet"
-        href="https://unpkg.com/@geoapify/leaflet-address-search-plugin@^1/dist/L.Control.GeoapifyAddressSearch.min.css" />
-
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-    <script src="https://cdn.jsdelivr.net/gh/gokertanrisever/leaflet-ruler@master/src/leaflet-ruler.js"
-        integrity="sha384-8SqKZR7V8uOetpjjbcNJHvwuHpb074WS0UXjCLhzfJUqYn3B/uWx1WVv5mwRp1mV" crossorigin="anonymous">
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.js"></script>
-    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
-    <script src="https://unpkg.com/@geoapify/leaflet-address-search-plugin@^1/dist/L.Control.GeoapifyAddressSearch.min.js">
-    </script>
-
-    <script src="https://kit.fontawesome.com/bd2b93a447.js" crossorigin="anonymous"></script>
-    <link rel="shortcut icon" href="{{ asset('icon/favicon.ico') }}" type="image/x-icon">
-    <link rel="stylesheet" href="{{ asset('css/map-interaktif.css') }}">
-    @vite('resources/css/app.css')
-    <title>FinFinder | Peta Interaktif</title>
+@push('style')
     <style>
         .leaflet-layer.dark,
         .leaflet-control-zoom-in.dark,
@@ -131,10 +97,8 @@
             transform: scale(1.5)
         }
     </style>
-</head>
-
-<body class="overflow-x-hidden font-inter">
-
+@endpush
+@section('content')
     <header class="w-full px-12 py-2 transition-all duration-300 shadow-lg dark:bg-slate-900">
         <div class="flex items-center justify-between">
             <img src="{{ asset('img/finfinder.png') }}" alt="logo" class="w-32">
@@ -169,13 +133,13 @@
                     </a>
                 </li>
                 @if (Auth::check())
-                <li class="list-none">
-                    <a href="{{ route('dashboard') }}"
-                        class="!flex flex-col items-center justify-center transition-all duration-300 hover:text-sky-500 group dark:text-slate-100">
-                        Dashboard
-                        <hr class="w-0 duration-500 group-hover:border-sky-500 group-hover:w-full group-hover:border">
-                    </a>
-                </li>
+                    <li class="list-none">
+                        <a href="{{ route('dashboard') }}"
+                            class="!flex flex-col items-center justify-center transition-all duration-300 hover:text-sky-500 group dark:text-slate-100">
+                            Dashboard
+                            <hr class="w-0 duration-500 group-hover:border-sky-500 group-hover:w-full group-hover:border">
+                        </a>
+                    </li>
                 @endif
             </ul>
             <div class="flex gap-4">
@@ -233,6 +197,7 @@
         </div>
     </div>
 
+    {{-- legenda modal --}}
     <div id="legenda-modal"
         class="fixed w-full md:w-[300px] transition-all duration-300 md:top-16 md:right-2 border-[3px] border-slate-200 rounded-md z-[999999] h-[370px] md:h-[calc(100vh-70px)] bg-white-100 shadow-lg dark:bg-slate-900 dark:border-slate-700 bottom-0  flex flex-col hidden opacity-0">
         <div
@@ -304,7 +269,9 @@
 
         </div>
     </div>
+@endsection
 
+@push('script')
     <script src="{{ asset('js/func.js') }}"></script>
     <script src="{{ asset('js/icon.js') }}"></script>
     <script src="{{ asset('js/basemap.js') }}"></script>
@@ -570,11 +537,11 @@
 
                                 // Tambahkan popup dengan informasi jarak
                                 currentLine.bindPopup(`
-                                    <div class="text-center">
-                                        <p class="font-bold">Jarak Terdekat: ${nearestPoint.distance.toFixed(2)} km</p>
-                                        <p>Ke lokasi: ${nearestPoint.spot.description || 'Titik Terdekat'}</p>
-                                    </div>
-                                `).openPopup();
+                                <div class="text-center">
+                                    <p class="font-bold">Jarak Terdekat: ${nearestPoint.distance.toFixed(2)} km</p>
+                                    <p>Ke lokasi: ${nearestPoint.spot.description || 'Titik Terdekat'}</p>
+                                </div>
+                            `).openPopup();
                             }
 
                             if (currentMarker) {
@@ -679,11 +646,11 @@
 
                     // Tambahkan popup dengan informasi jarak
                     currentLine.bindPopup(`
-                        <div class="text-center">
-                            <p class="font-bold">Jarak Terdekat: ${nearestPoint.distance.toFixed(2)} km</p>
-                            <p>Ke lokasi: ${nearestPoint.spot.description || 'Titik Terdekat'}</p>
-                        </div>
-                    `).openPopup();
+                    <div class="text-center">
+                        <p class="font-bold">Jarak Terdekat: ${nearestPoint.distance.toFixed(2)} km</p>
+                        <p>Ke lokasi: ${nearestPoint.spot.description || 'Titik Terdekat'}</p>
+                    </div>
+                `).openPopup();
 
                     const bounds = L.latLngBounds([
                         searchLocation,
@@ -757,30 +724,30 @@
             const fishesHTML = Array.isArray(fishArray) ?
                 fishArray.map(fish => {
                     return `
-                    <span class="p-1 transition-all duration-300 border rounded w-fit border-sky-300 hover:bg-sky-300">
-                        ${fish}
-                    </span>
-                `;
+                <span class="p-1 transition-all duration-300 border rounded w-fit border-sky-300 hover:bg-sky-300">
+                    ${fish}
+                </span>
+            `;
                 }).join('') :
                 '';
 
             const marker = L.marker([spot.latitude, spot.longitude], {
                 icon: fishIcon
             }).bindPopup(`
-                <div class="mb-4">
-                    <h4 class="font-bold text-md">Detail Data</h4>
-                </div>
-                <div class="flex flex-wrap gap-1 mb-4">
-                    ${fishesHTML}
-                </div>
-                <div class="mb-4">
-                    ${spot.deskripsi}
-                </div>
-                <div class="flex justify-between border-t border-slate-200">
-                    <p class="text-gray-400">Dibuat Oleh <span class="not-italic font-bold">${spot.owner}</span></p>
-                    <p class="text-gray-400">${spot.created_at}</p>
-                </div>
-            `);
+            <div class="mb-4">
+                <h4 class="font-bold text-md">Detail Data</h4>
+            </div>
+            <div class="flex flex-wrap gap-1 mb-4">
+                ${fishesHTML}
+            </div>
+            <div class="mb-4">
+                ${spot.deskripsi}
+            </div>
+            <div class="flex justify-between border-t border-slate-200">
+                <p class="text-gray-400">Dibuat Oleh <span class="not-italic font-bold">${spot.owner}</span></p>
+                <p class="text-gray-400">${spot.created_at}</p>
+            </div>
+        `);
 
             return {
                 marker: marker,
@@ -925,8 +892,4 @@
         });
     </script>
     {{-- Darkmode Setting --}}
-
-</body>
-
-
-</html>
+@endpush
