@@ -16,6 +16,10 @@
                 <img src="{{ asset('img/sidebar/Group 134.svg') }}" alt="home-icon" class="scale-125">
                 Beranda
             </a>
+            <a href="/peta-interaktif" class="flex items-center gap-4 transition-all duration-300 hover:text-sky-500">
+                <img src="{{ asset('img/sidebar/Group 142.svg') }}" alt="home-icon" class="scale-125">
+                Peta Interaktif
+            </a>
         </div>
     </div>
 

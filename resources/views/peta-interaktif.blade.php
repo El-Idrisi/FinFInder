@@ -168,6 +168,15 @@
                         <hr class="w-0 duration-500 group-hover:border-sky-500 group-hover:w-full group-hover:border">
                     </a>
                 </li>
+                @if (Auth::check())
+                <li class="list-none">
+                    <a href="{{ route('dashboard') }}"
+                        class="!flex flex-col items-center justify-center transition-all duration-300 hover:text-sky-500 group dark:text-slate-100">
+                        Dashboard
+                        <hr class="w-0 duration-500 group-hover:border-sky-500 group-hover:w-full group-hover:border">
+                    </a>
+                </li>
+                @endif
             </ul>
             <div class="flex gap-4">
                 <button id="dark-btn" class="dark:text-slate-100">
@@ -277,7 +286,8 @@
                 <div id="content-1" class="overflow-hidden transition-all duration-300 ease-in-out max-h-0">
                     <div class="flex flex-col pl-2">
                         @foreach ($fishtypes as $ikan)
-                            <div class="flex items-center justify-between gap-2 p-2 pl-8 rounded hover:bg-slate-100 dark:hover:bg-slate-700">
+                            <div
+                                class="flex items-center justify-between gap-2 p-2 pl-8 rounded hover:bg-slate-100 dark:hover:bg-slate-700">
                                 <div class="">
                                     <input type="checkbox" name="ikan-{{ $ikan->nama }}"
                                         id="ikan-{{ $ikan->nama }}" checked class="checkbox-xl fish-type-checkbox"
@@ -326,11 +336,13 @@
         }
 
         // Fungsi untuk toggle semua checkbox ikan
+        // Update fungsi toggle semua checkbox ikan
         function toggleAllFish(checkbox) {
             const fishCheckboxes = document.querySelectorAll('.fish-type-checkbox');
             fishCheckboxes.forEach(fishCheckbox => {
                 fishCheckbox.checked = checkbox.checked;
             });
+            updateMarkerVisibility();
         }
 
         function updateAllFishCheckbox() {
@@ -338,6 +350,7 @@
             const fishCheckboxes = document.querySelectorAll('.fish-type-checkbox');
             const allChecked = Array.from(fishCheckboxes).every(checkbox => checkbox.checked);
             allFishCheckbox.checked = allChecked;
+            updateMarkerVisibility();
         }
 
         // Fungsi untuk memilih hanya satu jenis ikan
@@ -347,6 +360,7 @@
                 checkbox.checked = checkbox.id === `ikan-${fishName}`;
             });
             updateAllFishCheckbox();
+            updateMarkerVisibility();
         }
     </script>
 
@@ -372,7 +386,7 @@
                 }, 100);
                 setTimeout(() => {
                     legendaModal.classList.remove('opacity-0');
-                }, layersModal.classList.contains('hidden')? 100:200);
+                }, layersModal.classList.contains('hidden') ? 100 : 200);
             } else {
                 // Tutup modal
                 legendaModal.classList.add('opacity-0');
@@ -403,7 +417,7 @@
                 }, 100);
                 setTimeout(() => {
                     layersModal.classList.remove('opacity-0');
-                }, legendaModal.classList.contains('hidden')? 100:200);
+                }, legendaModal.classList.contains('hidden') ? 100 : 200);
             } else {
                 // Tutup modal
                 layersModal.classList.add('opacity-0');
@@ -733,43 +747,106 @@
 
     {{-- Fish Spot --}}
     <script>
-        // FishSpot
-        var spots = @json($spots);
-        console.log(spots);
+        // Simpan referensi marker dalam array global
+        let fishMarkers = [];
 
-        // Tampilkan FishSpot
-        spots.forEach(function(spot) {
+        // Fungsi untuk membuat marker
+        function createFishMarker(spot) {
             let fishArray = spot.fishes;
 
             const fishesHTML = Array.isArray(fishArray) ?
                 fishArray.map(fish => {
                     return `
-                        <span class="p-1 transition-all duration-300 border rounded w-fit border-sky-300 hover:bg-sky-300">
-                            ${fish}
-                        </span>
-                    `;
+                    <span class="p-1 transition-all duration-300 border rounded w-fit border-sky-300 hover:bg-sky-300">
+                        ${fish}
+                    </span>
+                `;
                 }).join('') :
                 '';
 
-            L.marker([spot.latitude, spot.longitude], {
-                    icon: fishIcon
-                }).addTo(map)
-                .bindPopup(`
-                    <div class="mb-4">
-                        <h4 class="font-bold text-md">Detail Data</h4>
-                    </div>
-                    <div class="flex flex-wrap gap-1 mb-4">
-                        ${fishesHTML}
-                    </div>
-                    <div class="mb-4">
-                        ${spot.deskripsi}
-                    </div>
-                    <div class="border-t border-slate-200">
-                        <p class="italic text-gray-400">Created by <span class="not-italic font-bold">${spot.owner}</span></p>
-                    </div>
-                `);
+            const marker = L.marker([spot.latitude, spot.longitude], {
+                icon: fishIcon
+            }).bindPopup(`
+                <div class="mb-4">
+                    <h4 class="font-bold text-md">Detail Data</h4>
+                </div>
+                <div class="flex flex-wrap gap-1 mb-4">
+                    ${fishesHTML}
+                </div>
+                <div class="mb-4">
+                    ${spot.deskripsi}
+                </div>
+                <div class="border-t border-slate-200">
+                    <p class="italic text-gray-400">Created by <span class="not-italic font-bold">${spot.owner}</span></p>
+                </div>
+            `);
 
+            return {
+                marker: marker,
+                fishes: fishArray
+            };
+        }
+        // FishSpot
+        var spots = @json($spots);
+        console.log(spots);
+
+        // Tampilkan FishSpot
+        // spots.forEach(function(spot) {
+        //     let fishArray = spot.fishes;
+
+        //     const fishesHTML = Array.isArray(fishArray) ?
+        //         fishArray.map(fish => {
+        //             return `
+    //                 <span class="p-1 transition-all duration-300 border rounded w-fit border-sky-300 hover:bg-sky-300">
+    //                     ${fish}
+    //                 </span>
+    //             `;
+        //         }).join('') :
+        //         '';
+
+        //     L.marker([spot.latitude, spot.longitude], {
+        //             icon: fishIcon
+        //         }).addTo(map)
+        //         .bindPopup(`
+    //             <div class="mb-4">
+    //                 <h4 class="font-bold text-md">Detail Data</h4>
+    //             </div>
+    //             <div class="flex flex-wrap gap-1 mb-4">
+    //                 ${fishesHTML}
+    //             </div>
+    //             <div class="mb-4">
+    //                 ${spot.deskripsi}
+    //             </div>
+    //             <div class="border-t border-slate-200">
+    //                 <p class="italic text-gray-400">Created by <span class="not-italic font-bold">${spot.owner}</span></p>
+    //             </div>
+    //         `);
+
+        // });
+        spots.forEach(spot => {
+            const markerData = createFishMarker(spot);
+            fishMarkers.push(markerData);
+            markerData.marker.addTo(map);
         });
+
+        // Fungsi untuk memperbarui tampilan marker berdasarkan checkbox
+        function updateMarkerVisibility() {
+            const checkedFishes = Array.from(document.querySelectorAll('.fish-type-checkbox:checked'))
+                .map(checkbox => checkbox.id.replace('ikan-', ''));
+
+            fishMarkers.forEach(markerData => {
+                const shouldShow = markerData.fishes.some(fish => checkedFishes.includes(fish));
+                if (shouldShow) {
+                    if (!map.hasLayer(markerData.marker)) {
+                        markerData.marker.addTo(map);
+                    }
+                } else {
+                    if (map.hasLayer(markerData.marker)) {
+                        markerData.marker.remove();
+                    }
+                }
+            });
+        }
     </script>
     {{-- Fish Spot --}}
 
