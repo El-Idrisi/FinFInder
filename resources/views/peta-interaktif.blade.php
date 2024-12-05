@@ -197,6 +197,23 @@
         </div>
     </div>
 
+    <div id="nav-bottom"
+        class="absolute z-[999999] transition-all duration-300 -bottom-[2.80rem] bg-white-100 w-screen px-4 py-2 border-t-2 border-slate-900 lg:hidden dark:bg-slate-900 dark:text-slate-100 dark:border-slate-100">
+        <div id="nav-scroll"
+            class="absolute flex items-center justify-center h-4 -translate-x-1/2 border-t-2 border-l-2 border-r-2 rounded-t-lg cursor-pointer w-14 border-slate-900 bg-white-100 left-1/2 -top-[0.95rem] dark:bg-slate-900 dark:border-slate-100 transition-all duration-300">
+            <i class="fa-solid fa-angle-up dark:text-slate-100"></i>
+        </div>
+        <div class="flex justify-center gap-10 pr-2 text-2xl ">
+            <a href="/"><i class="fa-solid fa-house"></i></a>
+            <a href="/profil"><i class="fa-solid fa-magnifying-glass"></i></a>
+            <a href="/peta-interaktif"><i class="fa-solid fa-map text-sky-500"></i></a>
+            <a href="/contact-us"><i class="fa-solid fa-envelope"></i></a>
+            @if (Auth::check())
+                <a href="/dashboard"><i class="fa-solid fa-chart-simple"></i></a>
+            @endif
+        </div>
+    </div>
+
     {{-- legenda modal --}}
     <div id="legenda-modal"
         class="fixed w-full md:w-[300px] transition-all duration-300 md:top-16 md:right-2 border-[3px] border-slate-200 rounded-md z-[999999] h-[370px] md:h-[calc(100vh-70px)] bg-white-100 shadow-lg dark:bg-slate-900 dark:border-slate-700 bottom-0  flex flex-col hidden opacity-0">
@@ -218,7 +235,7 @@
                 <h4>Titik Lokasi</h4>
             </div>
             <div class="flex items-center hidden gap-4 line">
-                <hr class="w-6 border-4 border-[#5c88eb]">
+                <hr class="w-10 border-4 border-[#5c88eb] border-dashed rounded-full">
                 <h4>Jarak Lokasi</h4>
             </div>
         </div>
@@ -272,54 +289,28 @@
 @endsection
 
 @push('script')
-    {{-- <script src="{{ asset('js/func.js') }}"></script> --}}
+    <script src="{{ asset('js/func.js') }}"></script>
     <script src="{{ asset('js/icon.js') }}"></script>
     <script src="{{ asset('js/basemap.js') }}"></script>
 
-    <script>
-        function findNearestPoints(searchLocation) {
-            // Dapatkan daftar ikan yang sedang dicentang
-            const checkedFishes = Array.from(document.querySelectorAll('.fish-type-checkbox:checked'))
-                .map(checkbox => checkbox.id.replace('ikan-', ''));
-
-            // Filter spots berdasarkan ikan yang dicentang
-            const visibleSpots = spots.filter(spot =>
-                spot.fishes.some(fish => checkedFishes.includes(fish))
-            );
-
-            // Jika tidak ada spot yang visible, return array kosong
-            if (visibleSpots.length === 0) {
-                return [];
-            }
-
-            // Hitung jarak hanya untuk spot yang visible
-            const distances = visibleSpots.map(spot => {
-                // Hitung jarak menggunakan method Leaflet
-                const distance = map.distance(
-                    searchLocation,
-                    [spot.latitude, spot.longitude]
-                );
-
-                return {
-                    spot: spot,
-                    distance: distance / 1000 // Konversi ke kilometer
-                };
-            });
-
-            // Urutkan berdasarkan jarak terdekat
-            distances.sort((a, b) => a.distance - b.distance);
-
-            return distances;
-        }
-    </script>
-
+    {{-- Component --}}
     <script>
         const legendaBtn = document.querySelector('#legenda-btn');
         const legendaModal = document.querySelector('#legenda-modal');
         const layersBtn = document.querySelector('#layers-btn');
         const layersModal = document.querySelector('#layers-modal');
-    </script>
 
+        const navBottom = document.querySelector('#nav-bottom');
+        const navScroll = document.querySelector('#nav-scroll');
+    </script>
+    {{-- Component --}}
+
+    <script>
+        navScroll.addEventListener('click', function() {
+            navBottom.classList.toggle('-bottom-[2.80rem]')
+            navBottom.classList.toggle('bottom-0')
+        });
+    </script>
 
     {{-- Legenda --}}
     <script>
@@ -383,7 +374,6 @@
         })
     </script>
     {{-- Layers --}}
-
 
     {{-- Leaflet JS --}}
     <script>
@@ -699,6 +689,7 @@
     </script>
     {{-- Button Control --}}
 
+    {{-- Checked Checkbox --}}
     <script>
         // Fungsi untuk menangani klik pada accordion
         function handleAccordionClick(event, index) {
@@ -817,8 +808,7 @@
             }
         }
     </script>
-
-
+    {{-- Checked Checkbox --}}
 
     {{-- Fish Spot --}}
     <script>
