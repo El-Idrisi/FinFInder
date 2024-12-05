@@ -1,6 +1,20 @@
 function findNearestPoints(searchLocation) {
-    // Array untuk menyimpan semua titik dan jaraknya
-    const distances = spots.map(spot => {
+    // Dapatkan daftar ikan yang sedang dicentang
+    const checkedFishes = Array.from(document.querySelectorAll('.fish-type-checkbox:checked'))
+        .map(checkbox => checkbox.id.replace('ikan-', ''));
+
+    // Filter spots berdasarkan ikan yang dicentang
+    const visibleSpots = spots.filter(spot =>
+        spot.fishes.some(fish => checkedFishes.includes(fish))
+    );
+
+    // Jika tidak ada spot yang visible, return array kosong
+    if (visibleSpots.length === 0) {
+        return [];
+    }
+
+    // Hitung jarak hanya untuk spot yang visible
+    const distances = visibleSpots.map(spot => {
         // Hitung jarak menggunakan method Leaflet
         const distance = map.distance(
             searchLocation,
@@ -16,12 +30,7 @@ function findNearestPoints(searchLocation) {
     // Urutkan berdasarkan jarak terdekat
     distances.sort((a, b) => a.distance - b.distance);
 
-    // Ambil 5 titik terdekat
-    const nearestPoints = distances.slice(0);
-
-    // Tampilkan hasil
-    // showNearestPoints(searchLocation, nearestPoints);
-    return nearestPoints;
+    return distances;
 }
 
 function showNearestPoints(searchLocation, nearestPoints) {

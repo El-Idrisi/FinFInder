@@ -272,65 +272,46 @@
 @endsection
 
 @push('script')
-    <script src="{{ asset('js/func.js') }}"></script>
+    {{-- <script src="{{ asset('js/func.js') }}"></script> --}}
     <script src="{{ asset('js/icon.js') }}"></script>
     <script src="{{ asset('js/basemap.js') }}"></script>
 
     <script>
-        // Fungsi untuk menangani klik pada accordion
-        function handleAccordionClick(event, index) {
-            // Jika yang diklik adalah checkbox atau labelnya, jangan trigger accordion
-            if (event.target.type === 'checkbox' || event.target.tagName === 'LABEL') {
-                return;
+        function findNearestPoints(searchLocation) {
+            // Dapatkan daftar ikan yang sedang dicentang
+            const checkedFishes = Array.from(document.querySelectorAll('.fish-type-checkbox:checked'))
+                .map(checkbox => checkbox.id.replace('ikan-', ''));
+
+            // Filter spots berdasarkan ikan yang dicentang
+            const visibleSpots = spots.filter(spot =>
+                spot.fishes.some(fish => checkedFishes.includes(fish))
+            );
+
+            // Jika tidak ada spot yang visible, return array kosong
+            if (visibleSpots.length === 0) {
+                return [];
             }
 
-            toggleAccordion(index);
-        }
+            // Hitung jarak hanya untuk spot yang visible
+            const distances = visibleSpots.map(spot => {
+                // Hitung jarak menggunakan method Leaflet
+                const distance = map.distance(
+                    searchLocation,
+                    [spot.latitude, spot.longitude]
+                );
 
-        function toggleAccordion(index) {
-            const content = document.getElementById(`content-${index}`);
-            const icon = document.getElementById(`icon-${index}`);
-            console.log(icon);
-
-
-            if (content.style.maxHeight && content.style.maxHeight !== '0px') {
-                content.style.maxHeight = '0';
-                icon.style.transform = 'rotate(0deg)';
-            } else {
-                content.style.maxHeight = content.scrollHeight + 'px';
-                icon.style.transform = 'rotate(90deg)';
-            }
-        }
-
-        // Fungsi untuk toggle semua checkbox ikan
-        // Update fungsi toggle semua checkbox ikan
-        function toggleAllFish(checkbox) {
-            const fishCheckboxes = document.querySelectorAll('.fish-type-checkbox');
-            fishCheckboxes.forEach(fishCheckbox => {
-                fishCheckbox.checked = checkbox.checked;
+                return {
+                    spot: spot,
+                    distance: distance / 1000 // Konversi ke kilometer
+                };
             });
-            updateMarkerVisibility();
-        }
 
-        function updateAllFishCheckbox() {
-            const allFishCheckbox = document.getElementById('allFish');
-            const fishCheckboxes = document.querySelectorAll('.fish-type-checkbox');
-            const allChecked = Array.from(fishCheckboxes).every(checkbox => checkbox.checked);
-            allFishCheckbox.checked = allChecked;
-            updateMarkerVisibility();
-        }
+            // Urutkan berdasarkan jarak terdekat
+            distances.sort((a, b) => a.distance - b.distance);
 
-        // Fungsi untuk memilih hanya satu jenis ikan
-        function selectOnlyThis(fishName) {
-            const fishCheckboxes = document.querySelectorAll('.fish-type-checkbox');
-            fishCheckboxes.forEach(checkbox => {
-                checkbox.checked = checkbox.id === `ikan-${fishName}`;
-            });
-            updateAllFishCheckbox();
-            updateMarkerVisibility();
+            return distances;
         }
     </script>
-
 
     <script>
         const legendaBtn = document.querySelector('#legenda-btn');
@@ -546,6 +527,8 @@
 
                             if (currentMarker) {
                                 document.querySelector('.marker-user').classList.remove('hidden');
+                            }
+                            if (currentLine) {
                                 document.querySelector('.line').classList.remove('hidden');
                             }
                         };
@@ -589,11 +572,11 @@
                 if (currentMarker) {
                     currentMarker.remove();
                     markerUserElement?.classList.add('hidden');
-                    lineElement?.classList.add('hidden');
                 }
 
                 if (currentLine) {
                     map.removeLayer(currentLine);
+                    lineElement?.classList.add('hidden');
                 }
 
                 if (!address) {
@@ -612,7 +595,7 @@
 
                 // Hapus class hidden ketika ada marker baru
                 markerUserElement?.classList.remove('hidden');
-                lineElement?.classList.remove('hidden');
+
 
                 if (address.bbox && address.bbox.lat1 !== address.bbox.lat2 && address.bbox.lon1 !== address
                     .bbox.lon2) {
@@ -651,6 +634,10 @@
                         <p>Ke lokasi: ${nearestPoint.spot.description || 'Titik Terdekat'}</p>
                     </div>
                 `).openPopup();
+
+                    if (currentLine) {
+                        lineElement?.classList.remove('hidden');
+                    }
 
                     const bounds = L.latLngBounds([
                         searchLocation,
@@ -711,6 +698,127 @@
         document.addEventListener('DOMContentLoaded', checkInitialMarkerStatus);
     </script>
     {{-- Button Control --}}
+
+    <script>
+        // Fungsi untuk menangani klik pada accordion
+        function handleAccordionClick(event, index) {
+            // Jika yang diklik adalah checkbox atau labelnya, jangan trigger accordion
+            if (event.target.type === 'checkbox' || event.target.tagName === 'LABEL') {
+                return;
+            }
+
+            toggleAccordion(index);
+        }
+
+        function toggleAccordion(index) {
+            const content = document.getElementById(`content-${index}`);
+            const icon = document.getElementById(`icon-${index}`);
+            console.log(icon);
+
+
+            if (content.style.maxHeight && content.style.maxHeight !== '0px') {
+                content.style.maxHeight = '0';
+                icon.style.transform = 'rotate(0deg)';
+            } else {
+                content.style.maxHeight = content.scrollHeight + 'px';
+                icon.style.transform = 'rotate(90deg)';
+            }
+        }
+
+        // Fungsi untuk toggle semua checkbox ikan
+        function toggleAllFish(checkbox) {
+            const fishCheckboxes = document.querySelectorAll('.fish-type-checkbox');
+            fishCheckboxes.forEach(fishCheckbox => {
+                fishCheckbox.checked = checkbox.checked;
+            });
+            updateMarkerVisibility();
+
+            updateDistanceCalculation();
+        }
+
+        // Update fungsi toggle semua checkbox ikan
+        function updateAllFishCheckbox() {
+            const allFishCheckbox = document.getElementById('allFish');
+            const fishCheckboxes = document.querySelectorAll('.fish-type-checkbox');
+            const allChecked = Array.from(fishCheckboxes).every(checkbox => checkbox.checked);
+            allFishCheckbox.checked = allChecked;
+            updateMarkerVisibility();
+            updateDistanceCalculation();
+        }
+
+        // Fungsi untuk memilih hanya satu jenis ikan
+        function selectOnlyThis(fishName) {
+            const fishCheckboxes = document.querySelectorAll('.fish-type-checkbox');
+            fishCheckboxes.forEach(checkbox => {
+                checkbox.checked = checkbox.id === `ikan-${fishName}`;
+            });
+            updateAllFishCheckbox();
+            updateMarkerVisibility();
+            updateDistanceCalculation();
+        }
+
+        // Fungsi untuk update perhitungan jarak
+        function updateDistanceCalculation() {
+            // Hapus line yang ada jika ada
+            const lineElement = document.querySelector('.line');
+
+            if (currentLine) {
+                map.removeLayer(currentLine);
+                currentLine = null;
+            }
+
+            // Cek apakah ada marker dan minimal satu checkbox tercentang
+            const anyChecked = document.querySelectorAll('.fish-type-checkbox:checked').length > 0;
+            if (currentMarker && anyChecked) {
+                const searchLocation = {
+                    lat: currentMarker.getLatLng().lat,
+                    lng: currentMarker.getLatLng().lng
+                };
+
+                // Hitung jarak ke titik terdekat
+                const nearestPoints = findNearestPoints(searchLocation);
+
+                if (nearestPoints && nearestPoints.length > 0) {
+                    const nearestPoint = nearestPoints[0];
+                    currentLine = L.polyline([
+                        searchLocation,
+                        [nearestPoint.spot.latitude, nearestPoint.spot.longitude]
+                    ], {
+                        color: '#2563eb',
+                        weight: 3,
+                        opacity: 0.8,
+                        dashArray: '10, 10'
+                    }).addTo(map);
+
+                    // Tambahkan popup dengan informasi jarak
+                    currentLine.bindPopup(`
+                        <div class="text-center">
+                            <p class="font-bold">Jarak Terdekat: ${nearestPoint.distance.toFixed(2)} km</p>
+                            <p>Ke lokasi: ${nearestPoint.spot.description || 'Titik Terdekat'}</p>
+                        </div>
+                    `).openPopup();
+
+                    // Update bounds untuk menampilkan seluruh line
+                    const bounds = L.latLngBounds([
+                        searchLocation,
+                        [nearestPoint.spot.latitude, nearestPoint.spot.longitude]
+                    ]);
+                    map.fitBounds(bounds, {
+                        padding: [100, 100]
+                    });
+
+                }
+                if (currentLine) {
+                    lineElement?.classList.remove('hidden');
+                }
+            }
+            if (!currentLine) {
+                lineElement?.classList.add('hidden');
+            }
+        }
+    </script>
+
+
 
     {{-- Fish Spot --}}
     <script>
