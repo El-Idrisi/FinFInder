@@ -776,8 +776,9 @@
                 <div class="mb-4">
                     ${spot.deskripsi}
                 </div>
-                <div class="border-t border-slate-200">
-                    <p class="italic text-gray-400">Created by <span class="not-italic font-bold">${spot.owner}</span></p>
+                <div class="flex justify-between border-t border-slate-200">
+                    <p class="text-gray-400">Dibuat Oleh <span class="not-italic font-bold">${spot.owner}</span></p>
+                    <p class="text-gray-400">${spot.created_at}</p>
                 </div>
             `);
 
@@ -790,39 +791,6 @@
         var spots = @json($spots);
         console.log(spots);
 
-        // Tampilkan FishSpot
-        // spots.forEach(function(spot) {
-        //     let fishArray = spot.fishes;
-
-        //     const fishesHTML = Array.isArray(fishArray) ?
-        //         fishArray.map(fish => {
-        //             return `
-    //                 <span class="p-1 transition-all duration-300 border rounded w-fit border-sky-300 hover:bg-sky-300">
-    //                     ${fish}
-    //                 </span>
-    //             `;
-        //         }).join('') :
-        //         '';
-
-        //     L.marker([spot.latitude, spot.longitude], {
-        //             icon: fishIcon
-        //         }).addTo(map)
-        //         .bindPopup(`
-    //             <div class="mb-4">
-    //                 <h4 class="font-bold text-md">Detail Data</h4>
-    //             </div>
-    //             <div class="flex flex-wrap gap-1 mb-4">
-    //                 ${fishesHTML}
-    //             </div>
-    //             <div class="mb-4">
-    //                 ${spot.deskripsi}
-    //             </div>
-    //             <div class="border-t border-slate-200">
-    //                 <p class="italic text-gray-400">Created by <span class="not-italic font-bold">${spot.owner}</span></p>
-    //             </div>
-    //         `);
-
-        // });
         spots.forEach(spot => {
             const markerData = createFishMarker(spot);
             fishMarkers.push(markerData);

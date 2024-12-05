@@ -233,6 +233,11 @@
                 deleteAccount.addEventListener('click', function() {
                     Swal.fire({
                         title: 'Hapus Akun',
+                        html: `
+            <div class="text-sm text-gray-600 mb-4">
+                Harap masukkan password Anda untuk konfirmasi penghapusan akun.
+            </div>
+        `,
                         input: 'password',
                         inputAttributes: {
                             autocapitalize: 'off',
@@ -241,6 +246,7 @@
                         inputPlaceholder: 'Masukkan password Anda',
                         showCancelButton: true,
                         confirmButtonText: 'Hapus Akun',
+                        confirmButtonColor: '#dc2626', // Warna merah untuk indikasi bahaya
                         cancelButtonText: 'Batal',
                         showLoaderOnConfirm: true,
                         preConfirm: (password) => {
@@ -255,20 +261,41 @@
                                         'Terjadi kesalahan');
                                 })
                                 .catch(error => {
-                                    Swal.showValidationMessage(
-                                        `${error.response.data.message || error.message}`
-                                    );
+                                    // Handle berbagai jenis error
+                                    let errorMessage;
+
+                                    if (error.response) {
+                                        // Error dari server dengan response
+                                        if (error.response.data.message) {
+                                            errorMessage = error.response.data.message;
+                                        } else if (error.response.status === 403) {
+                                            errorMessage = 'Password yang Anda masukkan salah';
+                                        } else if (error.response.status === 409) {
+                                            errorMessage =
+                                                'Tidak dapat menghapus akun karena masih memiliki data spot ikan terkait';
+                                        } else {
+                                            errorMessage = 'Terjadi kesalahan pada server';
+                                        }
+                                    } else if (error.request) {
+                                        // Error karena tidak ada response
+                                        errorMessage = 'Tidak dapat terhubung ke server';
+                                    } else {
+                                        // Error lainnya
+                                        errorMessage = error.message;
+                                    }
+
+                                    Swal.showValidationMessage(errorMessage);
                                 });
                         },
                         allowOutsideClick: () => !Swal.isLoading()
                     }).then((result) => {
                         if (result.isConfirmed) {
                             Swal.fire({
-                                title: 'Berhasil!',
+                                title: 'Akun Berhasil Dihapus',
                                 text: result.value,
-                                icon: 'success'
+                                icon: 'success',
+                                confirmButtonColor: '#3085d6'
                             }).then(() => {
-                                // Redirect ke halaman login atau home setelah akun dihapus
                                 window.location.href = '/login';
                             });
                         }

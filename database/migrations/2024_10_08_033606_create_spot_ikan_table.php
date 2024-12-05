@@ -18,8 +18,8 @@ return new class extends Migration
             $table->decimal('latitude', 20, 8);
             $table->text('deskripsi');
             $table->enum('status', ['ditunda', 'disetujui', 'ditolak'])->default('ditunda');
-            $table->foreignId('dibuat_oleh')->constrained('users')->onDelete('cascade');
-            $table->foreignId('diverifikasi_oleh')->nullable()->constrained('users')->onDelete('cascade');
+            $table->foreignId('dibuat_oleh')->constrained('users')->onDelete('restrict');
+            $table->foreignId('diverifikasi_oleh')->nullable()->constrained('users')->onDelete('restrict');
             $table->date("tanggal_verifikasi")->nullable();
             $table->timestamps();
         });

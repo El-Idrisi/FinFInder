@@ -21,20 +21,20 @@ class ProfileController extends Controller
         $allSpots = SpotIkan::all()->count();
         $kontribusi = SpotIkan::where('dibuat_oleh', Auth::id())->count();
         $allVerified = SpotIkan::where('status', 'disetujui')
-        ->where('dibuat_oleh', Auth::id())
-        ->count();
+            ->where('dibuat_oleh', Auth::id())
+            ->count();
 
         $allRejected = SpotIkan::where('status', 'ditolak')
-        ->where('dibuat_oleh', Auth::id())
-        ->count();
+            ->where('dibuat_oleh', Auth::id())
+            ->count();
 
         $allVerif = SpotIkan::where('status', 'disetujui')
-        ->where('diverifikasi_oleh', Auth::id())
-        ->count();
+            ->where('diverifikasi_oleh', Auth::id())
+            ->count();
 
         $allReject = SpotIkan::where('status', 'ditolak')
-        ->where('diverifikasi_oleh', Auth::id())
-        ->count();
+            ->where('diverifikasi_oleh', Auth::id())
+            ->count();
 
         return view('dashboard.profile.index', ['title' => 'FinFinder | Profile'], compact('user', 'allSpots', 'kontribusi', 'allVerified', 'allRejected', 'allVerif', 'allReject'));
     }
@@ -138,20 +138,45 @@ class ProfileController extends Controller
 
         $user = Auth::user();
 
-        if (Hash::check($request->password, $user->password)) {
-            // Password benar, hapus akun
+        try {
+            // Validasi password
+            if (!Hash::check($request->password, $user->password)) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Password yang Anda masukkan salah.'
+                ], 403);
+            }
+
+            // Cek apakah user masih memiliki spot ikan
+            if ($user->owner()->exists()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Tidak dapat menghapus akun karena masih memiliki data spot ikan terkait.'
+                ], 409);
+            }
+
+            // Proses penghapusan akun
             $user->delete();
             Auth::logout();
+
             return response()->json([
                 'success' => true,
                 'message' => 'Akun Anda telah berhasil dihapus.'
             ]);
-        } else {
-            // Password salah
+        } catch (\Illuminate\Database\QueryException $e) {
+            // Tangkap error database
+            dd($e->getCode());
+            if ($e->getCode() === '23000') {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Tidak dapat menghapus akun karena masih terkait dengan data lain.'
+                ], 409);
+            }
+
             return response()->json([
                 'success' => false,
-                'message' => 'Password yang Anda masukkan salah.'
-            ], 422);
+                'message' => 'Terjadi kesalahan pada database.'
+            ], 500);
         }
     }
 }
