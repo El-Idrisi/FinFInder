@@ -11,6 +11,8 @@
         href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
         rel="stylesheet">
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/7.2.0/introjs.min.css">
+
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
         integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/gokertanrisever/leaflet-ruler@master/src/leaflet-ruler.css"
@@ -32,7 +34,7 @@
 
     <script src="https://kit.fontawesome.com/bd2b93a447.js" crossorigin="anonymous"></script>
     <link rel="shortcut icon" href="{{ asset('icon/favicon.ico') }}" type="image/x-icon">
-    <link rel="stylesheet" href="{{ asset('css/map-interaktif.css') }}">
+    {{-- <link rel="stylesheet" href="{{ asset('css/map-interaktif.css') }}"> --}}
     @vite('resources/css/app.css')
     <title>FinFinder | Peta Interaktif</title>
     @stack('style')
@@ -40,6 +42,8 @@
 
 <body class="overflow-x-hidden font-inter">
     @yield('content')
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/7.2.0/intro.min.js"></script>
     @stack('script')
 </body>
 
