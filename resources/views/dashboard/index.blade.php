@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="flex flex-col mb-8">
-        <h3 class="font-bold ">Welcome to Dashboard, {{ Auth::user()->username }}</h3>
+        <h3 class="font-bold ">Selamat Datang di Dashboard FinFinder, {{ Auth::user()->username }}</h3>
         <p class="text-slate-400">Di sini Anda dapat melihat statistik kontribusi, memantau data, dan mengelola informasi
             perikanan. Gunakan menu di kiri untuk menjelajahi fitur-fitur aplikasi</p>
     </div>
@@ -111,10 +111,10 @@
                     <h2 class="flex items-center justify-between mb-6">
                         <span class="flex items-center gap-2 text-xl font-bold">
                             <i class="text-sky-500 fas fa-trophy"></i>
-                            Top Contributor
+                            Kontributor Utama
                         </span>
                         <span class="px-3 py-1 text-xs rounded-full bg-sky-100 text-sky-600">
-                            This Month
+                            Bulan Ini
                         </span>
                     </h2>
 

@@ -16,7 +16,7 @@
                 @csrf
                 @method('PUT')
                 <div class="flex flex-col !w-full mb-4">
-                    <label for="jenis_ikan" class="mb-2 font-bold">Jenis Ikan</label>
+                    <label for="jenis_ikan" class="mb-2 font-bold after:content-['*'] after:text-red-500">Jenis Ikan</label>
                     <select name="jenis_ikan[]" id="jenis_ikan" class="h-10 border-2 rounded-md border-slate-400"
                         multiple="multiple">
                         @foreach ($spotIkan->getFishTypes() as $fish)
@@ -30,17 +30,19 @@
                     </p>
                 </div>
 
-                <x-textarea-input id="deskripsi" title="Deskripsi">
-                    {{ $spotIkan->deskripsi }}
-                </x-textarea-input>
-                <p class="text-red-500">
+                <div class="flex flex-col w-full">
+                    <label for="deskripsi" class="mb-2 font-bold after:content-['*'] after:text-red-500">Deskripsi</label>
+                    <textarea name="deskripsi" id="deskripsi" placeholder="Deskripsi" rows="3"
+                        class="p-2 border-2 rounded-md resize-none outline-2 border-slate-400 focus:outline-sky-500">
+                        {{ $spotIkan->deskripsi }}
+                    </textarea>
                     @error('deskripsi')
-                        {{ $message }}
+                        <p class="text-red-500">{{ $message }}</p>
                     @enderror
-                </p>
+                </div>
 
                 <div class="mt-4">
-                    <h4 class="font-bold">Koordinat </h4>
+                    <h4 class="font-bold after:content-['*'] after:text-red-500">Koordinat </h4>
                     <div
                         class="relative flex items-center justify-start w-full text-lg font-bold border-b-2 border-slate-300">
                         <a href="#"

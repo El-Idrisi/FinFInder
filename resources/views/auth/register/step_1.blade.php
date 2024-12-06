@@ -4,13 +4,13 @@
     <div class="flex flex-row-reverse w-full h-full lg:h-fit shadow-manual">
         <div class="w-full px-6 py-32 lg:px-16 lg:w-1/2 bg-slate-100">
             <div class="flex flex-col justify-center h-full form-container ">
-                <h2 class="text-4xl text-center lg:text-start">STEP-1 | SIGN UP</h2>
+                <h2 class="text-4xl text-center lg:text-start">TAHAP-1 | DAFTAR</h2>
                 <form action="{{ route('register.step1') }}" method="POST" class="mt-4 ">
                     @csrf
                     <p class="my-4">Silakan masukkan alamat email aktif Anda. Kami akan mengirimkan kode verifikasi ke alamat email tersebut.</p>
 
                     <div class="flex flex-col my-2">
-                        <label for="email" class="mb-1 text-lg font-bold ">Email</label>
+                        <label for="email" class="mb-1 text-lg font-bold after:content-['*'] after:text-red-500">Email</label>
                         <input type="email" name="email" id="email" placeholder="email"
                             class="px-4 py-3 rounded-full bg-[#e9e9e9] focus:outline outline-none focus:outline-sky-500"
                             autocomplete="off" value="{{ old('email') }}">
@@ -27,15 +27,14 @@
                 </form>
             </div>
             <p class="absolute left-0 w-full text-center bottom-10 lg:hidden">Sudah Punya Akun, <a href="/login"
-                    class="text-sky-500">Login Here</a></p>
+                    class="text-sky-500">Masuk Here</a></p>
         </div>
         <div class="lg:w-1/2 w-0 hidden lg:block bg-gradient-to-r from-sky-300 via-sky-500 via-55% to-blue-500">
-            <div class="flex flex-col items-center justify-center h-full gap-8 text-slate-100">
-                <h3 class="text-5xl font-bold text-center">Welcome To Sign Up</h3>
-                <p class="text-xl">Already have an account</p>
+            <div class="flex flex-col items-center justify-center h-full gap-8 px-20 text-slate-100">
+                <h3 class="text-5xl font-bold text-center">Selamat Datang di Halaman Pendaftaran.</h3>
+                <p class="text-xl">Sudah Memiliki Akun.</p>
                 <a href="/login"
-                    class="px-4 py-2 transition-all duration-500 border-2 rounded-full border-slate-100 bg-size-200 bg-gradient-to-r from-sky-600 via-sky-500 to-sky-300 bg-pos-100 hover:bg-pos-0">Login
-                    Here</a>
+                    class="px-4 py-2 transition-all duration-500 border-2 rounded-full border-slate-100 bg-size-200 bg-gradient-to-r from-sky-600 via-sky-500 to-sky-300 bg-pos-100 hover:bg-pos-0">Masuk Di Sini!</a>
             </div>
         </div>
     </div>

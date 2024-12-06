@@ -5,7 +5,7 @@
     <div class="flex flex-row-reverse w-full h-full lg:h-fit shadow-manual">
         <div class="w-full px-6 py-32 lg:px-16 lg:w-1/2 bg-slate-100">
             <div class="flex flex-col justify-center h-full form-container">
-                <h2 class="text-4xl text-center lg:text-start">STEP-2 | SIGN UP</h2>
+                <h2 class="text-4xl text-center lg:text-start">TAHAP-2 | DAFTAR</h2>
                 <form action="{{ route('register.step2.process') }}" method="POST" class="mt-4">
                     @csrf
                     <p class="my-4">Masukkan kode verifikasi yang sudah kami kirim ke email Anda.</p>
@@ -62,13 +62,12 @@
             </p>
         </div>
         <div class="lg:w-1/2 w-0 hidden lg:block bg-gradient-to-r from-sky-300 via-sky-500 via-55% to-blue-500">
-            <div class="flex flex-col items-center justify-center h-full gap-8 text-slate-100">
-                <h3 class="text-5xl font-bold text-center">Welcome To Sign Up</h3>
-                <p class="text-xl">Already have an account</p>
+            <div class="flex flex-col items-center justify-center h-full gap-8 px-20 text-slate-100">
+                <h3 class="text-5xl font-bold text-center">Selamat Datang di Halaman Pendaftaran.</h3>
+                <p class="text-xl">Sudah Memiliki Akun.</p>
                 <a href="/login"
-                    class="px-4 py-2 transition-all duration-500 border-2 rounded-full border-slate-100 bg-size-200 bg-gradient-to-r from-sky-600 via-sky-500 to-sky-300 bg-pos-100 hover:bg-pos-0">
-                    Login Here
-                </a>
+                    class="px-4 py-2 transition-all duration-500 border-2 rounded-full border-slate-100 bg-size-200 bg-gradient-to-r from-sky-600 via-sky-500 to-sky-300 bg-pos-100 hover:bg-pos-0">Masuk
+                    Di Sini!</a>
             </div>
         </div>
     </div>
@@ -140,7 +139,7 @@
                     } catch (error) {
                         // Hide loading spinner
                         loadingSpinner.classList.add('hidden');
-                        
+
                         console.error('Error details:', error); // Tambahan untuk debugging
 
                         // Handle different types of errors

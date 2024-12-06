@@ -12,34 +12,39 @@
                     <input type="hidden" name="email" id="email" value="{{ $email }}">
 
                     <div class="flex flex-col my-2">
-                        <label for="username" class="mb-1 text-lg font-bold ">Username</label>
+                        <label for="username" class="mb-1 text-lg font-bold after:content-['*'] after:text-red-500">Username</label>
                         <input type="text" name="username" id="username" placeholder="username"
                             class="px-4 py-3 rounded-full bg-[#e9e9e9] focus:outline outline-none focus:outline-sky-500"
                             autocomplete="off" value="{{ old('username') }}">
+                            <small class="text-gray-400">username pengguna minimal terdiri dari 3 karakter dan tidak boleh mengandung spasi.</small>
                     </div>
                     @error('username')
                         <p class="text-red-500">{{ $message }}</p>
                     @enderror
 
                     <div class="flex flex-col my-8">
-                        <label for="password" class="mb-2 text-lg font-bold">Password</label>
+                        <label for="password" class="mb-2 text-lg font-bold after:content-['*'] after:text-red-500">Password</label>
                         <div class="bg-[#e9e9e9] rounded-full flex items-center pass">
                             <input type="password" name="password" id="password" placeholder="password"
-                            class="w-full px-4 py-3 bg-transparent rounded-full focus:outline-none " data-pass="password">
+                                class="w-full px-4 py-3 bg-transparent rounded-full focus:outline-none "
+                                data-pass="password">
                             <a href="#" class="flex items-center" onclick="showPassword('password')">
                                 <i id="eye-icon-password" class="pr-4 fa-solid fa-eye-slash text-sky-900"></i>
                             </a>
                         </div>
+                        <small class="text-gray-400">Password minimal harus terdiri dari 8 karakter.</small>
                     </div>
                     @error('password')
                         <p class="text-red-500">{{ $message }}</p>
                     @enderror
 
                     <div class="flex flex-col my-8">
-                        <label for="password_confirmation" class="mb-2 text-lg font-bold">Confirm Password</label>
+                        <label for="password_confirmation" class="mb-2 text-lg font-bold after:content-['*'] after:text-red-500">Konfirmasi Password</label>
                         <div class="bg-[#e9e9e9] rounded-full flex items-center pass">
-                            <input type="password" name="password_confirmation" id="password_confirmation" placeholder="confirm password"
-                                class="w-full px-4 py-3 bg-transparent rounded-full focus:outline-none " data-pass="password">
+                            <input type="password" name="password_confirmation" id="password_confirmation"
+                                placeholder="confirm password"
+                                class="w-full px-4 py-3 bg-transparent rounded-full focus:outline-none "
+                                data-pass="password">
                             <a href="#" class="flex items-center" onclick="showPassword('password_confirmation')">
                                 <i id="eye-icon-password" class="pr-4 fa-solid fa-eye-slash text-sky-900"></i>
                             </a>
@@ -57,12 +62,12 @@
                     class="text-sky-500">Login Here</a></p>
         </div>
         <div class="lg:w-1/2 w-0 hidden lg:block bg-gradient-to-r from-sky-300 via-sky-500 via-55% to-blue-500">
-            <div class="flex flex-col items-center justify-center h-full gap-8 text-slate-100">
-                <h3 class="text-5xl font-bold text-center">Welcome To Sign Up</h3>
-                <p class="text-xl">Already have an account</p>
+            <div class="flex flex-col items-center justify-center h-full gap-8 px-20 text-slate-100">
+                <h3 class="text-5xl font-bold text-center">Selamat Datang di Halaman Pendaftaran.</h3>
+                <p class="text-xl">Sudah Memiliki Akun.</p>
                 <a href="/login"
-                    class="px-4 py-2 transition-all duration-500 border-2 rounded-full border-slate-100 bg-size-200 bg-gradient-to-r from-sky-600 via-sky-500 to-sky-300 bg-pos-100 hover:bg-pos-0">Login
-                    Here</a>
+                    class="px-4 py-2 transition-all duration-500 border-2 rounded-full border-slate-100 bg-size-200 bg-gradient-to-r from-sky-600 via-sky-500 to-sky-300 bg-pos-100 hover:bg-pos-0">Masuk
+                    Di Sini!</a>
             </div>
         </div>
     </div>

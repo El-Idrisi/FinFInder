@@ -19,7 +19,7 @@
                     <div class="flex flex-col my-8">
                         <label for="password" class="mb-2 text-lg font-bold">Password</label>
                         <div class="bg-[#e9e9e9] rounded-full flex items-center pass">
-                            <input type="password" name="password" id="password" placeholder="password"
+                            <input type="password" name="password" id="password" placeholder="Password"
                                 class="w-full px-4 py-3 bg-transparent rounded-full focus:outline-none " data-pass="password">
                             <a href="#" class="flex items-center" onclick="showPassword('password')">
                                 <i id="eye-icon-password" class="pr-4 fa-solid fa-eye-slash text-sky-900"></i>
@@ -45,7 +45,7 @@
                         </div>
                         <a href="/forgot-password"
                             class="flex flex-col items-center justify-center text-slate-500 hover:text-slate-700 group">
-                            Forget Password
+                            Lupa Password
                             <hr
                                 class="hidden w-0 transition-all duration-300 opacity-0 lg:block group-hover:w-full group-hover:opacity-100 group-hover:border-slate-700">
                         </a>
@@ -57,11 +57,10 @@
         </div>
         <div class="lg:w-1/2 w-0 hidden lg:block bg-gradient-to-r from-sky-300 via-sky-500 via-55% to-blue-500">
             <div class="flex flex-col items-center justify-center h-full gap-8 text-slate-100">
-                <h3 class="text-5xl font-bold text-center">Welcome To Login</h3>
-                <p class="text-xl">Need an Account</p>
+                <h3 class="text-5xl font-bold text-center">Selamat Datang di Halaman Login</h3>
+                <p class="text-xl">Butuh Akun</p>
                 <a href="/register"
-                    class="px-4 py-2 transition-all duration-500 border-2 rounded-full border-slate-100 bg-size-200 bg-gradient-to-r from-sky-600 via-sky-500 to-sky-300 bg-pos-100 hover:bg-pos-0">Register
-                    Here</a>
+                    class="px-4 py-2 transition-all duration-500 border-2 rounded-full border-slate-100 bg-size-200 bg-gradient-to-r from-sky-600 via-sky-500 to-sky-300 bg-pos-100 hover:bg-pos-0">Daftar Di sini!</a>
             </div>
         </div>
     </div>

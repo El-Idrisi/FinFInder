@@ -974,7 +974,7 @@
                     title: 'Peta Interaktif',
                     intro: 'Inilah pusat eksplorasi Anda! Di sini Anda dapat menjelajahi berbagai spot pemancingan, melihat detail lokasi, dan merencanakan petualangan memancing Anda selanjutnya.'
                 }, {
-                    element: '.fish-marker-7',
+                    element: '.fish-marker-6',
                     title: 'Spot Ikan',
                     intro: 'Klik marker ikan ini untuk melihat detail-detail yang ada di sana.',
                 }, {
@@ -1030,7 +1030,7 @@
                 }
 
                 if (targetElement && targetElement.classList.contains('fish-marker-7')) {
-                    const marker = fishMarkers[6].marker;
+                    const marker = fishMarkers[5].marker;
                     if (marker.isPopupOpen()) {
                         marker.closePopup();
                     }
@@ -1038,15 +1038,13 @@
 
                 // Untuk marker dan popup
                 if (targetElement && targetElement.classList.contains('fish-marker-7')) {
-                    const marker = fishMarkers[6].marker;
-                    if (marker.isPopupOpen()) {
-                        marker.closePopup();
-                    }
+                    const marker = fishMarkers[5].marker;
+                    marker.closePopup();
                 }
 
                 // Khusus untuk popup step
                 if (nextStep === 10) {
-                    const marker = fishMarkers[6].marker;
+                    const marker = fishMarkers[5].marker;
 
                     // Tutup popup dulu jika ada
                     marker.closePopup();
@@ -1116,7 +1114,7 @@
                     layersModal.classList.add('hidden');
                 }, 300);
 
-                const marker = fishMarkers[6].marker;
+                const marker = fishMarkers[5].marker;
                 if (marker.isPopupOpen()) {
                     marker.closePopup();
                 }
@@ -1133,7 +1131,7 @@
                     layersModal.classList.add('hidden');
                 }, 300);
 
-                const marker = fishMarkers[6].marker;
+                const marker = fishMarkers[5].marker;
                 if (marker.isPopupOpen()) {
                     marker.closePopup();
                 }
