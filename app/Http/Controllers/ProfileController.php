@@ -70,7 +70,7 @@ class ProfileController extends Controller
     {
         $request->validate([
             'password' => 'required',
-            'email_baru' => 'required|email|unique:users,email|ends_with:@gmail.com'
+            'email_baru' => 'required|email|unique:users,email'
         ]);
 
         if (!Hash::check($request->password, auth()->user()->password)) {
@@ -93,7 +93,7 @@ class ProfileController extends Controller
     {
         $request->validate([
             'verification_code' => 'required',
-            'email_baru' => 'required|email|ends_with:@gmail.com'
+            'email_baru' => 'required|email'
         ]);
 
         if (

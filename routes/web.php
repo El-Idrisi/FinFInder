@@ -48,6 +48,9 @@ Route::middleware('guest')->group(function () {
 
         Route::get('/step3/{email}', 'showStep3')->name('step3');
         Route::post('/step3', 'processStep3')->name('step3.process');
+
+        Route::post('/resend-verification-code',  'resendVerificationCode')
+            ->name('verification.resend');
     });
 });
 

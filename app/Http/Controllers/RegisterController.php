@@ -2,16 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Mail\VerificationCodeMail;
 use App\Models\User;
-use App\Models\VerificationCode;
-use GuzzleHttp\Promise\Create;
-use Illuminate\Auth\Events\Validated;
-use Illuminate\Auth\Events\Verified;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Models\VerificationCode;
+use App\Mail\VerificationCodeMail;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\RateLimiter;
 
 class RegisterController extends Controller
 {
@@ -23,7 +21,7 @@ class RegisterController extends Controller
     public function processStep1(Request $request)
     {
         $request->validate([
-            'email' => 'required|email|unique:users|ends_with:@gmail.com',
+            'email' => 'required|email|unique:users',
         ]);
 
         $code = Str::random(6);
@@ -41,6 +39,63 @@ class RegisterController extends Controller
             ->with('success', 'Kode verifikasi telah dikirim ke email Anda.');
     }
 
+    public function resendVerificationCode(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+        ]);
+
+        $email = $request->email;
+
+        // Check if the email exists in verification_codes table
+        $verificationCode = VerificationCode::where('email', $email)->first();
+
+        if (!$verificationCode) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Email tidak ditemukan dalam sistem verifikasi.'
+            ], 404);
+        }
+
+        // Implement rate limiting - allow only 3 resend attempts per email every 15 minutes
+        $rateLimiterKey = 'resend-verification:' . $email;
+
+        if (RateLimiter::tooManyAttempts($rateLimiterKey, 3)) {
+            $seconds = RateLimiter::availableIn($rateLimiterKey);
+            return response()->json([
+                'success' => false,
+                'message' => "Terlalu banyak percobaan. Silakan coba lagi dalam " . ceil($seconds / 60) . " menit."
+            ], 429);
+        }
+
+        RateLimiter::hit($rateLimiterKey, 900); // 15 minutes = 900 seconds
+
+        // Generate new verification code
+        $code = Str::random(6);
+
+        // Update the verification code
+        $verificationCode->update([
+            'code' => $code,
+            'updated_at' => now()
+        ]);
+
+        try {
+            // Send the new verification code
+            Mail::to($email)->send(new VerificationCodeMail($code));
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Kode verifikasi baru telah dikirim ke email Anda.'
+            ]);
+        } catch (\Exception $e) {
+            report($e); // Log the error
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal mengirim kode verifikasi. Silakan coba lagi nanti.'
+            ], 500);
+        }
+    }
+
     public function showStep2($email)
     {
         return view('auth.register.step_2', compact('email'), ['title' => 'FinFinder | Register']);
@@ -54,8 +109,8 @@ class RegisterController extends Controller
         ]);
 
         $verificationCode = VerificationCode::where('email', $request->email)
-        ->where('code', $request->verification_code)
-        ->first();
+            ->where('code', $request->verification_code)
+            ->first();
 
         if (!$verificationCode) {
             return back()->withErrors(['verification_code' => 'Kode verifikasi tidak valid.']);
