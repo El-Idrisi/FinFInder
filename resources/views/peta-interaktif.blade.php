@@ -184,7 +184,7 @@
 
     <div id="map" class=" h-[calc(100vh-115px)] lg:h-[calc(100vh-58px)] w-100">
         <div id="basemapGallery"
-            class="hidden rounded-lg border-2 border-slate-300 absolute p-4 bg-white-100 top-24 left-[5.7rem] z-[999] dark:bg-slate-900 dark:border-slate-700 dark:text-white-100">
+            class="hidden opacity-0 rounded-lg border-2 border-slate-300 absolute p-4 bg-white-100 top-24 left-[5.7rem] z-[999] dark:bg-slate-900 dark:border-slate-700 dark:text-white-100">
             <div id="basemapGalleryHeader" class="flex justify-between">
                 <h4 class="text-base font-bold">BaseMap Gallery</h4>
                 <button id="close-btn"><i class="fa-solid fa-x"></i></button>
@@ -474,6 +474,7 @@
                 title: 'Basemap', // like its title
                 onClick: function() { // and its callback
                     document.querySelector('#basemapGallery').classList.toggle('hidden');
+                    document.querySelector('#basemapGallery').classList.toggle('opacity-0');
                 }
             }]
         }).addTo(map);
@@ -938,50 +939,87 @@
         function guide() {
             const intro = introJs().setOptions({
                 disableInteraction: true,
+                nextLabel: 'Selanjutnya',
+                prevLabel: 'Sebelumnya',
+                doneLabel: 'Selesai',
                 steps: [{
-                    title: 'Guide Peta Interaktif',
-                    intro: 'Selamat datang di FinFinder! Mari kita jelajahi fitur-fitur utama yang akan membantu Anda menemukan spot pemancingan terbaik dengan mudah dan menyenangkan.'
+                    title: 'Panduan Peta Interaktif FinFinder',
+                    intro: 'Selamat datang di FinFinder! Mari kita jelajahi fitur-fitur menarik yang akan memudahkan Anda menemukan spot memancing terbaik.'
                 }, {
                     element: '#navbar',
                     title: 'Navigasi FinFinder',
-                    intro: 'Ini adalah panel navigasi utama FinFinder. Di sini Anda akan menemukan semua akses menuju fitur-fitur penting aplikasi untuk pengalaman memancing yang lebih baik.'
+                    intro: 'Ini adalah panel navigasi utama yang akan memandu Anda menjelajahi semua fitur menarik di aplikasi FinFinder.'
                 }, {
                     element: '#navbar-menu',
                     title: 'Menu Utama',
-                    intro: 'Melalui menu ini, Anda dapat dengan mudah berpindah antara Beranda, Profil Anda, Peta Interaktif, dan halaman Kontak. Setiap halaman dirancang untuk memberikan pengalaman terbaik dalam mencari spot pemancingan.'
+                    intro: 'Gunakan menu ini untuk berpindah antar halaman utama, profil, peta interaktif, dan kontak kami.'
                 }, {
                     element: '#dark-btn',
-                    title: 'Pengaturan Tampilan',
-                    intro: 'Sesuaikan kenyamanan mata Anda dengan tombol ini. Aktifkan mode gelap untuk penggunaan di malam hari atau tetap di mode terang untuk visibilitas maksimal di siang hari.'
+                    title: 'Mode Terang/Gelap',
+                    intro: 'Sesuaikan tampilan peta dengan kenyamanan mata Anda. Pilih mode terang atau gelap sesuai kebutuhan.'
                 }, {
                     element: '#legenda-btn',
-                    title: 'Tombol Legenda',
-                    intro: 'Temukan arti dari setiap simbol di peta melalui tombol ini. Satu klik untuk membuka panel legenda yang akan membantu Anda memahami setiap detail pada peta.'
+                    title: 'Legenda Peta',
+                    intro: 'Klik tombol ini untuk melihat penjelasan setiap simbol yang ada di peta.'
                 }, {
                     element: '#legenda-modal',
                     title: 'Panel Legenda',
-                    intro: 'Panel ini menampilkan penjelasan lengkap tentang setiap simbol dan warna yang Anda lihat di peta. Pahami setiap detailnya untuk navigasi yang lebih baik.'
+                    intro: 'Panel ini menampilkan penjelasan lengkap tentang setiap simbol dan warna pada peta.'
                 }, {
                     element: '#layers-btn',
-                    title: 'Pengaturan Layer',
-                    intro: 'Kustomisasi tampilan peta Anda dengan tombol ini. Buka panel layer untuk mengatur berbagai lapisan informasi yang ingin Anda lihat.'
+                    title: 'Pengaturan Lapisan Peta',
+                    intro: 'Sesuaikan tampilan peta dengan mengaktifkan atau menonaktifkan lapisan informasi yang ingin Anda lihat.'
                 }, {
                     element: '#layers-modal',
-                    title: 'Panel Layer',
-                    intro: 'Sesuaikan tampilan peta sesuai kebutuhan Anda. Centang layer yang ingin ditampilkan dan nonaktifkan yang tidak diperlukan untuk pengalaman yang lebih personal.'
+                    title: 'Panel Pengaturan Lapisan',
+                    intro: 'Di sini Anda dapat memilih lapisan peta mana yang ingin ditampilkan.'
                 }, {
                     element: '#map',
                     title: 'Peta Interaktif',
-                    intro: 'Inilah pusat eksplorasi Anda! Di sini Anda dapat menjelajahi berbagai spot pemancingan, melihat detail lokasi, dan merencanakan petualangan memancing Anda selanjutnya.'
+                    intro: 'Jelajahi berbagai spot memancing menarik di peta interaktif kami.'
                 }, {
                     element: '.fish-marker-6',
-                    title: 'Spot Ikan',
-                    intro: 'Klik marker ikan ini untuk melihat detail-detail yang ada di sana.',
+                    title: 'Marker Spot Ikan',
+                    intro: 'Klik marker ikan ini untuk melihat detail lokasi spot memancing.'
                 }, {
                     element: '.leaflet-popup',
                     title: 'Detail Spot Ikan',
-                    intro: 'Di sini Anda dapat melihat informasi lengkap tentang spot pemancingan ini.',
-
+                    intro: 'Jendela ini menampilkan informasi lengkap tentang spot memancing yang Anda pilih.'
+                }, {
+                    element: '.leaflet-top.leaflet-left',
+                    title: 'Kontrol Peta',
+                    intro: 'Gunakan panel kontrol ini untuk menyesuaikan tampilan dan navigasi peta.'
+                }, {
+                    element: '.leaflet-control-zoom',
+                    title: 'Kontrol Zoom',
+                    intro: 'Perbesar atau perkecil tampilan peta sesuai kebutuhan Anda.'
+                }, {
+                    element: '.leaflet-ruler',
+                    title: 'Pengukur Jarak',
+                    intro: 'Hitung jarak antara dua titik di peta.'
+                }, {
+                    element: '.geoapify-leaflet-control',
+                    title: 'Pencarian Lokasi',
+                    intro: 'Cari lokasi spesifik dan temukan spot memancing terdekat.'
+                }, {
+                    element: '.home-active',
+                    title: 'Kembali ke Tampilan Awal',
+                    intro: 'Kembalikan tampilan peta ke posisi awal.'
+                }, {
+                    element: '.basemap-active',
+                    title: 'Ganti Peta Dasar',
+                    intro: 'Pilih jenis peta dasar yang sesuai dengan preferensi Anda.'
+                }, {
+                    element: '#basemapGallery',
+                    title: 'Galeri Peta Dasar',
+                    intro: 'Pilih dari berbagai pilihan peta dasar yang tersedia.'
+                }, {
+                    element: '.point-control-active',
+                    title: 'Hitung Jarak ke Spot Ikan',
+                    intro: 'Hitung jarak terdekat dari titik yang Anda pilih ke spot ikan.'
+                }, {
+                    title: 'Panduan Peta Interaktif FinFinder',
+                    intro: 'Selamat menikmati pengalaman memancing Anda dengan FinFinder!'
                 }]
             });
 
@@ -992,6 +1030,7 @@
             intro.onbeforechange(function(targetElement) {
                 const legendaModal = document.getElementById('legenda-modal');
                 const layersModal = document.getElementById('layers-modal');
+                const basemapModal = document.getElementById('basemapGallery');
                 const nextStep = intro._currentStep; // Mendapatkan step berikutnya
 
                 // Jika menuju ke step legenda-modal
@@ -1029,10 +1068,20 @@
                     }
                 }
 
-                if (targetElement && targetElement.classList.contains('fish-marker-7')) {
-                    const marker = fishMarkers[5].marker;
-                    if (marker.isPopupOpen()) {
-                        marker.closePopup();
+                if (targetElement && targetElement.id === 'basemapGallery') {
+                    if (basemapModal.classList.contains('hidden')) {
+                        basemapModal.classList.remove('hidden');
+                        setTimeout(() => {
+                            basemapModal.classList.remove('opacity-0');
+                        }, 10);
+                    }
+                } else {
+                    // Jika meninggalkan step legenda-modal (back atau next)
+                    if (currentStep === 17) { // Sesuaikan dengan index step legenda-modal
+                        basemapModal.classList.add('opacity-0');
+                        setTimeout(() => {
+                            basemapModal.classList.add('hidden');
+                        }, 300);
                     }
                 }
 
@@ -1086,13 +1135,21 @@
                                 const tooltip = document.querySelector('.introjs-tooltip');
                                 if (tooltip) {
                                     tooltip.style.transform =
-                                    'translate(-250px, 0)'; // Geser 200px ke kiri
+                                        'translate(-250px, 0)'; // Geser 200px ke kiri
                                     // atau
                                     tooltip.style.marginLeft = '-250px'; // Alternatif lain
                                 }
                             }
                         }, 100);
                     }, 50);
+                } else {
+                    const tooltip = document.querySelector('.introjs-tooltip');
+                    if (tooltip) {
+                        tooltip.style.transform =
+                            'translate(0, 0)'; // Geser 200px ke kiri
+                        // atau
+                        tooltip.style.marginLeft = '0px'; // Alternatif lain
+                    }
                 }
 
             });
@@ -1101,17 +1158,25 @@
             intro.onafterchange(function(targetElement) {
                 // Update step saat ini
                 currentStep = intro._currentStep;
+
+                const marker = fishMarkers[5].marker;
+                if (marker.isPopupOpen()) {
+                    marker.closePopup();
+                }
             });
 
             // Event handler untuk cleanup setelah tour selesai
             intro.oncomplete(function() {
                 const legendaModal = document.getElementById('legenda-modal');
                 const layersModal = document.getElementById('layers-modal');
+                const basemapModal = document.getElementById('basemapGallery');
                 legendaModal.classList.add('opacity-0');
                 layersModal.classList.add('opacity-0');
+                basemapModal.classList.add('opacity-0');
                 setTimeout(() => {
                     legendaModal.classList.add('hidden');
                     layersModal.classList.add('hidden');
+                    basemapModal.classList.add('hidden');
                 }, 300);
 
                 const marker = fishMarkers[5].marker;
@@ -1123,12 +1188,15 @@
             // Event handler untuk cleanup jika tour dilewati
             intro.onexit(function() {
                 const legendaModal = document.getElementById('legenda-modal');
-                const layersModal = document.getElementById('laya-modal');
+                const layersModal = document.getElementById('layers-modal');
+                const basemapModal = document.getElementById('basemapGallery');
                 legendaModal.classList.add('opacity-0');
                 layersModal.classList.add('opacity-0');
+                basemapModal.classList.add('opacity-0');
                 setTimeout(() => {
                     legendaModal.classList.add('hidden');
                     layersModal.classList.add('hidden');
+                    basemapModal.classList.add('hidden');
                 }, 300);
 
                 const marker = fishMarkers[5].marker;

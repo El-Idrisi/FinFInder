@@ -42,7 +42,7 @@
         @if (Auth::user()->role != 'admin')
             <x-form-group :isAccordion="true" :allowFooter="true" title="Ganti Email" :isDelete="false">
                 <form class="px-8 py-6" id="changeEmailForm">
-                    <p>Untuk mengganti email akun Anda, masukkan password Anda dan email baru (<i>@gmail.com</i>) yang
+                    <p>Untuk mengganti email akun Anda, masukkan password Anda dan email baru yang
                         diinginkan, lalu klik 'Kirim Kode Verifikasi'. Kami akan mengirim kode ke email baru tersebut.
                         Pastikan Anda memiliki akses ke email baru ini untuk menyelesaikan proses perubahan.</p>
 
@@ -234,7 +234,7 @@
                     Swal.fire({
                         title: 'Hapus Akun',
                         html: `
-            <div class="text-sm text-gray-600 mb-4">
+            <div class="mb-4 text-sm text-gray-600">
                 Harap masukkan password Anda untuk konfirmasi penghapusan akun.
             </div>
         `,
