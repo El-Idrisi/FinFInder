@@ -327,6 +327,8 @@
 
         const navBottom = document.querySelector('#nav-bottom');
         const navScroll = document.querySelector('#nav-scroll');
+
+        const isMobile = window.innerWidth < 1024;
     </script>
     {{-- Component --}}
 
@@ -405,7 +407,7 @@
 
     {{-- Leaflet JS --}}
     <script>
-        var map = L.map('map').setView([1.0325711837093985, 102.62127433486428], 9);
+        var map = L.map('map').setView([1.0325711837093985, 102.62127433486428], isMobile? 8:9);
         map.on('popupopen', function(e) {
             if (document.body.classList.contains('dark')) {
                 e.popup.getElement().classList.add('dark');
@@ -944,9 +946,38 @@
 
     {{-- Intro JS --}}
     <script>
-        const isMobile = window.innerWidth < 1024;
-
         function guide() {
+            // Fungsi untuk menutup semua modal dan mereset tampilan
+            function resetModalAndMapState() {
+                // Menutup semua modal
+                const modals = ['legenda-modal', 'layers-modal', 'basemapGallery'];
+                modals.forEach(modalId => {
+                    const modal = document.getElementById(modalId);
+                    if (modal) {
+                        modal.classList.add('opacity-0');
+                    }
+                });
+
+                // Reset posisi navigation bottom jika dalam mode mobile
+                const navBottom = document.getElementById('nav-bottom');
+                if (navBottom) {
+                    navBottom.classList.add('-bottom-[2.80rem]');
+                    navBottom.classList.remove('bottom-0');
+                }
+
+                // Reset tampilan peta ke posisi awal
+                map.setView([1.0325711837093985, 102.62127433486428], isMobile? 8 : 9);
+
+                // Menutup popup yang mungkin terbuka
+                const marker = fishMarkers[5].marker;
+                if (marker && marker.isPopupOpen()) {
+                    marker.closePopup();
+                }
+            }
+
+            // Panggil fungsi reset sebelum memulai tour
+            resetModalAndMapState();
+
             const intro = introJs().setOptions({
                 disableInteraction: true,
                 nextLabel: 'Selanjutnya',
@@ -1137,7 +1168,9 @@
                         setTimeout(() => {
                             modal.classList.remove('opacity-0');
                         }, 10);
-                    } else if (currentStep === modals[modalId].step) {
+                    } else if (!isTarget) {
+                        console.log('yes');
+
                         modal.classList.add('opacity-0');
                         setTimeout(() => {
                             modal.classList.add('hidden');
@@ -1302,7 +1335,7 @@
                 }
             })
         });
-        
+
         document.addEventListener('click', function(e) {
             const basemapGallery = document.querySelector('#basemapGallery');
             const isInTour = document.querySelector('.introjs-overlay');
