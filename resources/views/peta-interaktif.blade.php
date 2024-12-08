@@ -465,7 +465,7 @@
                 icon: 'fa-home', // and define its properties
                 title: 'Home', // like its title
                 onClick: function(btn, map) { // and its callback
-                    map.setView([1.0325711837093985, 102.62127433486428], 9);
+                    map.setView([1.0325711837093985, 102.62127433486428], isMobile? 8 : 9);
                     btn.state('home'); // change state on click!
                 }
             }]
@@ -947,6 +947,7 @@
     {{-- Intro JS --}}
     <script>
         function guide() {
+            const tourConfig = @json($tourSteps);
             // Fungsi untuk menutup semua modal dan mereset tampilan
             function resetModalAndMapState() {
                 // Menutup semua modal
@@ -977,111 +978,14 @@
 
             // Panggil fungsi reset sebelum memulai tour
             resetModalAndMapState();
+            const steps = isMobile ? tourConfig.tourSteps.mobile : tourConfig.tourSteps.desktop;
 
             const intro = introJs().setOptions({
                 disableInteraction: true,
                 nextLabel: 'Selanjutnya',
                 prevLabel: 'Sebelumnya',
                 doneLabel: 'Selesai',
-                steps: [{
-                        "title": "Panduan Peta Interaktif FinFinder",
-                        "intro": "Selamat datang di FinFinder! Mari kita jelajahi fitur-fitur menarik yang akan memudahkan Anda menemukan spot memancing terbaik."
-                    },
-                    {
-                        element: isMobile ? "#nav-bottom" : "#navbar",
-                        "title": "Navigasi FinFinder",
-                        "intro": "Ini adalah panel navigasi utama yang akan memandu Anda menjelajahi semua fitur menarik di aplikasi FinFinder."
-                    },
-                    {
-                        "element": isMobile ? "#nav-bottom-menu" : "#navbar-menu",
-                        "title": "Menu Utama",
-                        "intro": "Gunakan menu ini untuk berpindah antar halaman utama, profil, peta interaktif, dan kontak kami."
-                    },
-                    {
-                        "element": "#dark-btn",
-                        "title": "Mode Terang/Gelap",
-                        "intro": "Sesuaikan tampilan peta dengan kenyamanan mata Anda. Pilih mode terang atau gelap sesuai kebutuhan."
-                    },
-                    {
-                        "element": "#legenda-btn",
-                        "title": "Legenda Peta",
-                        "intro": "Klik tombol ini untuk melihat penjelasan setiap simbol yang ada di peta."
-                    },
-                    {
-                        "element": "#legenda-modal",
-                        "title": "Panel Legenda",
-                        "intro": "Panel ini menampilkan penjelasan lengkap tentang setiap simbol dan warna pada peta."
-                    },
-                    {
-                        "element": "#layers-btn",
-                        "title": "Pengaturan Lapisan Peta",
-                        "intro": "Sesuaikan tampilan peta dengan mengaktifkan atau menonaktifkan lapisan informasi yang ingin Anda lihat."
-                    },
-                    {
-                        "element": "#layers-modal",
-                        "title": "Panel Pengaturan Lapisan",
-                        "intro": "Di sini Anda dapat memilih lapisan peta mana yang ingin ditampilkan."
-                    },
-                    {
-                        "element": "#map",
-                        "title": "Peta Interaktif",
-                        "intro": "Jelajahi berbagai spot memancing menarik di peta interaktif kami."
-                    },
-                    {
-                        "element": ".fish-marker-6",
-                        "title": "Marker Spot Ikan",
-                        "intro": "Klik marker ikan ini untuk melihat detail lokasi spot memancing."
-                    },
-                    {
-                        "element": ".leaflet-popup",
-                        "title": "Detail Spot Ikan",
-                        "intro": "Jendela ini menampilkan informasi lengkap tentang spot memancing yang Anda pilih."
-                    },
-                    {
-                        "element": ".leaflet-top.leaflet-left",
-                        "title": "Kontrol Peta",
-                        "intro": "Gunakan panel kontrol ini untuk menyesuaikan tampilan dan navigasi peta."
-                    },
-                    {
-                        "element": ".leaflet-control-zoom",
-                        "title": "Kontrol Zoom",
-                        "intro": "Perbesar atau perkecil tampilan peta sesuai kebutuhan Anda."
-                    },
-                    {
-                        "element": ".leaflet-ruler",
-                        "title": "Pengukur Jarak",
-                        "intro": "Hitung jarak antara dua titik di peta."
-                    },
-                    {
-                        "element": ".geoapify-leaflet-control",
-                        "title": "Pencarian Lokasi",
-                        "intro": "Cari lokasi spesifik dan temukan spot memancing terdekat."
-                    },
-                    {
-                        "element": ".home-active",
-                        "title": "Kembali ke Tampilan Awal",
-                        "intro": "Kembalikan tampilan peta ke posisi awal."
-                    },
-                    {
-                        "element": ".basemap-active",
-                        "title": "Ganti Peta Dasar",
-                        "intro": "Pilih jenis peta dasar yang sesuai dengan preferensi Anda."
-                    },
-                    {
-                        "element": "#basemapGallery",
-                        "title": "Galeri Peta Dasar",
-                        "intro": "Pilih dari berbagai pilihan peta dasar yang tersedia."
-                    },
-                    {
-                        "element": ".point-control-active",
-                        "title": "Hitung Jarak ke Spot Ikan",
-                        "intro": "Hitung jarak terdekat dari titik yang Anda pilih ke spot ikan."
-                    },
-                    {
-                        "title": "Panduan Peta Interaktif FinFinder",
-                        "intro": "Selamat menikmati pengalaman memancing Anda dengan FinFinder!"
-                    }
-                ]
+                steps: steps
             });
 
             // Tambahkan variabel untuk track step saat ini
