@@ -187,7 +187,7 @@
             class="transition-all duration-300 hidden opacity-0 rounded-lg border-2 border-slate-300 absolute p-4 bg-white-100 top-24 left-[5.7rem] z-[999] dark:bg-slate-900 dark:border-slate-700 dark:text-white-100">
             <div id="basemapGalleryHeader" class="flex justify-between">
                 <h4 class="text-base font-bold">BaseMap Gallery</h4>
-                <button id="close-btn"><i class="fa-solid fa-x"></i></button>
+                <button id="close-btn-basemap"><i class="fa-solid fa-x"></i></button>
             </div>
             <div class="grid grid-cols-2 gap-2 mt-4">
                 <div class="text-center cursor-pointer ">
@@ -407,7 +407,7 @@
 
     {{-- Leaflet JS --}}
     <script>
-        var map = L.map('map').setView([1.0325711837093985, 102.62127433486428], isMobile? 8:9);
+        var map = L.map('map').setView([1.0325711837093985, 102.62127433486428], isMobile ? 8 : 9);
         map.on('popupopen', function(e) {
             if (document.body.classList.contains('dark')) {
                 e.popup.getElement().classList.add('dark');
@@ -966,7 +966,7 @@
                 }
 
                 // Reset tampilan peta ke posisi awal
-                map.setView([1.0325711837093985, 102.62127433486428], isMobile? 8 : 9);
+                map.setView([1.0325711837093985, 102.62127433486428], isMobile ? 8 : 9);
 
                 // Menutup popup yang mungkin terbuka
                 const marker = fishMarkers[5].marker;
@@ -1351,6 +1351,16 @@
                     basemapGallery.classList.add('hidden');
                 }, 300);
             }
+        });
+
+        const closeButton = document.querySelector('#close-btn-basemap');
+        const basemapGallery = document.querySelector('#basemapGallery');
+
+        closeButton.addEventListener('click', function() {
+            basemapGallery.classList.add('opacity-0');
+            setTimeout(() => {
+                basemapGallery.classList.add('hidden');
+            }, 300);
         });
     </script>
     {{-- Basemap Setting --}}
