@@ -108,8 +108,9 @@
         }
 
         .search-location {
-            /* min-width: 100%; */
-            min-width: 200px;
+            min-width: min(200px, 90vw);
+            width: 100%;
+            max-width: 300px;
         }
 
         .checkbox-xl {
@@ -123,8 +124,7 @@
 @endpush
 
 @section('content')
-    <header id="navbar"
-        class="relative w-full px-12 py-2 transition-all duration-300 shadow-lg bg-slate-100 dark:bg-slate-900">
+    <header id="navbar" class="w-full px-12 py-2 transition-all duration-300 shadow-lg bg-slate-100 dark:bg-slate-900">
         <div class="flex items-center justify-between">
             <img src="{{ asset('img/finfinder.png') }}" alt="logo" class="w-32">
             <ul id="navbar-menu" class="hidden gap-8 lg:flex">
@@ -184,7 +184,7 @@
 
     <div id="map" class=" h-[calc(100vh-115px)] lg:h-[calc(100vh-58px)] w-100">
         <div id="basemapGallery"
-            class="hidden opacity-0 rounded-lg border-2 border-slate-300 absolute p-4 bg-white-100 top-24 left-[5.7rem] z-[999] dark:bg-slate-900 dark:border-slate-700 dark:text-white-100">
+            class="transition-all duration-300 hidden opacity-0 rounded-lg border-2 border-slate-300 absolute p-4 bg-white-100 top-24 left-[5.7rem] z-[999] dark:bg-slate-900 dark:border-slate-700 dark:text-white-100">
             <div id="basemapGalleryHeader" class="flex justify-between">
                 <h4 class="text-base font-bold">BaseMap Gallery</h4>
                 <button id="close-btn"><i class="fa-solid fa-x"></i></button>
@@ -223,12 +223,12 @@
     </div>
 
     <div id="nav-bottom"
-        class="fixed -bottom-[2.80rem]  z-[999999] transition-all duration-300  bg-white-100 w-screen px-4 py-2 border-t-2 border-slate-900 lg:hidden dark:bg-slate-900 dark:text-slate-100 dark:border-slate-100">
+        class="fixed nav-bottom -bottom-[2.80rem] z-[999999] transition-all duration-300  bg-white-100 w-screen px-4 py-2 border-t-2 border-slate-900 lg:hidden dark:bg-slate-900 dark:text-slate-100 dark:border-slate-100">
         <div id="nav-scroll"
             class="absolute flex items-center justify-center h-4 -translate-x-1/2 border-t-2 border-l-2 border-r-2 rounded-t-lg cursor-pointer w-14 border-slate-900 bg-white-100 left-1/2 -top-[0.95rem] dark:bg-slate-900 dark:border-slate-100 transition-all duration-300">
             <i class="fa-solid fa-angle-up dark:text-slate-100"></i>
         </div>
-        <div class="flex justify-center gap-10 pr-2 text-2xl ">
+        <div id="nav-bottom-menu" class="flex justify-center gap-10 pr-2 text-2xl nav-bottom-menu">
             <a href="/"><i class="fa-solid fa-house"></i></a>
             <a href="/profil"><i class="fa-solid fa-magnifying-glass"></i></a>
             <a href="/peta-interaktif"><i class="fa-solid fa-map text-sky-500"></i></a>
@@ -241,7 +241,7 @@
 
     {{-- legenda modal --}}
     <div id="legenda-modal"
-        class="fixed w-full md:w-[300px] transition-all duration-300 md:top-16 md:right-2 border-[3px] border-slate-200 rounded-md z-[999999] h-[370px] md:h-[calc(100vh-70px)] bg-white-100 shadow-lg dark:bg-slate-900 dark:border-slate-700 bottom-0  flex flex-col hidden opacity-0">
+        class="fixed hidden w-full md:w-[300px] transition-all duration-300 md:top-16 md:right-2 border-[3px] border-slate-200 rounded-md z-[999999] h-[370px] md:h-[calc(100vh-70px)] bg-white-100 shadow-lg dark:bg-slate-900 dark:border-slate-700 bottom-0  flex flex-col opacity-0">
         <div
             class="flex items-center justify-between px-4 py-2 font-bold rounded-t bg-sky-900 text-slate-100 dark:bg-sky-950">
             <h4>Legenda</h4>
@@ -268,7 +268,7 @@
 
     {{-- layers modal --}}
     <div id="layers-modal"
-        class="fixed w-full md:w-[300px] transition-all duration-300 md:top-16 md:right-2 border-[3px] border-slate-200 rounded-md z-[999999] h-[370px] md:h-[calc(100vh-70px)] bg-white-100 shadow-lg dark:bg-slate-900 dark:border-slate-700 bottom-0 flex flex-col hidden opacity-0">
+        class="fixed hidden w-full md:w-[300px] transition-all duration-300 md:top-16 md:right-2 border-[3px] border-slate-200 rounded-md z-[999999] h-[370px] md:h-[calc(100vh-70px)] bg-white-100 shadow-lg dark:bg-slate-900 dark:border-slate-700 bottom-0 flex flex-col opacity-0">
         <div
             class="flex items-center justify-between px-4 py-2 font-bold rounded-t bg-sky-900 text-slate-100 dark:bg-sky-950">
             <h4>Layers</h4>
@@ -340,19 +340,20 @@
     {{-- Legenda --}}
     <script>
         legendaBtn.addEventListener('click', function() {
-            if (legendaModal.classList.contains('hidden')) {
-                // Buka modal
-
-                legendaModal.classList.remove('hidden');
+            if (legendaModal.classList.contains('opacity-0')) {
+                // Close layers modal
                 layersModal.classList.add('opacity-0');
                 setTimeout(() => {
                     layersModal.classList.add('hidden');
-                }, 100);
+                }, 300);
+
+                // Open legenda modal
+                legendaModal.classList.remove('hidden');
                 setTimeout(() => {
                     legendaModal.classList.remove('opacity-0');
-                }, layersModal.classList.contains('hidden') ? 100 : 200);
+                }, 10);
             } else {
-                // Tutup modal
+                // Close legenda modal
                 legendaModal.classList.add('opacity-0');
                 setTimeout(() => {
                     legendaModal.classList.add('hidden');
@@ -365,25 +366,27 @@
             setTimeout(() => {
                 legendaModal.classList.add('hidden');
             }, 300);
-        })
+        });
     </script>
     {{-- Legenda --}}
 
     {{-- Layers --}}
     <script>
         layersBtn.addEventListener('click', function() {
-            if (layersModal.classList.contains('hidden')) {
-                // Buka modal
-                layersModal.classList.remove('hidden');
+            if (layersModal.classList.contains('opacity-0')) {
+                // Close legenda modal
                 legendaModal.classList.add('opacity-0');
                 setTimeout(() => {
                     legendaModal.classList.add('hidden');
-                }, 100);
+                }, 300);
+
+                // Open layers modal
+                layersModal.classList.remove('hidden');
                 setTimeout(() => {
                     layersModal.classList.remove('opacity-0');
-                }, legendaModal.classList.contains('hidden') ? 100 : 200);
+                }, 10);
             } else {
-                // Tutup modal
+                // Close layers modal
                 layersModal.classList.add('opacity-0');
                 setTimeout(() => {
                     layersModal.classList.add('hidden');
@@ -396,7 +399,7 @@
             setTimeout(() => {
                 layersModal.classList.add('hidden');
             }, 300);
-        })
+        });
     </script>
     {{-- Layers --}}
 
@@ -473,8 +476,12 @@
                 icon: 'fa-map', // and define its properties
                 title: 'Basemap', // like its title
                 onClick: function() { // and its callback
-                    document.querySelector('#basemapGallery').classList.toggle('hidden');
-                    document.querySelector('#basemapGallery').classList.toggle('opacity-0');
+                    const basemapGallery = document.querySelector('#basemapGallery');
+                    basemapGallery.classList.toggle('hidden');
+                    // Add small delay to ensure smooth transition
+                    setTimeout(() => {
+                        basemapGallery.classList.toggle('opacity-0');
+                    }, 10);
                 }
             }]
         }).addTo(map);
@@ -935,7 +942,10 @@
     </script>
     {{-- Fish Spot --}}
 
+    {{-- Intro JS --}}
     <script>
+        const isMobile = window.innerWidth < 1024;
+
         function guide() {
             const intro = introJs().setOptions({
                 disableInteraction: true,
@@ -943,218 +953,263 @@
                 prevLabel: 'Sebelumnya',
                 doneLabel: 'Selesai',
                 steps: [{
-                    title: 'Panduan Peta Interaktif FinFinder',
-                    intro: 'Selamat datang di FinFinder! Mari kita jelajahi fitur-fitur menarik yang akan memudahkan Anda menemukan spot memancing terbaik.'
-                }, {
-                    element: '#navbar',
-                    title: 'Navigasi FinFinder',
-                    intro: 'Ini adalah panel navigasi utama yang akan memandu Anda menjelajahi semua fitur menarik di aplikasi FinFinder.'
-                }, {
-                    element: '#navbar-menu',
-                    title: 'Menu Utama',
-                    intro: 'Gunakan menu ini untuk berpindah antar halaman utama, profil, peta interaktif, dan kontak kami.'
-                }, {
-                    element: '#dark-btn',
-                    title: 'Mode Terang/Gelap',
-                    intro: 'Sesuaikan tampilan peta dengan kenyamanan mata Anda. Pilih mode terang atau gelap sesuai kebutuhan.'
-                }, {
-                    element: '#legenda-btn',
-                    title: 'Legenda Peta',
-                    intro: 'Klik tombol ini untuk melihat penjelasan setiap simbol yang ada di peta.'
-                }, {
-                    element: '#legenda-modal',
-                    title: 'Panel Legenda',
-                    intro: 'Panel ini menampilkan penjelasan lengkap tentang setiap simbol dan warna pada peta.'
-                }, {
-                    element: '#layers-btn',
-                    title: 'Pengaturan Lapisan Peta',
-                    intro: 'Sesuaikan tampilan peta dengan mengaktifkan atau menonaktifkan lapisan informasi yang ingin Anda lihat.'
-                }, {
-                    element: '#layers-modal',
-                    title: 'Panel Pengaturan Lapisan',
-                    intro: 'Di sini Anda dapat memilih lapisan peta mana yang ingin ditampilkan.'
-                }, {
-                    element: '#map',
-                    title: 'Peta Interaktif',
-                    intro: 'Jelajahi berbagai spot memancing menarik di peta interaktif kami.'
-                }, {
-                    element: '.fish-marker-6',
-                    title: 'Marker Spot Ikan',
-                    intro: 'Klik marker ikan ini untuk melihat detail lokasi spot memancing.'
-                }, {
-                    element: '.leaflet-popup',
-                    title: 'Detail Spot Ikan',
-                    intro: 'Jendela ini menampilkan informasi lengkap tentang spot memancing yang Anda pilih.'
-                }, {
-                    element: '.leaflet-top.leaflet-left',
-                    title: 'Kontrol Peta',
-                    intro: 'Gunakan panel kontrol ini untuk menyesuaikan tampilan dan navigasi peta.'
-                }, {
-                    element: '.leaflet-control-zoom',
-                    title: 'Kontrol Zoom',
-                    intro: 'Perbesar atau perkecil tampilan peta sesuai kebutuhan Anda.'
-                }, {
-                    element: '.leaflet-ruler',
-                    title: 'Pengukur Jarak',
-                    intro: 'Hitung jarak antara dua titik di peta.'
-                }, {
-                    element: '.geoapify-leaflet-control',
-                    title: 'Pencarian Lokasi',
-                    intro: 'Cari lokasi spesifik dan temukan spot memancing terdekat.'
-                }, {
-                    element: '.home-active',
-                    title: 'Kembali ke Tampilan Awal',
-                    intro: 'Kembalikan tampilan peta ke posisi awal.'
-                }, {
-                    element: '.basemap-active',
-                    title: 'Ganti Peta Dasar',
-                    intro: 'Pilih jenis peta dasar yang sesuai dengan preferensi Anda.'
-                }, {
-                    element: '#basemapGallery',
-                    title: 'Galeri Peta Dasar',
-                    intro: 'Pilih dari berbagai pilihan peta dasar yang tersedia.'
-                }, {
-                    element: '.point-control-active',
-                    title: 'Hitung Jarak ke Spot Ikan',
-                    intro: 'Hitung jarak terdekat dari titik yang Anda pilih ke spot ikan.'
-                }, {
-                    title: 'Panduan Peta Interaktif FinFinder',
-                    intro: 'Selamat menikmati pengalaman memancing Anda dengan FinFinder!'
-                }]
+                        "title": "Panduan Peta Interaktif FinFinder",
+                        "intro": "Selamat datang di FinFinder! Mari kita jelajahi fitur-fitur menarik yang akan memudahkan Anda menemukan spot memancing terbaik."
+                    },
+                    {
+                        element: isMobile ? "#nav-bottom" : "#navbar",
+                        "title": "Navigasi FinFinder",
+                        "intro": "Ini adalah panel navigasi utama yang akan memandu Anda menjelajahi semua fitur menarik di aplikasi FinFinder."
+                    },
+                    {
+                        "element": isMobile ? "#nav-bottom-menu" : "#navbar-menu",
+                        "title": "Menu Utama",
+                        "intro": "Gunakan menu ini untuk berpindah antar halaman utama, profil, peta interaktif, dan kontak kami."
+                    },
+                    {
+                        "element": "#dark-btn",
+                        "title": "Mode Terang/Gelap",
+                        "intro": "Sesuaikan tampilan peta dengan kenyamanan mata Anda. Pilih mode terang atau gelap sesuai kebutuhan."
+                    },
+                    {
+                        "element": "#legenda-btn",
+                        "title": "Legenda Peta",
+                        "intro": "Klik tombol ini untuk melihat penjelasan setiap simbol yang ada di peta."
+                    },
+                    {
+                        "element": "#legenda-modal",
+                        "title": "Panel Legenda",
+                        "intro": "Panel ini menampilkan penjelasan lengkap tentang setiap simbol dan warna pada peta."
+                    },
+                    {
+                        "element": "#layers-btn",
+                        "title": "Pengaturan Lapisan Peta",
+                        "intro": "Sesuaikan tampilan peta dengan mengaktifkan atau menonaktifkan lapisan informasi yang ingin Anda lihat."
+                    },
+                    {
+                        "element": "#layers-modal",
+                        "title": "Panel Pengaturan Lapisan",
+                        "intro": "Di sini Anda dapat memilih lapisan peta mana yang ingin ditampilkan."
+                    },
+                    {
+                        "element": "#map",
+                        "title": "Peta Interaktif",
+                        "intro": "Jelajahi berbagai spot memancing menarik di peta interaktif kami."
+                    },
+                    {
+                        "element": ".fish-marker-6",
+                        "title": "Marker Spot Ikan",
+                        "intro": "Klik marker ikan ini untuk melihat detail lokasi spot memancing."
+                    },
+                    {
+                        "element": ".leaflet-popup",
+                        "title": "Detail Spot Ikan",
+                        "intro": "Jendela ini menampilkan informasi lengkap tentang spot memancing yang Anda pilih."
+                    },
+                    {
+                        "element": ".leaflet-top.leaflet-left",
+                        "title": "Kontrol Peta",
+                        "intro": "Gunakan panel kontrol ini untuk menyesuaikan tampilan dan navigasi peta."
+                    },
+                    {
+                        "element": ".leaflet-control-zoom",
+                        "title": "Kontrol Zoom",
+                        "intro": "Perbesar atau perkecil tampilan peta sesuai kebutuhan Anda."
+                    },
+                    {
+                        "element": ".leaflet-ruler",
+                        "title": "Pengukur Jarak",
+                        "intro": "Hitung jarak antara dua titik di peta."
+                    },
+                    {
+                        "element": ".geoapify-leaflet-control",
+                        "title": "Pencarian Lokasi",
+                        "intro": "Cari lokasi spesifik dan temukan spot memancing terdekat."
+                    },
+                    {
+                        "element": ".home-active",
+                        "title": "Kembali ke Tampilan Awal",
+                        "intro": "Kembalikan tampilan peta ke posisi awal."
+                    },
+                    {
+                        "element": ".basemap-active",
+                        "title": "Ganti Peta Dasar",
+                        "intro": "Pilih jenis peta dasar yang sesuai dengan preferensi Anda."
+                    },
+                    {
+                        "element": "#basemapGallery",
+                        "title": "Galeri Peta Dasar",
+                        "intro": "Pilih dari berbagai pilihan peta dasar yang tersedia."
+                    },
+                    {
+                        "element": ".point-control-active",
+                        "title": "Hitung Jarak ke Spot Ikan",
+                        "intro": "Hitung jarak terdekat dari titik yang Anda pilih ke spot ikan."
+                    },
+                    {
+                        "title": "Panduan Peta Interaktif FinFinder",
+                        "intro": "Selamat menikmati pengalaman memancing Anda dengan FinFinder!"
+                    }
+                ]
             });
 
             // Tambahkan variabel untuk track step saat ini
             let currentStep = 0;
 
+            function handleNavBottomPosition(targetElement, currentstep) {
+                console.log(currentstep);
+
+                const navBottom = document.getElementById('nav-bottom');
+
+                // Langkah yang membutuhkan nav-bottom ditampilkan
+                const navBottomVisibleSteps = [1, 2]; // Sesuaikan dengan step yang membutuhkan nav-bottom
+                const helperLayer = document.querySelector('.introjs-helperLayer');
+                const tooltip = document.querySelector('.introjs-tooltip');
+
+                if (targetElement?.classList.contains('nav-bottom') || targetElement?.classList.contains(
+                        'nav-bottom-menu')) {
+                    navBottom.classList.remove('-bottom-[2.80rem]');
+                    navBottom.classList.add('bottom-0');
+
+                    // Berikan waktu untuk animasi transisi selesai
+                    setTimeout(() => {
+                        if (helperLayer && (currentstep === 1 || currentstep === 2)) {
+                            const navBottomRect = navBottom.getBoundingClientRect();
+                            Object.assign(helperLayer.style, {
+                                top: `${navBottomRect.top - 5}px`,
+                                left: `${navBottomRect.left - 5}px`,
+                                width: `${navBottomRect.width + 10}px`,
+                                height: `${navBottomRect.height + 10}px`
+                            });
+                        }
+                        // Atur posisi tooltip khusus untuk nav-bottom
+                        if (tooltip && currentstep === 1) {
+                            tooltip.style.transform = 'translate(0, -50px)';
+                        }
+                    }, 300);
+
+                } else if (!targetElement?.classList.contains('nav-bottom') && !targetElement?.classList.contains(
+                        'nav-bottom-menu')) { // Sesuaikan dengan step setelah nav-bottom
+                    navBottom.classList.add('-bottom-[2.80rem]');
+                    navBottom.classList.remove('bottom-0');
+                }
+
+                // Khusus untuk menangani perpindahan balik ke menu
+                if (targetElement?.classList.contains('nav-bottom-menu')) {
+                    setTimeout(() => {
+                        if (helperLayer) {
+                            const menuRect = targetElement.getBoundingClientRect();
+                            Object.assign(helperLayer.style, {
+                                top: `${menuRect.top - 5}px`,
+                                left: `${menuRect.left - 5}px`,
+                                width: `${menuRect.width + 10}px`,
+                                height: `${menuRect.height + 10}px`
+                            });
+                        }
+                        // Atur posisi tooltip khusus untuk nav-bottom
+                        if (tooltip && currentstep === 2) {
+                            tooltip.style.transform = 'translate(0, -50px)';
+                        }
+                    }, 300);
+                }
+            }
+
             // Event handler sebelum step berubah
             intro.onbeforechange(function(targetElement) {
-                const legendaModal = document.getElementById('legenda-modal');
-                const layersModal = document.getElementById('layers-modal');
-                const basemapModal = document.getElementById('basemapGallery');
-                const nextStep = intro._currentStep; // Mendapatkan step berikutnya
-
-                // Jika menuju ke step legenda-modal
-                if (targetElement && targetElement.id === 'legenda-modal') {
-                    if (legendaModal.classList.contains('hidden')) {
-                        legendaModal.classList.remove('hidden');
-                        setTimeout(() => {
-                            legendaModal.classList.remove('opacity-0');
-                        }, 10);
+                const modals = {
+                    'legenda-modal': {
+                        step: 5
+                    },
+                    'layers-modal': {
+                        step: 7
+                    },
+                    'basemapGallery': {
+                        step: 16
                     }
-                } else {
-                    // Jika meninggalkan step legenda-modal (back atau next)
-                    if (currentStep === 5) { // Sesuaikan dengan index step legenda-modal
-                        legendaModal.classList.add('opacity-0');
+                };
+
+                function handleModal(modalId, isTarget) {
+                    const modal = document.getElementById(modalId);
+                    if (!modal) return;
+
+                    if (isTarget) {
+                        modal.classList.remove('hidden');
                         setTimeout(() => {
-                            legendaModal.classList.add('hidden');
+                            modal.classList.remove('opacity-0');
+                        }, 10);
+                    } else if (currentStep === modals[modalId].step) {
+                        modal.classList.add('opacity-0');
+                        setTimeout(() => {
+                            modal.classList.add('hidden');
                         }, 300);
                     }
                 }
 
-                if (targetElement && targetElement.id === 'layers-modal') {
-                    if (layersModal.classList.contains('hidden')) {
-                        layersModal.classList.remove('hidden');
-                        setTimeout(() => {
-                            layersModal.classList.remove('opacity-0');
-                        }, 10);
-                    }
-                } else {
-                    // Jika meninggalkan step legenda-modal (back atau next)
-                    if (currentStep === 7) { // Sesuaikan dengan index step legenda-modal
-                        layersModal.classList.add('opacity-0');
-                        setTimeout(() => {
-                            layersModal.classList.add('hidden');
-                        }, 300);
-                    }
-                }
+                Object.keys(modals).forEach(modalId => {
+                    handleModal(modalId, targetElement?.id === modalId);
+                });
 
-                if (targetElement && targetElement.id === 'basemapGallery') {
-                    if (basemapModal.classList.contains('hidden')) {
-                        basemapModal.classList.remove('hidden');
-                        setTimeout(() => {
-                            basemapModal.classList.remove('opacity-0');
-                        }, 10);
-                    }
-                } else {
-                    // Jika meninggalkan step legenda-modal (back atau next)
-                    if (currentStep === 17) { // Sesuaikan dengan index step legenda-modal
-                        basemapModal.classList.add('opacity-0');
-                        setTimeout(() => {
-                            basemapModal.classList.add('hidden');
-                        }, 300);
-                    }
-                }
 
-                // Untuk marker dan popup
-                if (targetElement && targetElement.classList.contains('fish-marker-7')) {
-                    const marker = fishMarkers[5].marker;
+                // Menangani marker dan popup
+                const nextStep = intro._currentStep;
+                const tooltip = document.querySelector('.introjs-tooltip');
+
+
+                console.log(nextStep);
+
+                handleNavBottomPosition(targetElement, nextStep);
+
+                const marker = fishMarkers[5].marker;
+
+                if (targetElement?.classList.contains('fish-marker-7')) {
                     marker.closePopup();
                 }
 
-                // Khusus untuk popup step
+                // Menangani popup pada step 10
                 if (nextStep === 10) {
-                    const marker = fishMarkers[5].marker;
-
-                    // Tutup popup dulu jika ada
                     marker.closePopup();
-
-                    // Buka popup dengan delay bertahap
                     setTimeout(() => {
                         marker.openPopup();
-
-                        // Tunggu popup muncul dan tambahkan class khusus
                         setTimeout(() => {
                             const popup = document.querySelector('.leaflet-popup');
                             if (popup) {
-                                // Tambahkan class khusus
                                 popup.classList.add('intro-highlight-popup');
 
-                                // Update element di step untuk menggunakan class khusus
+                                // Update element dan helper layer
                                 const currentStep = intro._options.steps[nextStep];
                                 currentStep.element = '.intro-highlight-popup';
 
-                                // Force refresh intro
                                 const helperLayer = document.querySelector('.introjs-helperLayer');
                                 if (helperLayer) {
                                     const popupRect = popup.getBoundingClientRect();
-                                    helperLayer.style.top = `${popupRect.top - 5}px`;
-                                    helperLayer.style.left = `${popupRect.left - 5}px`;
-                                    helperLayer.style.width = `${popupRect.width + 10}px`;
-                                    helperLayer.style.height = `${popupRect.height + 10}px`;
+                                    Object.assign(helperLayer.style, {
+                                        top: `${popupRect.top - 5}px`,
+                                        left: `${popupRect.left - (isMobile ? 30 : 5)}px`,
+                                        width: `${popupRect.width + 10}px`,
+                                        height: `${popupRect.height + 10}px`
+                                    });
                                 }
-                            }
-                        }, 100);
-                        setTimeout(() => {
-                            const popup = document.querySelector('.leaflet-popup');
-                            if (popup) {
-                                popup.classList.add('intro-highlight-popup');
-                                const currentStep = intro._options.steps[nextStep];
-                                currentStep.element = '.intro-highlight-popup';
 
-                                // Menggeser tooltip intro.js
+                                // Mengatur posisi tooltip
                                 const tooltip = document.querySelector('.introjs-tooltip');
                                 if (tooltip) {
-                                    tooltip.style.transform =
-                                        'translate(-250px, 0)'; // Geser 200px ke kiri
-                                    // atau
-                                    tooltip.style.marginLeft = '-250px'; // Alternatif lain
+                                    tooltip.style.transform = isMobile ? 'translate(0, 200px) ' :
+                                        'translate(-250px, 0)'
+                                    tooltip.style.marginLeft = '-250px';
                                 }
                             }
                         }, 100);
                     }, 50);
                 } else {
-                    const tooltip = document.querySelector('.introjs-tooltip');
+                    // Reset posisi tooltip untuk step lainnya
                     if (tooltip) {
-                        tooltip.style.transform =
-                            'translate(0, 0)'; // Geser 200px ke kiri
-                        // atau
-                        tooltip.style.marginLeft = '0px'; // Alternatif lain
+                        tooltip.style.transform = 'translate(0, 0)'
+                        tooltip.style.marginLeft = '0px';
                     }
                 }
 
             });
 
-            // Event handler setelah step berubah
             intro.onafterchange(function(targetElement) {
                 // Update step saat ini
                 currentStep = intro._currentStep;
@@ -1165,39 +1220,47 @@
                 }
             });
 
-            // Event handler untuk cleanup setelah tour selesai
             intro.oncomplete(function() {
-                const legendaModal = document.getElementById('legenda-modal');
-                const layersModal = document.getElementById('layers-modal');
-                const basemapModal = document.getElementById('basemapGallery');
-                legendaModal.classList.add('opacity-0');
-                layersModal.classList.add('opacity-0');
-                basemapModal.classList.add('opacity-0');
-                setTimeout(() => {
-                    legendaModal.classList.add('hidden');
-                    layersModal.classList.add('hidden');
-                    basemapModal.classList.add('hidden');
-                }, 300);
+                // Daftar ID modal yang perlu ditutup
+                const modalIds = ['legenda-modal', 'layers-modal', 'basemapGallery'];
 
+                modalIds.forEach(id => {
+                    const modal = document.getElementById(id);
+                    if (modal) {
+                        modal.classList.add('opacity-0');
+                        setTimeout(() => {
+                            modal.classList.add('hidden');
+                        }, 300);
+                    }
+                });
+
+                const navBottom = document.getElementById('nav-bottom');
+                navBottom.classList.remove('bottom-0');
+                navBottom.classList.add('-bottom-[2.80rem]');
+
+                // Menutup popup marker jika terbuka
                 const marker = fishMarkers[5].marker;
                 if (marker.isPopupOpen()) {
                     marker.closePopup();
                 }
             });
 
-            // Event handler untuk cleanup jika tour dilewati
             intro.onexit(function() {
-                const legendaModal = document.getElementById('legenda-modal');
-                const layersModal = document.getElementById('layers-modal');
-                const basemapModal = document.getElementById('basemapGallery');
-                legendaModal.classList.add('opacity-0');
-                layersModal.classList.add('opacity-0');
-                basemapModal.classList.add('opacity-0');
-                setTimeout(() => {
-                    legendaModal.classList.add('hidden');
-                    layersModal.classList.add('hidden');
-                    basemapModal.classList.add('hidden');
-                }, 300);
+                // Daftar ID modal yang perlu ditutup
+                const modalIds = ['legenda-modal', 'layers-modal', 'basemapGallery'];
+
+                modalIds.forEach(id => {
+                    const modal = document.getElementById(id);
+                    if (modal) {
+                        modal.classList.add('opacity-0');
+                        setTimeout(() => {
+                            modal.classList.add('hidden');
+                        }, 300);
+                    }
+                });
+                const navBottom = document.getElementById('nav-bottom');
+                navBottom.classList.add('-bottom-[2.80rem]');
+                navBottom.classList.remove('bottom-0');
 
                 const marker = fishMarkers[5].marker;
                 if (marker.isPopupOpen()) {
@@ -1214,6 +1277,7 @@
             intro.start();
         }
     </script>
+    {{-- Intro JS --}}
 
     {{-- Basemap Setting --}}
     <script>
@@ -1238,10 +1302,21 @@
                 }
             })
         });
-
+        
         document.addEventListener('click', function(e) {
-            if (!(e.target.id == 'basemapGallery') && !(e.target.id == 'basemapGalleryHeader')) {
-                document.querySelector('#basemapGallery').classList.add('hidden');
+            const basemapGallery = document.querySelector('#basemapGallery');
+            const isInTour = document.querySelector('.introjs-overlay');
+
+            // Hanya jalankan jika tidak sedang dalam tour
+            if (!isInTour &&
+                !(e.target.id === 'basemapGallery') &&
+                !(e.target.id === 'basemapGalleryHeader') &&
+                !e.target.closest('#basemapGallery')) {
+
+                basemapGallery.classList.add('opacity-0');
+                setTimeout(() => {
+                    basemapGallery.classList.add('hidden');
+                }, 300);
             }
         });
     </script>
