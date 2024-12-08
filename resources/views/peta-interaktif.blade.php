@@ -120,6 +120,20 @@
         .introjs-tooltip.introjs-floating {
             width: 500px
         }
+
+        @keyframes progress {
+            0% {
+                width: 0;
+            }
+
+            100% {
+                width: 100%;
+            }
+        }
+
+        .animate-progress {
+            animation: progress 2s ease-in-out;
+        }
     </style>
 @endpush
 
@@ -311,6 +325,20 @@
 
         </div>
     </div>
+
+    <div id="loading-screen"
+        class="fixed inset-0 z-[99999] flex flex-col items-center justify-center bg-white dark:bg-slate-900 transition-opacity duration-500">
+        <div class="flex flex-col items-center gap-4">
+            <img src="{{ asset('img/finfinder.png') }}" alt="FinFinder Logo" class="w-48 animate-pulse">
+            <div class="flex flex-col items-center">
+                <p class="text-xl font-semibold text-slate-800 dark:text-slate-100">Memuat Peta Interaktif</p>
+                <p class="text-sm text-slate-600 dark:text-slate-400">Mohon tunggu sebentar...</p>
+            </div>
+            <div class="w-48 h-1 overflow-hidden rounded-full bg-slate-200">
+                <div class="h-full bg-sky-500 animate-progress"></div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @push('script')
@@ -320,24 +348,132 @@
 
     {{-- Component --}}
     <script>
+        // Component Initialization
         const legendaBtn = document.querySelector('#legenda-btn');
         const legendaModal = document.querySelector('#legenda-modal');
         const layersBtn = document.querySelector('#layers-btn');
         const layersModal = document.querySelector('#layers-modal');
-
         const navBottom = document.querySelector('#nav-bottom');
         const navScroll = document.querySelector('#nav-scroll');
-
         const isMobile = window.innerWidth < 1024;
     </script>
     {{-- Component --}}
 
+    {{-- Loading Screen --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const loadingScreen = document.getElementById('loading-screen');
+            let resourcesLoaded = {
+                map: false,
+                markers: false,
+                basemap: false,
+                controls: false,
+                icons: false
+            };
+
+            function checkAllResourcesLoaded() {
+                const allLoaded = Object.values(resourcesLoaded).every(loaded => loaded);
+                console.log('Resource loading status:', resourcesLoaded);
+                return allLoaded;
+            }
+
+            function hideLoadingScreen() {
+                if (checkAllResourcesLoaded()) {
+                    loadingScreen.classList.add('opacity-0');
+                    setTimeout(() => {
+                        loadingScreen.classList.add('hidden');
+                        map.invalidateSize(); // Memastikan map dirender dengan benar
+                    }, 500);
+                }
+            }
+
+            // Pengecekan ikon
+            if (typeof fishIcon !== 'undefined' && typeof userIcon !== 'undefined') {
+                resourcesLoaded.icons = true;
+                hideLoadingScreen();
+            }
+
+            // Pengecekan map
+            map.whenReady(() => {
+                resourcesLoaded.map = true;
+                hideLoadingScreen();
+            });
+
+            // Pengecekan basemap
+            baseMaps['osm'].on('add', function() {
+                // Berikan sedikit waktu untuk memastikan basemap benar-benar dimuat
+                setTimeout(() => {
+                    resourcesLoaded.basemap = true;
+                    hideLoadingScreen();
+                }, 500);
+            });
+
+            // Tambahkan setelah inisialisasi map dan basemap
+            map.whenReady(() => {
+                resourcesLoaded.map = true;
+                resourcesLoaded.basemap = true; // Set basemap status secara manual
+                hideLoadingScreen();
+            });
+
+            // Pengecekan markers
+            if (spots && Array.isArray(spots)) {
+                spots.forEach((spot, index) => {
+                    if (index === spots.length - 1) {
+                        setTimeout(() => {
+                            resourcesLoaded.markers = true;
+                            hideLoadingScreen();
+                        }, 100); // Memberikan waktu untuk render marker
+                    }
+                });
+            }
+
+            // Pengecekan controls
+            const controlsInterval = setInterval(() => {
+                const controls = document.querySelector('.leaflet-control-container');
+                if (controls) {
+                    resourcesLoaded.controls = true;
+                    hideLoadingScreen();
+                    clearInterval(controlsInterval);
+                }
+            }, 100);
+
+            // Fallback untuk keamanan
+            const maxLoadingTime = 8000; // 8 detik
+            setTimeout(() => {
+                if (!checkAllResourcesLoaded()) {
+                    console.warn('Loading timeout reached. Resources status:', resourcesLoaded);
+                    hideLoadingScreen();
+                }
+            }, maxLoadingTime);
+
+            // Penanganan dark mode untuk loading screen
+            const darkModeObserver = new MutationObserver((mutations) => {
+                mutations.forEach((mutation) => {
+                    if (mutation.target.classList.contains('dark')) {
+                        loadingScreen.classList.add('dark:bg-slate-900');
+                    } else {
+                        loadingScreen.classList.remove('dark:bg-slate-900');
+                    }
+                });
+            });
+
+            darkModeObserver.observe(document.body, {
+                attributes: true,
+                attributeFilter: ['class']
+            });
+        });
+    </script>
+    {{-- Loading Screen --}}
+
+    {{-- Nav-Bottom (Mobile) --}}
     <script>
         navScroll.addEventListener('click', function() {
             navBottom.classList.toggle('-bottom-[2.80rem]')
             navBottom.classList.toggle('bottom-0')
         });
     </script>
+    {{-- Nav-Bottom (Mobile) --}}
+
 
     {{-- Legenda --}}
     <script>
@@ -465,7 +601,7 @@
                 icon: 'fa-home', // and define its properties
                 title: 'Home', // like its title
                 onClick: function(btn, map) { // and its callback
-                    map.setView([1.0325711837093985, 102.62127433486428], isMobile? 8 : 9);
+                    map.setView([1.0325711837093985, 102.62127433486428], isMobile ? 8 : 9);
                     btn.state('home'); // change state on click!
                 }
             }]
@@ -944,6 +1080,135 @@
     </script>
     {{-- Fish Spot --}}
 
+    {{-- Basemap Setting --}}
+    <script>
+        // Event untuk mengganti basemap
+        document.querySelectorAll('.basemap-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+
+                const basemapType = this.dataset.basemap;
+
+                // Hapus Base Map yang di tampilkna
+                Object.values(baseMaps).forEach(layer => {
+                    map.removeLayer(layer);
+                });
+
+                // Menambahkan Base Map yang Dipilih
+                baseMaps[basemapType].addTo(map);
+
+                if (document.body.classList.contains('dark') && basemapType !== 'satelite') {
+
+                    document.querySelector('.leaflet-layer').classList.add('dark');
+                }
+            })
+        });
+
+        document.addEventListener('click', function(e) {
+            const basemapGallery = document.querySelector('#basemapGallery');
+            const isInTour = document.querySelector('.introjs-overlay');
+
+            // Hanya jalankan jika tidak sedang dalam tour
+            if (!isInTour &&
+                !(e.target.id === 'basemapGallery') &&
+                !(e.target.id === 'basemapGalleryHeader') &&
+                !e.target.closest('#basemapGallery')) {
+
+                basemapGallery.classList.add('opacity-0');
+                setTimeout(() => {
+                    basemapGallery.classList.add('hidden');
+                }, 300);
+            }
+        });
+
+        const closeButton = document.querySelector('#close-btn-basemap');
+        const basemapGallery = document.querySelector('#basemapGallery');
+
+        closeButton.addEventListener('click', function() {
+            basemapGallery.classList.add('opacity-0');
+            setTimeout(() => {
+                basemapGallery.classList.add('hidden');
+            }, 300);
+        });
+    </script>
+    {{-- Basemap Setting --}}
+
+    {{-- Darkmode Setting --}}
+    <script>
+        const darkBtn = document.getElementById('dark-btn');
+        const baseElements = [
+            '.leaflet-control-zoom-in',
+            '.leaflet-control-zoom-out',
+            '.leaflet-control-attribution',
+            '.leaflet-control.leaflet-ruler',
+            '.leaflet-popup-content-wrapper',
+            '.leaflet-popup-tip',
+            '.easy-button-container',
+            '.leaflet-bar a',
+            '.easy-button-button',
+            '.search-location'
+        ].join(',');
+
+        darkBtn.addEventListener('click', function() {
+            // Cek basemap yang aktif
+            let currentBasemap = '';
+            map.eachLayer((layer) => {
+                if (layer instanceof L.TileLayer) {
+                    // Cek URL layer untuk menentukan tipe basemap
+                    if (layer._url.includes('google.com')) {
+                        currentBasemap = 'satelite';
+                    } else {
+                        currentBasemap = 'other';
+                    }
+                }
+            });
+
+
+            // Toggle dark mode untuk elements dasar
+            document.querySelectorAll(baseElements).forEach(el => {
+                el.classList.toggle('dark');
+            });
+
+            // Toggle dark mode untuk map layer hanya jika bukan satelit
+            if (currentBasemap !== 'satelite') {
+                document.querySelectorAll('.leaflet-layer').forEach(el => {
+                    el.classList.toggle('dark');
+                });
+            }
+
+            // Toggle body class
+            document.body.classList.toggle('dark');
+
+            const openPopup = document.querySelector('.leaflet-popup');
+
+            // Check pop up leaflet ada atau tidak ada
+            if (openPopup) {
+                openPopup.classList.toggle('dark');
+            }
+
+            // Toggle icon
+            document.querySelector('.fa-moon').classList.toggle('hidden');
+            document.querySelector('.fa-sun').classList.toggle('hidden');
+        });
+
+        // Tambahkan listener untuk perubahan basemap
+        map.on('baselayerchange', function(e) {
+            if (document.body.classList.contains('dark')) {
+                const isSatelite = e.layer._url.includes('google.com');
+
+                // Toggle dark mode untuk map layer
+                document.querySelectorAll('.leaflet-layer').forEach(el => {
+                    if (isSatelite) {
+                        el.classList.remove('dark');
+                    } else {
+                        el.classList.add('dark');
+                    }
+                });
+            }
+        });
+    </script>
+    {{-- Darkmode Setting --}}
+
     {{-- Intro JS --}}
     <script>
         function guide() {
@@ -1215,133 +1480,4 @@
         }
     </script>
     {{-- Intro JS --}}
-
-    {{-- Basemap Setting --}}
-    <script>
-        // Event untuk mengganti basemap
-        document.querySelectorAll('.basemap-btn').forEach(btn => {
-            btn.addEventListener('click', function(e) {
-                e.preventDefault();
-
-                const basemapType = this.dataset.basemap;
-
-                // Hapus Base Map yang di tampilkna
-                Object.values(baseMaps).forEach(layer => {
-                    map.removeLayer(layer);
-                });
-
-                // Menambahkan Base Map yang Dipilih
-                baseMaps[basemapType].addTo(map);
-
-                if (document.body.classList.contains('dark') && basemapType !== 'satelite') {
-
-                    document.querySelector('.leaflet-layer').classList.add('dark');
-                }
-            })
-        });
-
-        document.addEventListener('click', function(e) {
-            const basemapGallery = document.querySelector('#basemapGallery');
-            const isInTour = document.querySelector('.introjs-overlay');
-
-            // Hanya jalankan jika tidak sedang dalam tour
-            if (!isInTour &&
-                !(e.target.id === 'basemapGallery') &&
-                !(e.target.id === 'basemapGalleryHeader') &&
-                !e.target.closest('#basemapGallery')) {
-
-                basemapGallery.classList.add('opacity-0');
-                setTimeout(() => {
-                    basemapGallery.classList.add('hidden');
-                }, 300);
-            }
-        });
-
-        const closeButton = document.querySelector('#close-btn-basemap');
-        const basemapGallery = document.querySelector('#basemapGallery');
-
-        closeButton.addEventListener('click', function() {
-            basemapGallery.classList.add('opacity-0');
-            setTimeout(() => {
-                basemapGallery.classList.add('hidden');
-            }, 300);
-        });
-    </script>
-    {{-- Basemap Setting --}}
-
-    {{-- Darkmode Setting --}}
-    <script>
-        const darkBtn = document.getElementById('dark-btn');
-        const baseElements = [
-            '.leaflet-control-zoom-in',
-            '.leaflet-control-zoom-out',
-            '.leaflet-control-attribution',
-            '.leaflet-control.leaflet-ruler',
-            '.leaflet-popup-content-wrapper',
-            '.leaflet-popup-tip',
-            '.easy-button-container',
-            '.leaflet-bar a',
-            '.easy-button-button',
-            '.search-location'
-        ].join(',');
-
-        darkBtn.addEventListener('click', function() {
-            // Cek basemap yang aktif
-            let currentBasemap = '';
-            map.eachLayer((layer) => {
-                if (layer instanceof L.TileLayer) {
-                    // Cek URL layer untuk menentukan tipe basemap
-                    if (layer._url.includes('google.com')) {
-                        currentBasemap = 'satelite';
-                    } else {
-                        currentBasemap = 'other';
-                    }
-                }
-            });
-
-
-            // Toggle dark mode untuk elements dasar
-            document.querySelectorAll(baseElements).forEach(el => {
-                el.classList.toggle('dark');
-            });
-
-            // Toggle dark mode untuk map layer hanya jika bukan satelit
-            if (currentBasemap !== 'satelite') {
-                document.querySelectorAll('.leaflet-layer').forEach(el => {
-                    el.classList.toggle('dark');
-                });
-            }
-
-            // Toggle body class
-            document.body.classList.toggle('dark');
-
-            const openPopup = document.querySelector('.leaflet-popup');
-
-            // Check pop up leaflet ada atau tidak ada
-            if (openPopup) {
-                openPopup.classList.toggle('dark');
-            }
-
-            // Toggle icon
-            document.querySelector('.fa-moon').classList.toggle('hidden');
-            document.querySelector('.fa-sun').classList.toggle('hidden');
-        });
-
-        // Tambahkan listener untuk perubahan basemap
-        map.on('baselayerchange', function(e) {
-            if (document.body.classList.contains('dark')) {
-                const isSatelite = e.layer._url.includes('google.com');
-
-                // Toggle dark mode untuk map layer
-                document.querySelectorAll('.leaflet-layer').forEach(el => {
-                    if (isSatelite) {
-                        el.classList.remove('dark');
-                    } else {
-                        el.classList.add('dark');
-                    }
-                });
-            }
-        });
-    </script>
-    {{-- Darkmode Setting --}}
 @endpush
