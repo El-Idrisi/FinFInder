@@ -161,6 +161,61 @@
 
 @push('script')
     <script>
+        // Dapatkan semua tombol approve dan reject
+        const approveButtons = document.querySelectorAll('.approve-btn');
+        const rejectButtons = document.querySelectorAll('.reject-btn');
+
+        // Handler untuk tombol approve
+        approveButtons.forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                const form = this.closest('form');
+
+                Swal.fire({
+                    title: 'Konfirmasi Persetujuan',
+                    text: 'Apakah Anda yakin ingin menyetujui data ini?',
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#22c55e',
+                    cancelButtonColor: '#64748b',
+                    confirmButtonText: 'Ya, Setujui',
+                    cancelButtonText: 'Batal',
+                    showLoaderOnConfirm: true,
+                    preConfirm: () => {
+                        return form.submit();
+                    }
+                });
+            });
+        });
+
+        // Handler untuk tombol reject
+        rejectButtons.forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                const form = this.closest('form');
+
+                Swal.fire({
+                    title: 'Konfirmasi Penolakan',
+                    html: `
+                        <div class="mb-4 text-sm text-gray-600">
+                            Apakah Anda yakin ingin menolak data ini?
+                        </div>
+                    `,
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#dc2626',
+                    cancelButtonColor: '#64748b',
+                    confirmButtonText: 'Ya, Tolak',
+                    cancelButtonText: 'Batal',
+                    showLoaderOnConfirm: true,
+                    preConfirm: () => {
+                        return form.submit();
+                    }
+                });
+            });
+        });
+    </script>
+    <script>
         $(document).ready(function() {
             // Inisialisasi select2
             $('.fish_type').select2({

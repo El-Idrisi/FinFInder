@@ -91,6 +91,7 @@ class DataAndaController extends Controller
         $spotIkan->longitude = $request->longitude;
         $spotIkan->latitude = $request->latitude;
         $spotIkan->deskripsi = $request->deskripsi;
+        $spotIkan->status = Auth::user()->isAdmin() ? 'disetujui' : 'ditunda';
         $spotIkan->save();
 
         return redirect()->route('data-anda.index')->with('success', 'Berhasil Mengubah Data Fish Spot');
