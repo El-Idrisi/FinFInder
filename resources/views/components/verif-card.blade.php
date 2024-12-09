@@ -1,8 +1,9 @@
 <div class="overflow-hidden bg-white rounded-lg shadow-lg tilt" style="transform-style: preserve-3d;">
     {{-- Card Header dengan Map --}}
     <div class="relative h-48">
-        <div id="map-{{ $idMap }}" class="w-full h-full"></div>
-        <span class="absolute px-3 py-1 text-sm text-white bg-yellow-500 rounded-full z-[999] top-2 right-2 animate-shadow-pulse">
+        <div id="map-{{ $idMap }}" class="w-full h-full" data-latitude="{{ $latitude }}" data-longitude="{{ $longitude }}"></div>
+        <span
+            class="absolute px-3 py-1 text-sm text-white bg-yellow-500 rounded-full z-[999] top-2 right-2 animate-shadow-pulse">
             Belum Diverifikasi
         </span>
     </div>
@@ -55,7 +56,7 @@
                         @csrf
                         @method('PATCH')
                         <input type="hidden" name="status" value="disetujui">
-                        <button type="submit"
+                        <button type="button" {{-- Ubah dari type="submit" ke type="button" --}}
                             class="flex items-center justify-center w-full px-4 py-2 text-white transition-all duration-300 bg-green-500 rounded-md approve-btn hover:bg-green-600 hover:scale-105 group">
                             <i class="mr-2 transition-all fas fa-check group-hover:rotate-12"></i>
                             <span class="transition-all group-hover:font-bold">Setuju</span>
@@ -66,7 +67,7 @@
                         @csrf
                         @method('PATCH')
                         <input type="hidden" name="status" value="ditolak">
-                        <button type="submit"
+                        <button type="button" {{-- Ubah dari type="submit" ke type="button" --}}
                             class="flex items-center justify-center w-full px-4 py-2 text-white transition-all duration-300 bg-red-500 rounded-md reject-btn hover:bg-red-600 hover:scale-105 group">
                             <i class="mr-2 transition-all fas fa-times group-hover:rotate-12"></i>
                             <span class="transition-all group-hover:font-bold">Tolak</span>

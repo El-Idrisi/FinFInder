@@ -71,15 +71,27 @@ class VerifikasiController extends Controller
         return view('dashboard.tables.preview-data', ['title' => 'FinFinder | Show Data', 'spotIkan' => $spotIkan]);
     }
 
-    public function updateStatus(SpotIkan $spotIkan, Request $request)
+    public function updateStatus(Request $request, SpotIkan $spotIkan)
     {
-        // dd($request->all(), $request->status);
-        $spotIkan->status = $request->status;
-        $spotIkan->diverifikasi_oleh = Auth::id();
-        $spotIkan->tanggal_verifikasi = date('Y-m-d');
+        try {
+            // Validasi request
+            $request->validate([
+                'status' => 'required|in:disetujui,ditolak'
+            ]);
 
-        $spotIkan->save();
+            // Update status
+            $spotIkan->status = $request->status;
+            $spotIkan->save();
 
-        return redirect()->route('verifikasi.index')->with('success', 'Titik Lokasi Berhasil '. ucwords($request->status));
+            return response()->json([
+                'success' => true,
+                'message' => 'Status berhasil diperbarui menjadi ' . $request->status
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal memperbarui status: ' . $e->getMessage()
+            ], 500);
+        }
     }
 }

@@ -11,7 +11,7 @@
                 <p class="my-4">FinFinder adalah platform inovatif yang dirancang khusus untuk komunitas
                     nelayan.
                 </p>
-                <a href="#"
+                <a href="/peta-interaktif"
                     class="relative flex items-center justify-center h-10 overflow-hidden text-white transition-all bg-white rounded-full shadow-2xl cursor-pointer w-52 before:absolute before:h-0 before:w-0 before:rounded-full before:bg-sky-300 before:duration-500 before:ease-out hover:shadow-sky-300 hover:before:h-56 hover:before:w-56">
                     <span class="relative z-10 font-bold text-slate-900">Mulai Sekarang!</span>
                 </a>

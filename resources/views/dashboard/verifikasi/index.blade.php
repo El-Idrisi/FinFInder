@@ -137,18 +137,19 @@
 
         </div>
 
-
-        <div class="grid grid-cols-1 gap-4 mt-8 md:grid-cols-2 lg:grid-cols-3">
-            @forelse ($spots as $spot)
-                <x-verif-card :spot="$spot" idMap="{{ $spot->id }}" creator="{{ $spot->creator->username }}"
-                    latitude="{{ $spot->latitude }}" longitude="{{ $spot->longitude }}" :jenis-ikan="$spot->getFishTypes()"
-                    date="{{ $spot->created_at->translatedFormat('d F Y') }}" />
-            @empty
-                <div
-                    class="col-span-1 py-2 border rounded-md shadow md:col-span-2 lg:col-span-3 bg-white-100 border-slate-300 ">
-                    <p class="text-lg text-center text-gray-700">Ya Kosong~</p>
-                </div>
-            @endforelse
+        <div id="table-container">
+            <div class="grid grid-cols-1 gap-4 mt-8 md:grid-cols-2 lg:grid-cols-3">
+                @forelse ($spots as $spot)
+                    <x-verif-card :spot="$spot" idMap="{{ $spot->id }}" creator="{{ $spot->creator->username }}"
+                        latitude="{{ $spot->latitude }}" longitude="{{ $spot->longitude }}" :jenis-ikan="$spot->getFishTypes()"
+                        date="{{ $spot->created_at->translatedFormat('d F Y') }}" />
+                @empty
+                    <div
+                        class="col-span-1 py-2 border rounded-md shadow md:col-span-2 lg:col-span-3 bg-white-100 border-slate-300 ">
+                        <p class="text-lg text-center text-gray-700">Ya Kosong~</p>
+                    </div>
+                @endforelse
+            </div>
         </div>
 
 
@@ -161,60 +162,112 @@
 
 @push('script')
     <script>
-        // Dapatkan semua tombol approve dan reject
-        const approveButtons = document.querySelectorAll('.approve-btn');
-        const rejectButtons = document.querySelectorAll('.reject-btn');
+        // Map Initialization
+        function initCardMap(containerId, latitude, longitude) {
+            const map = L.map(containerId, {
+                zoomControl: false,
+                dragging: false,
+                scrollWheelZoom: false
+            }).setView([latitude, longitude], 10);
 
-        // Handler untuk tombol approve
-        approveButtons.forEach(button => {
-            button.addEventListener('click', function(e) {
-                e.preventDefault();
-                const form = this.closest('form');
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(map);
 
-                Swal.fire({
+            L.marker([latitude, longitude]).addTo(map);
+            return map;
+        }
+
+        // Status Update Handling
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeEventHandlers();
+        });
+
+        function initializeEventHandlers() {
+            const confirmConfig = {
+                approve: {
                     title: 'Konfirmasi Persetujuan',
                     text: 'Apakah Anda yakin ingin menyetujui data ini?',
                     icon: 'question',
-                    showCancelButton: true,
                     confirmButtonColor: '#22c55e',
-                    cancelButtonColor: '#64748b',
-                    confirmButtonText: 'Ya, Setujui',
-                    cancelButtonText: 'Batal',
-                    showLoaderOnConfirm: true,
-                    preConfirm: () => {
-                        return form.submit();
-                    }
-                });
-            });
-        });
-
-        // Handler untuk tombol reject
-        rejectButtons.forEach(button => {
-            button.addEventListener('click', function(e) {
-                e.preventDefault();
-                const form = this.closest('form');
-
-                Swal.fire({
+                    confirmButtonText: 'Ya, Setujui'
+                },
+                reject: {
                     title: 'Konfirmasi Penolakan',
-                    html: `
-                        <div class="mb-4 text-sm text-gray-600">
-                            Apakah Anda yakin ingin menolak data ini?
-                        </div>
-                    `,
+                    text: 'Apakah Anda yakin ingin menolak data ini?',
                     icon: 'warning',
-                    showCancelButton: true,
                     confirmButtonColor: '#dc2626',
-                    cancelButtonColor: '#64748b',
-                    confirmButtonText: 'Ya, Tolak',
-                    cancelButtonText: 'Batal',
-                    showLoaderOnConfirm: true,
-                    preConfirm: () => {
-                        return form.submit();
-                    }
+                    confirmButtonText: 'Ya, Tolak'
+                }
+            };
+
+            // Setup button handlers
+            ['approve', 'reject'].forEach(action => {
+                document.querySelectorAll(`.${action}-btn`).forEach(button => {
+                    button.addEventListener('click', function() {
+                        const form = this.closest('form');
+                        const config = confirmConfig[action];
+
+                        Swal.fire({
+                            ...config,
+                            showCancelButton: true,
+                            cancelButtonColor: '#64748b',
+                            cancelButtonText: 'Batal'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                updateStatus(form);
+                            }
+                        });
+                    });
                 });
             });
-        });
+        }
+
+        function updateStatus(form) {
+            const formData = new FormData(form);
+
+            fetch(form.getAttribute('action'), {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                    },
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (!data.success) throw new Error(data.message);
+                    return fetch(window.location.href);
+                })
+                .then(response => response.text())
+                .then(html => {
+                    const doc = new DOMParser().parseFromString(html, 'text/html');
+                    const tableContainer = document.querySelector('#table-container');
+                    const newTableContent = doc.querySelector('#table-container');
+
+                    if (tableContainer && newTableContent) {
+                        tableContainer.innerHTML = newTableContent.innerHTML;
+                        initializeEventHandlers();
+                        initializeMaps();
+
+                        Swal.fire({
+                            title: 'Berhasil!',
+                            text: 'Status berhasil diperbarui',
+                            icon: 'success',
+                            confirmButtonColor: '#3085d6'
+                        });
+                    }
+                })
+                .catch(error => {
+                    Swal.fire({
+                        title: 'Error',
+                        text: error.message || 'Terjadi kesalahan saat memperbarui status',
+                        icon: 'error',
+                        confirmButtonColor: '#dc2626'
+                    });
+                });
+        }
     </script>
+
     <script>
         $(document).ready(function() {
             // Inisialisasi select2
@@ -235,27 +288,16 @@
         });
 
 
-        // Inisialisasi map untuk setiap card
-        function initCardMap(containerId, latitude, longitude) {
-            const map = L.map(containerId, {
-                zoomControl: false, // Sembunyikan zoom control karena preview
-                dragging: false, // Disable dragging untuk preview
-                scrollWheelZoom: false // Disable zoom dengan scroll
-            }).setView([latitude, longitude], 10);
-
-            // Tambahkan tile layer
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '© OpenStreetMap contributors'
-            }).addTo(map);
-
-            // Tambahkan marker
-            L.marker([latitude, longitude]).addTo(map);
-
-            return map;
+        function initializeMaps() {
+            document.querySelectorAll('[id^="map-"]').forEach(container => {
+                const latitude = parseFloat(container.dataset.latitude);
+                const longitude = parseFloat(container.dataset.longitude);
+                if (!isNaN(latitude) && !isNaN(longitude)) {
+                    initCardMap(container.id, latitude, longitude);
+                }
+            });
         }
 
-        @foreach ($spots as $spot)
-            initCardMap('map-{{ $spot->id }}', {{ $spot->latitude }}, {{ $spot->longitude }});
-        @endforeach
+        initializeMaps()
     </script>
 @endpush

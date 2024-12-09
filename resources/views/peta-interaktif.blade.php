@@ -474,7 +474,6 @@
     </script>
     {{-- Nav-Bottom (Mobile) --}}
 
-
     {{-- Legenda --}}
     <script>
         legendaBtn.addEventListener('click', function() {
@@ -543,7 +542,17 @@
 
     {{-- Leaflet JS --}}
     <script>
-        var map = L.map('map').setView([1.0325711837093985, 102.62127433486428], isMobile ? 8 : 9);
+        // Definisikan opsi peta
+        const mapOptions = {
+            maxBounds: [
+                [-90, -180], // Batas koordinat barat daya (SW)
+                [90, 200] // Batas koordinat timur laut (NE)
+            ],
+            maxBoundsViscosity: 1.0,
+            minZoom: 3,
+            maxZoom: 18
+        };
+        var map = L.map('map',  mapOptions).setView([1.0325711837093985, 102.62127433486428], isMobile ? 8 : 9);
         map.on('popupopen', function(e) {
             if (document.body.classList.contains('dark')) {
                 e.popup.getElement().classList.add('dark');
