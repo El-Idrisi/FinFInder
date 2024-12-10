@@ -5,7 +5,7 @@
         <div class="w-full px-6 py-12 pb-24 lg:px-16 lg:w-1/2 bg-slate-100">
             <div class="flex flex-col justify-center h-full form-container ">
                 <h2 class="text-4xl text-center lg:text-start">CHANGE PASSWORD</h2>
-                <form action="{{ route('password.update') }}" method="POST" class="mt-4 ">
+                <form action="{{ route('resetPassword') }}" method="POST" class="mt-4 ">
                     @csrf
                     <input type="hidden" name="token" value="{{ $token }}">
 

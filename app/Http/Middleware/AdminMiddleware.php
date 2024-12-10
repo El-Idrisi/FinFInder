@@ -20,6 +20,6 @@ class AdminMiddleware
             return $next($request);
         }
 
-        return redirect('/dashboard'); // Redirect to home or another page if not admin
+        return abort(404); 
     }
 }

@@ -12,8 +12,6 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\VerifikasiController;
 use App\Http\Middleware\AdminMiddleware;
-use App\Models\User;
-use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 Route::get('/', function () {
     return view('index', array('title' => 'FinFinder | Home'));
@@ -36,7 +34,7 @@ Route::middleware('guest')->group(function () {
         Route::get('/forgot-password', 'showForgotPassword')->name('forgotPassword');
         Route::post('/forgot-password', 'sendResetLinkEmail')->name('forgoPassword.send');
         Route::get('/change-password/{token}', 'showChangePassword')->name('password.reset');
-        Route::post('/change-password', 'resetPassword')->name('password.update');
+        Route::post('/process-change-password', 'resetPassword')->name('resetPassword');
     });
 
     Route::controller(RegisterController::class)->prefix('register')->name('register.')->group(function () {
