@@ -31,6 +31,9 @@
                                     Jenis Ikan
                                 </th>
                                 <th class="py-3">
+                                    Diinput Pada Tanggal
+                                </th>
+                                <th class="py-3">
                                     Diinput Oleh
                                 </th>
                                 <th class="py-3">
@@ -58,6 +61,7 @@
                                             @endforeach
                                         </div>
                                     </td>
+                                    <td class="py-3" data-sort="{{ $fishspot->created_at }}">{{ $fishspot->created_at->translatedFormat('d F Y') }}</td>
                                     <td class="py-3">{{ $fishspot->creator->username }}</td>
                                     <td class="py-3">{{ $fishspot->latitude . ' , ' . $fishspot->longitude }}</td>
                                     <td class="py-3">
@@ -99,7 +103,7 @@
                     }
                 },
                 columnDefs: [{
-                    targets: [5, 4], // kolom aksi
+                    targets: [5, 6], // kolom aksi
                     orderable: false
                 }, {
                     // Hanya tampilkan No dan Jenis Ikan

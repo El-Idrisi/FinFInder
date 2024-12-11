@@ -6,7 +6,7 @@
         <a href="/dashboard"
             class="after:content-['>'] transition-all duration-300 after:text-black after:px-2 hover:text-slate-500">Dashboard</a>
         <a href="/data-anda"
-            class="after:content-['>'] transition-all duration-300 after:text-black after:px-2 hover:text-slate-500">Data Anda</a>
+            cllass="after:content-['>'] transition-all duration-300 after:text-black after:px-2 hover:text-slate-500">Data Anda</a>
         <p class="inline text-slate-500">Edit Data</p>
     </div>
 
