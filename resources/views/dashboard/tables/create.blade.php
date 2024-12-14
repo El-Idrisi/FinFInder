@@ -13,7 +13,7 @@
 
     <x-form-group :isDelete="false" :isAccordion="false" :allowFooter="false" title="Tambah Data">
         <div class="px-8 py-4">
-            <form action="{{ route('data-anda.create') }}" method="POST">
+            <form id="create-form" action="{{ route('data-anda.create') }}" method="POST">
                 @csrf
 
                 <div class="flex flex-col !w-full mb-4">
@@ -125,7 +125,8 @@
                 plugins: [Essentials, Bold, Italic, Font, Paragraph, Alignment, Underline, List],
                 toolbar: [
                     'undo', 'redo', '|', 'bold', 'italic', 'underline', '|',
-                    'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', '|', 'alignment', '|', 'bulletedList', 'numberedList'
+                    'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', '|', 'alignment', '|',
+                    'bulletedList', 'numberedList'
                 ]
             })
     </script>
@@ -141,5 +142,50 @@
         $(document).ready(function() {
             initFishTypeSelect('#jenis_ikan');
         });
+    </script>
+
+    <script>
+        // Get the form element
+        const form = document.querySelector('#create-form');
+        const submitButton = form.querySelector('button[type="submit"]');
+        const originalButtonText = submitButton.innerHTML;
+
+        // Function to set loading state
+        const setLoading = (isLoading) => {
+            if (isLoading) {
+                submitButton.disabled = true;
+                submitButton.innerHTML = `
+                    <div class="flex items-center justify-center">
+                        <svg class="w-5 h-5 mr-3 text-white animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        Memproses...
+                    </div>
+                `;
+                submitButton.classList.add('opacity-75', 'cursor-not-allowed');
+            } else {
+                submitButton.disabled = false;
+                submitButton.innerHTML = originalButtonText;
+                submitButton.classList.remove('opacity-75', 'cursor-not-allowed');
+            }
+        };
+
+        // Add submit event listener to the form
+        form.addEventListener('submit', function(e) {
+            // Show loading state
+            setLoading(true);
+
+            // The form will proceed with its normal submission
+            // If you're using AJAX submission, you would handle it here
+
+            // If using regular form submission, the loading state will remain
+            // until the page refreshes with the server response
+        });
+
+        // This is useful if you're doing client-side validation
+        form.addEventListener('invalid', function(e) {
+            setLoading(false);
+        }, true);
     </script>
 @endpush
